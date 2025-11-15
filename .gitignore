@@ -1,37 +1,51 @@
-HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+# =====================
+# React / Node frontend
+# =====================
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.env
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
+# =====================
+# Java / Gradle backend
+# =====================
+backend/.gradle/
+backend/build/
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/.idea/
+backend/*.iml
+
+# =====================
+# Uploaded files
+# =====================
+uploads/
+
+# =====================
+# OS / IDE
+# =====================
+.DS_Store
+*.log
+
+# =====================
+# Eclipse / VS Code / IntelliJ / STS
+# =====================
+# Eclipse
 .project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+.classpath
+.settings/
 
-### IntelliJ IDEA ###
-.idea
+# IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
+# VS Code
 .vscode/
+
+# Gradle Wrapper
+.gradle
+!gradle/wrapper/gradle-wrapper.jar
