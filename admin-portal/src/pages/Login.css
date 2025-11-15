@@ -1,0 +1,114 @@
+.login-form {
+  background-color: rgba(156, 138, 138, 0.85);
+  padding: 30px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(234, 215, 172, 0.7);
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  color: white;
+  z-index: 1;
+}
+
+.login-form h2 {
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.login-form input {
+  margin-bottom: 16px;
+  padding: 10px 10px;             /* Smaller padding */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;               /* Smaller font size */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #0033cc;
+  box-shadow: 0 0 5px rgba(49, 98, 246, 0.4);
+}
+
+.login-form button {
+  background-color: #444f6c;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #001a80;
+}
+
+.greeting-message {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 10px 16px;
+  border-radius: 8px;
+  z-index: 2;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.login-video {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 24px auto;
+  display: block;
+  border: 4px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+  .top-logo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 250px;      /* Increase width */
+  height: auto;
+  z-index: 2;
+}
+
+@media (max-width: 480px) {
+  .login-form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .login-form input,
+  .login-form button {
+    width: 100%; /* Full width on small devices */
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .login-form h2 {
+    font-size: 18px;
+  }
+
+  .login-illustration,
+  .login-video {
+    width: 80px;
+    height: 80px;
+  }
+
+  .top-logo {
+    width: 60px;
+}
+}

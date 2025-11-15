@@ -1,0 +1,92 @@
+.technician-dashboard {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.technician-navbar {
+  background-color: #14213d;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.technician-navbar .logo {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.technician-navbar button {
+  background-color: #fca311;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.technician-content {
+  padding: 20px;
+}
+
+.technician-content h2 {
+  margin-bottom: 20px;
+}
+
+.technician-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.action-card {
+  background-color: #e5e5e5;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.action-card:hover {
+  background-color: #d4d4d4;
+}
+
+@media (max-width: 600px) {
+  .technician-navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .technician-navbar button {
+    margin-top: 10px;
+  }
+
+  .technician-content h2 {
+    font-size: 20px;
+  }
+
+  .action-card {
+    font-size: 16px;
+    padding: 15px;
+  }
+}

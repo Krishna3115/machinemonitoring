@@ -1,0 +1,74 @@
+.dispatch-form-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+
+.dispatch-form .form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.dispatch-form .form-row label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.dispatch-form input,
+.dispatch-form .react-select__control {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.po-details {
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+.form-actions {
+  text-align: right;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Toast.css */
+.popup-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  z-index: 9999;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  animation: fadein 0.3s ease-in-out;
+}
+
+.popup-toast.success {
+  background-color: #4CAF50;
+}
+
+.popup-toast.error {
+  background-color: #f44336;
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

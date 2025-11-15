@@ -1,0 +1,127 @@
+.master-report-container {
+  padding: 20px;
+  background: #f5f7fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.report-title {
+  text-align: center;
+  font-size: 28px;
+  color: #283e54;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.search-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.search-box input {
+  padding: 8px 12px;
+  width: 250px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.master-report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.master-report-table th,
+.master-report-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.master-report-table th {
+  background: linear-gradient(90deg, #4b79a1, #283e51);
+  color: #fff;
+  font-weight: 700;
+}
+
+.master-report-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.master-report-table tr:hover {
+  background-color: #e6f7ff;
+}
+
+.master-report-table td {
+  color: #333;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.download-btn {
+  background-color: #003366;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #0055aa;
+  transform: scale(1.05);
+}
+
+@media screen and (max-width: 768px) {
+  .master-report-table th,
+  .master-report-table td {
+    padding: 7px;
+    font-size: 13px;
+  }
+}
+
+/* ✅ DATE COLUMN ALIGNMENT FIX */
+.master-report-table td:nth-child(2),
+.master-report-table td:nth-child(6),
+.master-report-table td:nth-child(7),
+.master-report-table td:nth-child(9),
+.master-report-table td:nth-child(10),
+.master-report-table td:nth-child(11),
+.master-report-table td:nth-child(12),
+.master-report-table td:nth-child(13),
+.master-report-table td:nth-child(14) {
+  white-space: nowrap;         /* keeps date on one line */
+  font-family: "Courier New", monospace; /* fixed-width font for uniform spacing */
+  text-align: center;
+  min-width: 110px;
+}
+
+.master-report-table th:nth-child(2),
+.master-report-table th:nth-child(6),
+.master-report-table th:nth-child(7),
+.master-report-table th:nth-child(9),
+.master-report-table th:nth-child(10),
+.master-report-table th:nth-child(11),
+.master-report-table th:nth-child(12),
+.master-report-table th:nth-child(13),
+.master-report-table th:nth-child(14) {
+  white-space: nowrap;
+  text-align: center;
+}

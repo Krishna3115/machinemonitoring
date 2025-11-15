@@ -1,0 +1,78 @@
+.dispatch-form-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 1px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dispatch-form .form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.dispatch-form .form-row label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.dispatch-form input,
+.dispatch-form .react-select__control {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-actions {
+  text-align: right;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.form-row label.required::after {
+  content: "*";
+  color: red;
+  margin-left: 4px;
+}
+
+.input-error {
+  border: 2px solid rgb(75, 61, 61) !important;
+}
+
+.input-error:focus {
+  outline: none;
+  border-color: #2b1d1e;
+  box-shadow: 0 0 4px rgba(255, 77, 79, 0.6);
+}
+
+.error-text {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
+
+label.required {
+  color: black;
+  font-weight: bold;
+}
+
+.input-error {
+  border: 1px solid red;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.85rem;
+}

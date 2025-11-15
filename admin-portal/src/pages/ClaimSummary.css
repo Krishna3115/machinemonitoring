@@ -1,0 +1,46 @@
+.claim-summary {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.claim-summary h2 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.claim-summary table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.claim-summary th {
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+.claim-summary td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.claim-summary ul {
+  list-style: none;
+  padding-left: 0;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.claim-summary li {
+  padding: 5px 0;
+}
+
+.claim-summary li strong {
+  width: 200px;
+  display: inline-block;
+}
+

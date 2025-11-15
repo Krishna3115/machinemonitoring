@@ -1,0 +1,105 @@
+/* MAIN OUTER WRAPPER */
+.technician-wrapper {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* MAIN CARD CONTAINER */
+.technician-list-container {
+  width: 100%;
+  max-width: 1400px;  /* wide layout */
+  margin: 20px auto;
+  background: #ffffff;
+  padding: 30px 35px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* HEADING */
+.technician-list-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2a2d34;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+/* TABLE SCROLL WRAPPER */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 8px;
+}
+
+/* TABLE */
+.technician-table {
+  width: max-content;     /* table grows fully */
+  min-width: 100%;        /* never shrink */
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+/* HEADER */
+.technician-table thead {
+  background-color: #1a73e8;
+  color: white;
+}
+
+.technician-table th,
+.technician-table td {
+  padding: 14px 18px;
+  font-size: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  white-space: nowrap;      /* 🔥 NEVER break words */
+  text-overflow: clip;
+  overflow: visible;
+}
+
+/* COLUMN WIDTHS */
+.technician-table th:nth-child(1),
+.technician-table td:nth-child(1) { min-width: 500px; }
+
+.technician-table th:nth-child(2),
+.technician-table td:nth-child(2) { min-width: 160px; }
+
+.technician-table th:nth-child(3),
+.technician-table td:nth-child(3) { min-width: 220px; }
+
+.technician-table th:nth-child(4),
+.technician-table td:nth-child(4) { min-width: 150px; }
+
+.technician-table th:nth-child(5),
+.technician-table td:nth-child(5) { min-width: 160px; }
+
+/* HOVER */
+.technician-table tbody tr:hover {
+  background-color: #eef4ff;
+}
+
+/* BUTTONS */
+.action-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  min-width: 110px;
+}
+
+.action-button.block { background: #d63031; }
+.action-button.unblock { background: #2ecc71; }
+
+.action-button:hover { filter: brightness(90%); }
+
+/* STATUS */
+.status-active {
+  color: #2ecc71;
+  font-weight: 600;
+}
+.status-blocked {
+  color: #d63031;
+  font-weight: 600;
+}

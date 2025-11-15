@@ -1,0 +1,106 @@
+.technician-sidebar {
+  position: fixed;
+  left: -220px;
+  top: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: #023047;
+  color: white;
+  padding-top: 60px;
+  
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.technician-sidebar.open {
+  left: 0;
+  transform: translateX(0);
+}
+
+.technician-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.technician-sidebar-menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.technician-sidebar-menu li {
+  padding: 15px 20px;
+}
+
+.technician-sidebar-menu li a {
+  color: white;
+  text-decoration: none;
+}
+
+.technician-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.technician-avatar {
+  width: 55px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.technician-id {
+ font-weight: 600;
+}
+
+.technician-info {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 14px;
+}
+
+.technician-name {
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.technician-sidebar-menu li:hover {
+  background-color: #5b6f23;
+  transform: translateX(1px);
+  box-shadow: 1px 1px 3px rgba(168, 211, 40, 0.51);
+}
+
+.technician-navbar {
+  display: flex;
+  align-items: left;
+  justify-content: space-between; /* Pushes items to ends */
+  padding: 8px 15px;
+  background-color: #1f2937;
+  color: white;
+}
+
+.hamburger-btn {
+  font-size: 20px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.logo {
+  font-size: 15px;
+  font-weight: bold;
+  margin-left: 10rem;
+}
+

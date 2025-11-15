@@ -1,0 +1,250 @@
+/* 🌈 Modern Gradient Background */
+.purchase-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #e0ebff 0%, #f7faff 100%);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* 🧩 Stylish Card */
+.purchase-card {
+  background: #ffffffc7;
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  padding: 45px 50px;
+  width: 100%;
+  max-width: 950px;
+  box-shadow: 0 10px 40px rgba(0, 50, 120, 0.18);
+  animation: fadeIn 0.6s ease;
+  border: 1px solid rgba(0, 60, 130, 0.08);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-title {
+  font-size: 2rem;
+  color: #003c8f;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* 🧱 Form Grid Layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 26px;
+}
+
+/* Each Field Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+/* 🔖 Label Styling */
+.form-group label {
+  font-weight: 700;
+  color: #002b5c;
+  margin-bottom: 8px;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+}
+
+.form-group label.required::after {
+  content: " *";
+  color: #e60000;
+  font-weight: 600;
+}
+
+/* ✨ Input Styling */
+input,
+.styled-datepicker {
+  padding: 11px 14px;
+  border: 1.4px solid #c1d0f3;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: 0.25s ease;
+  background-color: #fdfdfd;
+  color: #202020;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+input:focus,
+.styled-datepicker:focus {
+  border-color: #0066ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.25);
+  outline: none;
+  background-color: #fff;
+}
+
+/* ❌ Hide Number Field Arrows Completely */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Datepicker Styling */
+.react-datepicker {
+  border: none !important;
+  border-radius: 12px !important;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 8px 25px rgba(0, 0, 100, 0.2);
+}
+
+.react-datepicker__header {
+  background: linear-gradient(90deg, #005bea, #00c6fb);
+  color: #fff;
+  border-bottom: none;
+}
+
+.react-datepicker__day--selected {
+  background: #007bff !important;
+  color: #fff !important;
+  border-radius: 50%;
+}
+
+.react-datepicker__day:hover {
+  background: #eaf2ff !important;
+  border-radius: 50%;
+}
+
+/* 📂 File Upload Field */
+input[type="file"] {
+  padding: 6px;
+  font-size: 14px;
+  border: 1.4px solid #c1d0f3;
+  border-radius: 8px;
+  background-color: #fafcff;
+}
+
+input[type="file"]:hover {
+  background-color: #f1f7ff;
+}
+
+/* 🔘 Action Buttons */
+.form-actions {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #007bff, #00c6fb);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 34px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #005bea, #007bff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 90, 255, 0.3);
+}
+
+/* 🖱️ Smooth hover feedback */
+input:hover,
+.styled-datepicker:hover {
+  background-color: #f7faff;
+}
+
+/* 📋 Contact Modal Overlay */
+.contact-form-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 30, 70, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* 💬 Contact Modal Card */
+.contact-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 8px 30px rgba(0, 50, 120, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Contact list */
+.contact-list {
+  margin-top: 10px;
+  background: #f5f9ff;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: #003c8f;
+}
+
+.contact-list li {
+  padding: 5px 0;
+  border-bottom: 1px solid #e2ebff;
+}
+
+.contact-list li:last-child {
+  border-bottom: none;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: #f0f3f8;
+  color: #003c8f;
+  border: 1px solid #ccd9f7;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #e7efff;
+}
+
+
+/* 📱 Mobile Responsive */
+@media (max-width: 600px) {
+  .purchase-card {
+    padding: 28px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .page-title {
+    font-size: 1.6rem;
+  }
+}

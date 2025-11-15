@@ -1,0 +1,192 @@
+/* Container */
+.pending-deliveries-container {
+  max-width: 900px; /* increased width to accommodate table */
+  margin: 15px auto;
+  background: #f9fafd;
+  padding: 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  overflow-x: auto; /* ensures horizontal scroll if table too wide */
+}
+
+/* Title */
+.pending-deliveries-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2a2d34;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+/* Table */
+.deliveries-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  min-width: 700px; /* ensure table doesn't break layout */
+  word-wrap: break-word;
+  overflow-x: auto;
+}
+
+.deliveries-table thead {
+  background-color: #1a73e8;
+  color: white;
+  position: sticky; /* sticky header */
+  top: 0;
+  z-index: 1;
+}
+
+.deliveries-table th,
+.deliveries-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* Row Highlights */
+.pending-letter {
+  background-color: #fff9cc;
+}
+
+.pending-all {
+  background-color: #ffe0e0;
+}
+
+/* Status Tags */
+.status-pending {
+  color: #f9a825;
+  font-weight: bold;
+}
+
+.status-missing {
+  color: #e53935;
+  font-weight: bold;
+}
+
+.status-complete {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+/* Inputs */
+input[type='datetime-local'],
+input[type='file'] {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+input[type='file'] {
+  background-color: white;
+  font-size: 13px;
+}
+
+/* Buttons */
+.update-button {
+  background-color: #1a73e8;
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.update-button:hover {
+  background-color: #155ab6;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filter-buttons button {
+  margin: 0 10px 10px 0;
+  padding: 8px 14px;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.filter-buttons button:hover {
+  background-color: #d0d0d0;
+}
+
+.filter-buttons button.active {
+  background-color: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+  font-weight: bold;
+}
+
+/* Existing saved info */
+.existing-data {
+  margin-top: 4px;
+}
+
+.existing-data a {
+  font-size: 13px;
+  color: #1a73e8;
+  text-decoration: underline;
+}
+
+/* Toast container fix */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .pending-deliveries-container {
+    padding: 20px;
+  }
+
+  .deliveries-table th,
+  .deliveries-table td {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .update-button {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  .filter-buttons button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .deliveries-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .deliveries-table th,
+  .deliveries-table td {
+    padding: 6px 8px;
+  }
+
+  .pending-deliveries-container h2 {
+    font-size: 24px;
+  }
+}

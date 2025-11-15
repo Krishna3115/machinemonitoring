@@ -1,0 +1,145 @@
+.technician-list-container {
+  max-width: 100%;
+  margin: 1px auto;
+  background: #ffffff;
+  padding: 30px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  overflow-x: auto; /* For small screens */
+}
+
+.technician-list-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1a237e;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.technician-table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.technician-table thead {
+  background-color: #1976d2;
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+}
+
+.technician-table th,
+.technician-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.technician-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.technician-table tbody tr:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.2s ease;
+}
+
+input[type="text"] {
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.print-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #1976d2;
+}
+
+.print-button:hover {
+  color: #0d47a1;
+  transform: scale(1.1);
+  transition: 0.2s;
+}
+
+.summary-scroll-wrapper {
+  overflow-x: auto;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}
+
+.summary-bar {
+  display: flex;
+  min-width: max-content;
+  gap: 20px;
+  padding: 15px;
+  background-color: #f9fafd;
+  border-top: 2px solid #1976d2;
+  border-radius: 8px;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.summary-bar > div {
+  flex: 0 0 auto;
+  min-width: 160px;
+  background-color: #e8f0fe;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a237e;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
+}
+
+.summary-bar > div:hover {
+  transform: translateY(-2px);
+  background-color: #d2e3fc;
+}
+
+.summary-bar > div p {
+  margin: 6px 0 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #0b3d91;
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .technician-list-container {
+    padding: 20px 10px;
+  }
+
+  .technician-table {
+    min-width: unset;
+    font-size: 12px;
+  }
+
+  .technician-table th,
+  .technician-table td {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .technician-list-container h2 {
+    font-size: 20px;
+  }
+}

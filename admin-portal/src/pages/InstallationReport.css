@@ -1,0 +1,183 @@
+.dispatch-report-container {
+  width: 100%;
+  max-width: 1050px; /* Max container width */
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: #fff;
+  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter Form Styles */
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  flex: 1 1 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-form label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.filter-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Buttons */
+.filter-form button,
+.export-options button {
+  padding: 8px 16px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-form button:hover,
+.export-options button:hover {
+  background-color: #094db1;
+}
+
+.button-group {
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Export Button Container */
+.export-options {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Table Styles */
+.dispatch-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures fixed column widths */
+  font-size: 0.9rem;
+}
+
+.dispatch-table th,
+.dispatch-table td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: break-word; /* Wrap long content */
+  word-wrap: break-word;
+  /* white-space: normal; */
+}
+
+.dispatch-table th {
+  background-color: #f5f5f5;
+  font-weight: 700;
+}
+
+/* Explicit column widths */
+.dispatch-table th:nth-child(1),
+.dispatch-table td:nth-child(1) { width: 20px; }   /* Sr. No. */
+
+.dispatch-table thead th:nth-child(2),
+.dispatch-table tbody td:nth-child(2) {
+  width: 90px; /* Model no */
+}
+.dispatch-table thead th:nth-child(3),
+.dispatch-table tbody td:nth-child(3) {
+  width: 90px; /* Installation Started */
+}
+
+.dispatch-table thead th:nth-child(4),
+.dispatch-table tbody td:nth-child(4) {
+  width: 90px; /* Installation Ended */
+}
+
+.dispatch-table thead th:nth-child(5),
+.dispatch-table tbody td:nth-child(5) {
+  width: 90px; /* Section */
+}
+
+.dispatch-table thead th:nth-child(6),
+.dispatch-table tbody td:nth-child(6) {
+  width: 70px; /* Pole No */
+}
+
+.dispatch-table thead th:nth-child(7),
+.dispatch-table tbody td:nth-child(7) {
+  width: 65px; /* Pole No */
+}
+.dispatch-table th:nth-child(8),
+.dispatch-table td:nth-child(8) { width: 65px; }  /* From/To KM */
+.dispatch-table th:nth-child(9),
+.dispatch-table td:nth-child(9),
+.dispatch-table th:nth-child(10),
+.dispatch-table td:nth-child(10) { width: 75px; } /* Wheel/Time Count */
+.dispatch-table th:nth-child(11),
+.dispatch-table td:nth-child(11) { width: 150px; } /* Status */
+
+
+/* Status Colors */
+.status.pending {
+  color: #e81f1f;
+  font-weight: 700;
+}
+
+.status.delivered {
+  color: #ffa500;
+  font-weight: 700;
+}
+
+.status.installing {
+  color: #3b40dd;
+  font-weight: 700;
+}
+
+.status.complete {
+  color: #11ac0c;
+  font-weight: 700;
+}
+
+.status.unknown {
+  color: gray;
+  font-style: italic;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .filter-form {
+    flex-direction: column;
+  }
+
+  .button-group {
+    align-items: stretch;
+  }
+
+  .filter-form button,
+  .export-options button {
+    width: 100%;
+  }
+
+  .form-group {
+    flex: 1 1 100%;
+  }
+
+  .dispatch-table th,
+  .dispatch-table td {
+    padding: 6px 5px;
+    font-size: 0.8rem;
+  }
+}

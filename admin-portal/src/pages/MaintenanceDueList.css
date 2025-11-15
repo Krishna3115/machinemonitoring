@@ -1,0 +1,131 @@
+.technician-list-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #f9fafd;
+  padding: 25px 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.technician-list-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2a2d34;
+  font-weight: 700;
+}
+
+.technician-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.technician-table thead {
+  background-color: #1a73e8;
+  color: white;
+}
+
+.technician-table th,
+.technician-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 16px;
+}
+
+.technician-table tbody tr:hover {
+  background-color: #e9f0ff;
+}
+
+.action-button {
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  min-width: 90px;
+}
+
+.action-button:hover {
+  filter: brightness(85%);
+}
+
+/* ✅ Status Colors */
+
+.status-active {
+  color: #43a047; /* Green */
+  font-weight: 600;
+}
+
+.status-warning {
+  color: #f9a825; /* Yellow */
+  font-weight: 600;
+}
+
+.status-orange {
+  color: #fb8c00; /* Orange */
+  font-weight: 600;
+}
+
+.status-red {
+  color: #d6110e; /* Red */
+  font-weight: 600;
+}
+
+.status-blocked {
+  color: #6c0808; /* Dark red for overdue */
+  font-weight: 900;
+}
+
+.technician-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.status-legend {
+  display: flex;
+  gap: 15px;
+  font-size: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 10px; /* ✅ This adds space below the legend */
+}
+
+.legend-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 5px;
+}
+
+.legend-box.yellow {
+  background-color: #f9a825;
+}
+
+.legend-box.orange {
+  background-color: #fb8c00;
+}
+
+.legend-box.red {
+  background-color: #e53935;
+}
+
+.legend-box.blocked {
+  background-color: #b71c1c;
+}
+
+.search-input {
+  width: 40%;
+  padding: 5px 10px;
+  margin: 10px 0;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

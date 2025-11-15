@@ -1,0 +1,162 @@
+/* ------------------- TechnicianList.css ------------------- */
+
+/* OUTER CONTAINER */
+.technician-list-container {
+  min-width: 1200px; /* Ensure the container is wider than typical screen */
+  max-width: 1400px; /* Optional upper limit */
+  width: auto; 
+  margin: 30px auto;
+  padding: 40px 60px;
+  background: #f9fafd;
+  border-radius: 14px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  overflow-x: auto; /* Scroll if needed */
+  box-sizing: border-box;
+}
+
+/* HEADER */
+.technician-list-container h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+/* TABLE STYLING */
+.technician-table {
+  width: 100%;
+  min-width: 900px; /* Ensure table stays wide enough for all columns */
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: 16px;
+}
+
+/* TABLE HEADER */
+.technician-table thead {
+  background-color: #1a73e8;
+  color: white;
+  font-weight: 600;
+}
+
+.technician-table th,
+.technician-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  word-wrap: normal; /* Prevent breaking words */
+  white-space: nowrap; /* Force text to stay on one line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+}
+
+/* ROW HOVER */
+.technician-table tbody tr:hover {
+  background-color: #e9f0ff;
+  transition: background-color 0.3s ease;
+}
+
+/* CHECKBOX COLUMN */
+.technician-table th:first-child,
+.technician-table td:first-child {
+  width: 50px;
+  text-align: center;
+}
+
+/* ACTION BUTTONS */
+.action-button {
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 100px;
+}
+
+.action-button.block {
+  background-color: #e53935;
+}
+
+.action-button.unblock {
+  background-color: #43a047;
+}
+
+.action-button:hover {
+  filter: brightness(85%);
+}
+
+/* STATUS TEXT */
+.status-active {
+  color: #43a047;
+  font-weight: 600;
+}
+
+.status-blocked {
+  color: #e53935;
+  font-weight: 600;
+}
+
+/* INPUT FILE */
+input[type="file"] {
+  display: block;
+  margin: 15px auto;
+}
+
+/* TOAST STYLING (optional) */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+/* ---------------- PRINT STYLES ---------------- */
+@media print {
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .technician-list-container {
+    min-width: auto;
+    width: 100%;
+    box-shadow: none;
+    padding: 20px;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  th, td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: center;
+    white-space: nowrap; /* Keep all text on one line */
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+}

@@ -1,0 +1,256 @@
+/* Container remains same */
+.machine-list-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px 40px;
+  background: #f4f6fb;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sticky Title */
+.sticky-heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  background-color: #f4f6fb;
+  position: sticky;
+  top: 1;
+  z-index: 20;
+  padding: 28px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Sticky Filter Bar */
+.sticky-search-bar {
+  position: sticky;
+  top: 10px;
+  z-index: 19;
+  background: #f4f6fb;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Search Inputs */
+.search-bar {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}
+
+.search-bar input {
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
+
+/* Scrollable table area */
+.scrollable-table-wrapper {
+  overflow-y: auto;
+  flex-grow: 0;
+  max-height: calc(130vh - 200px);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Table remains the same */
+.machine-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.machine-table thead {
+  background-color: #1976d2;
+  color: white;
+  position: sticky;
+  top: 0px; /* height of heading + search bar */
+  z-index: 10;
+}
+
+.machine-table th,
+.machine-table td {
+  padding: 15px 17px;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 15px;
+}
+
+.machine-table tbody tr:hover {
+  background-color: #f0f7ff;
+}
+
+.status-complete {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.expired {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.no-records {
+  text-align: center;
+  color: #555;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.machine-list-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  background: #f4f6fb;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sticky-heading {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  background-color: #f4f6fb;
+  padding: 1px;
+  border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.sticky-search-bar {
+  background: #f4f6fb;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+  flex-shrink: 0;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.search-bar input {
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+}
+
+.scrollable-content {
+  overflow-y: auto;
+  flex-grow: 1s;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.machine-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.machine-table thead {
+  background-color: #1976d2;
+  color: white;
+  position: sticky;
+  top: 140;
+  z-index: 1;
+}
+
+.machine-table th,
+.machine-table td {
+  padding: 1px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 15px;
+}
+
+.machine-table tbody tr:hover {
+  background-color: #f0f7ff;
+}
+
+.status-complete {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.expired {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.no-records {
+  text-align: center;
+  color: #555;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+
+/* New class for Model No column */
+.model-no-column {
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Column widths and styles */
+.col-model {
+ 
+  min-width: 160px;
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.col-name {
+  min-width: 180px;
+}
+
+.col-division,
+.col-section {
+  min-width: 140px;
+}
+
+.col-location {
+  min-width: 160px;
+}
+
+.col-status {
+  min-width: 120px;
+  font-weight: bold;
+}
+
+.col-date {
+  min-width: 130px;
+}
+
+.col-warranty {
+  min-width: 120px;
+}
+
+

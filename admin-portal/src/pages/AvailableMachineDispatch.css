@@ -1,0 +1,163 @@
+/* TechnicianList.css */
+
+.technician-list-container {
+  max-width: 900px;
+  
+  background: #f9fafd; /* light background similar to login */
+  padding: 25px 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.technician-list-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2a2d34; /* dark primary text */
+  font-weight: 700;
+}
+
+.technician-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.technician-table thead {
+  background-color: #1a73e8; /* blue header */
+  color: white;
+}
+
+.technician-table th,
+.technician-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 16px;
+}
+
+.technician-table tbody tr:hover {
+  background-color: #e9f0ff; /* subtle highlight */
+}
+
+.action-button {
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  min-width: 90px;
+}
+
+.action-button.block {
+  background-color: #e53935; /* red for block */
+}
+
+.action-button.unblock {
+  background-color: #43a047; /* green for unblock */
+}
+
+.action-button:hover {
+  filter: brightness(85%);
+}
+
+.status-active {
+  color: #43a047;
+  font-weight: 600;
+}
+
+.status-blocked {
+  color: #e53935;
+  font-weight: 600;
+}
+
+.print-table th:nth-child(1),
+.print-table td:nth-child(1) {
+  width: 13px;
+}
+
+
+/* ----------- PRINT STYLES FOR JOB CARD FORMAT ----------- */
+@media print {
+  body {
+    
+    font-family: Arial, sans-serif;
+  }
+
+  .print-layout {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .print-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .print-header h1 {
+    margin: 0;
+    font-size: 28px;
+  }
+
+  .print-header h2 {
+    margin: 5px 0 20px 0;
+    font-size: 22px;
+  }
+
+  .print-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .print-details p {
+    margin: 4px 0;
+    min-width: 180px;
+  }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    table-layout: fixed;
+  }
+
+  .print-table th,
+  .print-table td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: center;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+
+  
+  .print-table th {
+    background-color: #f2f2f2;
+  }
+
+  .print-footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+
+  .print-footer div {
+    width: 30%;
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  /* Hide on print */
+  .no-print {
+    display: none !important;
+  }
+
+  
+}

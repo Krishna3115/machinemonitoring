@@ -1,0 +1,75 @@
+/* TechnicianList.css */
+
+.technician-list-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #f9fafd; /* light background similar to login */
+  padding: 25px 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.technician-list-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2a2d34; /* dark primary text */
+  font-weight: 700;
+}
+
+.technician-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.technician-table thead {
+  background-color: #1a73e8; /* blue header */
+  color: white;
+}
+
+.technician-table th,
+.technician-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e2e2;
+  font-size: 16px;
+}
+
+.technician-table tbody tr:hover {
+  background-color: #e9f0ff; /* subtle highlight */
+}
+
+.action-button {
+  background-color: #1a73e8;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  min-width: 90px;
+}
+
+.action-button.block {
+  background-color: #e53935; /* red for block */
+}
+
+.action-button.unblock {
+  background-color: #43a047; /* green for unblock */
+}
+
+.action-button:hover {
+  filter: brightness(85%);
+}
+
+.status-active {
+  color: #43a047;
+  font-weight: 600;
+}
+
+.status-blocked {
+  color: #e53935;
+  font-weight: 600;
+}

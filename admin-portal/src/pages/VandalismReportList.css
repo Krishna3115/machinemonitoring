@@ -1,0 +1,224 @@
+/* Container for the whole page content */
+.technician-list-container {
+  max-width: 1100px;
+  margin: 5px auto;
+  padding: 0px 40px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+}
+
+/* Header */
+.technician-list-container h2 {
+  font-weight: 800;
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 35px;
+  color: #34495e;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Table styles */
+.technician-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px; /* spacing between rows */
+  font-size: 1rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+  background: #fafafa;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.technician-table thead {
+  background-color: #2980b9;
+  color: #ecf0f1;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.technician-table th,
+.technician-table td {
+  padding: 15px 20px;
+  text-align: left;
+  vertical-align: middle;
+  border: none;
+}
+
+.technician-table tbody tr {
+  background: white;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.technician-table tbody tr:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Download button */
+.download-btn {
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 3px 6px rgba(41, 128, 185, 0.4);
+}
+
+.download-btn:hover {
+  background-color: #1c5980;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(28, 89, 128, 0.6);
+}
+
+/* Tooltip */
+.download-btn[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  background: #34495e;
+  color: white;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  bottom: 100%;
+  white-space: nowrap;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+
+/* Action button styling */
+.action-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 5px;
+}
+.action-btn:hover {
+  background-color: #1e8449;
+}
+
+
+.photo-preview-list {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.preview-image-small {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.preview-image-small:hover {
+  transform: scale(1.1);
+}
+
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.image-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-image-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-image-item img {
+  max-width: 150px;
+  max-height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-download-btn {
+  margin-top: 5px;
+  display: block;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
+/* Responsive styles here... */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .technician-list-container {
+    padding: 20px 15px;
+    margin: 20px;
+  }
+  
+  .technician-table th,
+  .technician-table td {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .download-btn {
+    font-size: 1rem;
+    padding: 6px 10px;
+  }
+}

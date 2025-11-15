@@ -1,0 +1,26 @@
+.popup-toast {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  font-size: 17px;
+  z-index: 1000;
+  animation: fadeOut 3s forwards;
+  color: white;
+}
+
+.popup-toast.success {
+  background-color: #4caf50; /* Green */
+}
+
+.popup-toast.error {
+  background-color: #f44336; /* Red */
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}

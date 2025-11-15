@@ -1,0 +1,70 @@
+.emergency-page {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.sub-text {
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.emergency-card {
+  flex: 1 1 300px;
+  padding: 25px;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out;
+}
+
+.emergency-card:hover {
+  transform: scale(1.03);
+}
+
+.emergency-card h2 {
+  margin-bottom: 10px;
+}
+
+.emergency-card p {
+  margin-bottom: 20px;
+}
+
+.emergency-card button {
+  padding: 10px 18px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #fff;
+  color: inherit;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.red {
+  background-color: #d32f2f;
+}
+
+.yellow {
+  background-color: #f9a825;
+}
+
+.blue {
+  background-color: #1976d2;
+}
+
+.alert-message {
+  margin-top: 30px;
+  font-weight: bold;
+  color: #d32f2f;
+}

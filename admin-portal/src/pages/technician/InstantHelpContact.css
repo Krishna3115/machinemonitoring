@@ -1,0 +1,61 @@
+.instant-help-container {
+  padding: 16px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-item {
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+
+.contact-item strong {
+  font-size: 1.1rem;
+}
+
+.contact-item a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.contact-item small {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: rgb(141, 121, 121);
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.back-button:hover {
+  background-color: #4b5d71;
+}
+
+
+@media screen and (max-width: 480px) {
+  .contact-item {
+    font-size: 14px;
+  }
+
+  .instant-help-container h2 {
+    font-size: 1.2rem;
+  }
+}

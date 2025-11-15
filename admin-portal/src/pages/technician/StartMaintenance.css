@@ -1,0 +1,77 @@
+.start-maintenance {
+  max-width: 600px;
+  margin: auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Specific button styles */
+.start-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.end-btn {
+  background-color: #f39c12;
+  color: white;
+}
+
+.submit-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.machine-details {
+  margin-top: 1rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 1rem;
+}
+
+.back-button {
+  background-color: #ccc;
+  color: #333;
+  padding: 8px 12px;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+  .start-maintenance {
+    padding-top: 60px;
+  }
+
+  .back-button {
+    font-size: 1rem;
+    top: 10px;
+    left: 10px;
+  }
+}

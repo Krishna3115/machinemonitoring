@@ -1,0 +1,58 @@
+.settings-page {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.settings-page h2 {
+  margin-bottom: 20px;
+  color: #34495e;
+}
+
+.settings-page label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 500;
+}
+
+.settings-page input[type="text"],
+.settings-page input[type="email"],
+.settings-page input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.settings-page input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.settings-page button {
+  padding: 10px 20px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.settings-page button:hover {
+  background-color: #1c5980;
+}
+
+.danger-btn {
+  background-color: #c0392b;
+}
+
+.danger-btn:hover {
+  background-color: #962d22;
+}
