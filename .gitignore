@@ -1,10 +1,10 @@
 # =====================
 # React / Node frontend
 # =====================
-frontend/node_modules/
-frontend/build/
-frontend/dist/
-frontend/.env
+admin-portal/node_modules/
+admin-portal/build/
+admin-portal/dist/
+admin-portal/.env
 
 # =====================
 # Java / Gradle backend
