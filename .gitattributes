@@ -4,3 +4,4 @@
 backend/build/libs/*.jar filter=lfs diff=lfs merge=lfs -text
 admin-portal/src/assets/*.mp4 filter=lfs diff=lfs merge=lfs -text
 admin-portal/src/assets/train_timelapse1.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
