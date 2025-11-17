@@ -11,7 +11,8 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
         
-            .allowedOriginPatterns("http://localhost:3000", "http://192.168.0.72:3000")
+           // .allowedOriginPatterns("http://localhost:3000", "http://72.61.174.80:3000")
+        	.allowedOriginPatterns("https://cditbl.cloud", "https://www.cditbl.cloud")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*")
             .allowCredentials(true);
