@@ -29,34 +29,42 @@ public class UserServiceImpl implements UserService{
 	 	@Autowired
 	    private PasswordEncoder passwordEncoder;
 
-	    @Override
-	    public String registerUser(RegisterRequest request) {
-	    	if (userRepository.findByMobileNumber(request.getMobileNumber()).isPresent()) {
-	            throw new RuntimeException("Mobile number already registered");
-	        }
+	 	@Override
+	 	public String registerUser(RegisterRequest request) {
+	 	    // Check if mobile number already exists
+	 	    if (userRepository.findByMobileNumber(request.getMobileNumber()).isPresent()) {
+	 	        throw new RuntimeException("Mobile number already registered");
+	 	    }
 
-	        String activationCode = String.format("%06d", new Random().nextInt(999999));
-	        String encodedPassword = passwordEncoder.encode(request.getPassword());
+	 	    // Generate activation code
+	 	    String activationCode = String.format("%06d", new Random().nextInt(999999));
+	 	    // Encode password
+	 	    String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-	        Users user = new Users();
-	        user.setName(request.getName());
-	        user.setMobileNumber(request.getMobileNumber());
-	        user.setEmail(request.getEmail());
-	        user.setCity(request.getCity());
-	        user.setPassword(encodedPassword);
-	        user.setRole("USER");
-	        user.setIsActive(false);
-	        user.setActivationCode(activationCode);
-	        user.setProfileComplete(false); // default
-	        user.setAddress(null);
-	        user.setIdProofUrl(null);
-	        user.setProfilePhotoUrl(null);
-	        user.setEmergencyContactNumber(null);
+	 	    // Create user entity
+	 	    Users user = new Users();
+	 	    user.setName(request.getName());
+	 	    user.setMobileNumber(request.getMobileNumber());
+	 	    user.setEmail(request.getEmail());
+	 	    user.setCity(request.getCity());
+	 	    user.setPassword(encodedPassword);
+	 	    user.setRole("USER");
+	 	    user.setIsActive(false); // Not active yet
+	 	    user.setActivationCode(activationCode);
+	 	    user.setProfileComplete(false);
+	 	    user.setAddress(null);
+	 	    user.setProfilePhotoUrl(null);
+	 	    user.setIdProofUrl(null);
+	 	    user.setEmergencyContactNumber(null);
+	 	    user.setDesignation(request.getDesignation()); // ✅ Save designation
 
-	        
-	        userRepository.save(user);
-	        return "User Login Registered successfully. Please wait for activation code from admin.";
-	    }
+	 	    // Save user
+	 	    userRepository.save(user);
+
+	 	    return "Technician registered successfully. Please wait for activation from admin.";
+	 	}
+
+
 
 	    @Override
 	    public String activateUser(ActivationRequest request) {

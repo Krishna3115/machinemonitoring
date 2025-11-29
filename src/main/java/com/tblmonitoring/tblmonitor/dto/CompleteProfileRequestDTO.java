@@ -1,10 +1,15 @@
 package com.tblmonitoring.tblmonitor.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CompleteProfileRequestDTO {
 
 	private String address;
+	@JsonProperty("profilePhotoUrl")
     private String profilePhotoUrl;
+	@JsonProperty("idProofUrl")
     private String idProofUrl;
+    @JsonProperty("emergencyContactNumber")
     private String emergencyContactNumber;
     
     public CompleteProfileRequestDTO() {

@@ -52,12 +52,21 @@ public class ProductionPlanningServiceImpl implements ProductionPlanningService 
         return purchaseRepo.findAll().stream()
             .map(po -> {
                 String poNumber = po.getPoNumber().trim();
+
                 int totalPlanned = planningRepo.getTotalPlannedByPoNumber(poNumber);
                 int remaining = po.getQuantity() - totalPlanned;
-                return new AvailableLOADTO(poNumber, po.getQuantity(), remaining);
+
+                // Add division, section, final dispatch date from PO
+                String division = po.getDivision(); // assuming field exists
+                String section = po.getSection();   // assuming field exists
+                String finalDispatchDate = po.getDispatchDate(); // assuming LocalDate
+
+                return new AvailableLOADTO(poNumber, po.getQuantity(), remaining,
+                                            division, section, finalDispatchDate);
             })
-            .filter(loa -> loa.getRemainingQuantity() > 0) // ✅ only those with available quantity
+            .filter(loa -> loa.getRemainingQuantity() > 0) // only those with available quantity
             .collect(Collectors.toList());
     }
+
 
 }

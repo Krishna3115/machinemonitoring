@@ -1,5 +1,6 @@
 package com.tblmonitoring.tblmonitor.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -25,16 +26,24 @@ public class MachineInspection {
     private Machine machine;
 
     private String modelNo;
+    private LocalDate dateOfInspection;
     private String greaseLevelPhotoUrl;
     private String greaseLevel;
-    private String batteryReading;
-    private String solarPanelReading;
-    private Integer timeCount;
+    private String batteryVoltage;
+    private String solarPanelVoltage;
+    private Integer cycleTime;
     private Integer wheelCount;
+    private String motorPumpStatus;
     private String machineInfoPlatePhotoUrl;
-    private String sensor;
-    private String applicator;
+    private String solarChargeController;
+    private String sensorCondition;
+    private String applicatorStatus;
     private String machineStatus;
+    private String batchCounter;
+    private String doorLock;
+    
+    private String applicatorPhotoUrl;
+    
     private LocalDateTime maintenanceDate;
     @Column(name = "maintenance_started")
     private LocalDateTime maintenanceStarted;
@@ -45,56 +54,57 @@ public class MachineInspection {
     @Column(name = "maintenance_technician_id")
     private Long maintenanceTechnicianId;
     
-    @Column(name = "solar_panel_reading_1")
-    private String solarPanelReading1;
-
-    @Column(name = "solar_panel_reading_2")
-    private String solarPanelReading2;
+//    @Column(name = "solar_panel_reading_1")
+//    private String solarPanelReading1;
+//
+//    @Column(name = "solar_panel_reading_2")
+//    private String solarPanelReading2;
 
     @Column(length = 1000) // or as needed
     private String remark;
     
-    @ManyToOne
-    @JoinColumn(name = "inspected_by")
-    private Users inspectedBy;
+   // @ManyToOne
+    @Column(name = "inspected_by", nullable = false)
+    private Long inspectedByUserId;
     
     public MachineInspection() {
 		// TODO Auto-generated constructor stub
 	}
 
-    
-
-	public MachineInspection(Long id, Machine machine, String modelNo, String greaseLevelPhotoUrl, String greaseLevel,
-			String batteryReading, String solarPanelReading, Integer timeCount, Integer wheelCount,
-			String machineInfoPlatePhotoUrl, String sensor, String applicator, String machineStatus,
-			LocalDateTime maintenanceDate, LocalDateTime maintenanceStarted, LocalDateTime maintenanceEnded,
-			Long maintenanceTechnicianId, String solarPanelReading1, String solarPanelReading2, String remark,
-			Users inspectedBy) {
+	public MachineInspection(Long id, Machine machine, String modelNo, LocalDate dateOfInspection,
+			String greaseLevelPhotoUrl, String greaseLevel, String batteryVoltage, String solarPanelVoltage,
+			Integer cycleTime, Integer wheelCount, String motorPumpStatus, String machineInfoPlatePhotoUrl,
+			String solarChargeController, String sensorCondition, String applicatorStatus, String machineStatus,
+			String batchCounter, String doorLock, String applicatorPhotoUrl, LocalDateTime maintenanceDate,
+			LocalDateTime maintenanceStarted, LocalDateTime maintenanceEnded, Long maintenanceTechnicianId,
+			String remark, Users inspectedBy) {
 		super();
 		this.id = id;
 		this.machine = machine;
 		this.modelNo = modelNo;
+		this.dateOfInspection = dateOfInspection;
 		this.greaseLevelPhotoUrl = greaseLevelPhotoUrl;
 		this.greaseLevel = greaseLevel;
-		this.batteryReading = batteryReading;
-		this.solarPanelReading = solarPanelReading;
-		this.timeCount = timeCount;
+		this.batteryVoltage = batteryVoltage;
+		this.solarPanelVoltage = solarPanelVoltage;
+		this.cycleTime = cycleTime;
 		this.wheelCount = wheelCount;
+		this.motorPumpStatus = motorPumpStatus;
 		this.machineInfoPlatePhotoUrl = machineInfoPlatePhotoUrl;
-		this.sensor = sensor;
-		this.applicator = applicator;
+		this.solarChargeController = solarChargeController;
+		this.sensorCondition = sensorCondition;
+		this.applicatorStatus = applicatorStatus;
 		this.machineStatus = machineStatus;
+		this.batchCounter = batchCounter;
+		this.doorLock = doorLock;
+		this.applicatorPhotoUrl = applicatorPhotoUrl;
 		this.maintenanceDate = maintenanceDate;
 		this.maintenanceStarted = maintenanceStarted;
 		this.maintenanceEnded = maintenanceEnded;
 		this.maintenanceTechnicianId = maintenanceTechnicianId;
-		this.solarPanelReading1 = solarPanelReading1;
-		this.solarPanelReading2 = solarPanelReading2;
 		this.remark = remark;
-		this.inspectedBy = inspectedBy;
+		this.inspectedByUserId = inspectedByUserId;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -120,6 +130,14 @@ public class MachineInspection {
 		this.modelNo = modelNo;
 	}
 
+	public LocalDate getDateOfInspection() {
+		return dateOfInspection;
+	}
+
+	public void setDateOfInspection(LocalDate dateOfInspection) {
+		this.dateOfInspection = dateOfInspection;
+	}
+
 	public String getGreaseLevelPhotoUrl() {
 		return greaseLevelPhotoUrl;
 	}
@@ -136,28 +154,28 @@ public class MachineInspection {
 		this.greaseLevel = greaseLevel;
 	}
 
-	public String getBatteryReading() {
-		return batteryReading;
+	public String getBatteryVoltage() {
+		return batteryVoltage;
 	}
 
-	public void setBatteryReading(String batteryReading) {
-		this.batteryReading = batteryReading;
+	public void setBatteryVoltage(String batteryVoltage) {
+		this.batteryVoltage = batteryVoltage;
 	}
 
-	public String getSolarPanelReading() {
-		return solarPanelReading;
+	public String getSolarPanelVoltage() {
+		return solarPanelVoltage;
 	}
 
-	public void setSolarPanelReading(String solarPanelReading) {
-		this.solarPanelReading = solarPanelReading;
+	public void setSolarPanelVoltage(String solarPanelVoltage) {
+		this.solarPanelVoltage = solarPanelVoltage;
 	}
 
-	public Integer getTimeCount() {
-		return timeCount;
+	public Integer getCycleTime() {
+		return cycleTime;
 	}
 
-	public void setTimeCount(Integer timeCount) {
-		this.timeCount = timeCount;
+	public void setCycleTime(Integer cycleTime) {
+		this.cycleTime = cycleTime;
 	}
 
 	public Integer getWheelCount() {
@@ -168,6 +186,14 @@ public class MachineInspection {
 		this.wheelCount = wheelCount;
 	}
 
+	public String getMotorPumpStatus() {
+		return motorPumpStatus;
+	}
+
+	public void setMotorPumpStatus(String motorPumpStatus) {
+		this.motorPumpStatus = motorPumpStatus;
+	}
+
 	public String getMachineInfoPlatePhotoUrl() {
 		return machineInfoPlatePhotoUrl;
 	}
@@ -176,20 +202,28 @@ public class MachineInspection {
 		this.machineInfoPlatePhotoUrl = machineInfoPlatePhotoUrl;
 	}
 
-	public String getSensor() {
-		return sensor;
+	public String getSolarChargeController() {
+		return solarChargeController;
 	}
 
-	public void setSensor(String sensor) {
-		this.sensor = sensor;
+	public void setSolarChargeController(String solarChargeController) {
+		this.solarChargeController = solarChargeController;
 	}
 
-	public String getApplicator() {
-		return applicator;
+	public String getSensorCondition() {
+		return sensorCondition;
 	}
 
-	public void setApplicator(String applicator) {
-		this.applicator = applicator;
+	public void setSensorCondition(String sensorCondition) {
+		this.sensorCondition = sensorCondition;
+	}
+
+	public String getApplicatorStatus() {
+		return applicatorStatus;
+	}
+
+	public void setApplicatorStatus(String applicatorStatus) {
+		this.applicatorStatus = applicatorStatus;
 	}
 
 	public String getMachineStatus() {
@@ -200,20 +234,36 @@ public class MachineInspection {
 		this.machineStatus = machineStatus;
 	}
 
+	public String getBatchCounter() {
+		return batchCounter;
+	}
+
+	public void setBatchCounter(String batchCounter) {
+		this.batchCounter = batchCounter;
+	}
+
+	public String getDoorLock() {
+		return doorLock;
+	}
+
+	public void setDoorLock(String doorLock) {
+		this.doorLock = doorLock;
+	}
+
+	public String getApplicatorPhotoUrl() {
+		return applicatorPhotoUrl;
+	}
+
+	public void setApplicatorPhotoUrl(String applicatorPhotoUrl) {
+		this.applicatorPhotoUrl = applicatorPhotoUrl;
+	}
+
 	public LocalDateTime getMaintenanceDate() {
 		return maintenanceDate;
 	}
 
 	public void setMaintenanceDate(LocalDateTime maintenanceDate) {
 		this.maintenanceDate = maintenanceDate;
-	}
-
-	public Users getInspectedBy() {
-		return inspectedBy;
-	}
-
-	public void setInspectedBy(Users inspectedBy) {
-		this.inspectedBy = inspectedBy;
 	}
 
 	public LocalDateTime getMaintenanceStarted() {
@@ -240,22 +290,6 @@ public class MachineInspection {
 		this.maintenanceTechnicianId = maintenanceTechnicianId;
 	}
 
-	public String getSolarPanelReading1() {
-		return solarPanelReading1;
-	}
-
-	public void setSolarPanelReading1(String solarPanelReading1) {
-		this.solarPanelReading1 = solarPanelReading1;
-	}
-
-	public String getSolarPanelReading2() {
-		return solarPanelReading2;
-	}
-
-	public void setSolarPanelReading2(String solarPanelReading2) {
-		this.solarPanelReading2 = solarPanelReading2;
-	}
-
 	public String getRemark() {
 		return remark;
 	}
@@ -263,5 +297,15 @@ public class MachineInspection {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-    
+
+	public Long getInspectedByUserId() {
+		return inspectedByUserId;
+	}
+
+	public void setInspectedByUserId(Long inspectedByUserId) {
+		this.inspectedByUserId = inspectedByUserId;
+	}
+
+	
+
 }

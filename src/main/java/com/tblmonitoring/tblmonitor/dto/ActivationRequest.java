@@ -1,7 +1,10 @@
 package com.tblmonitoring.tblmonitor.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ActivationRequest {
 
+	@JsonProperty("mobileNumber")
 	 private String mobileNumber;
 	    private String code;
 	    

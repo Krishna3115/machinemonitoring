@@ -10,14 +10,14 @@ public class MasterReportDTO {
 	    private String machineName;
 	    private String location;
 	    private String status;
-	    private LocalDateTime dispatchDate;
+	    private String dispatchDate;
 	    private LocalDateTime deliveredDate;
 	    private Boolean technicianAssigned;
 
 	    // Purchase Order details
 	    private String poNumber;
 	    private LocalDate poDate;
-	    private LocalDate finalDispatchDate;
+	 //   private LocalDate finalDispatchDate;
 	    private Integer poQuantity;
 	    private Integer poWarrantyMonths;
 	    private Integer maintenanceDays;
@@ -57,7 +57,7 @@ public class MasterReportDTO {
 
 
 	public MasterReportDTO(String modelNo, String machineName, String location, String status,
-			LocalDateTime dispatchDate, LocalDateTime deliveredDate, Boolean technicianAssigned, String poNumber,
+			String dispatchDate, LocalDateTime deliveredDate, Boolean technicianAssigned, String poNumber,
 			LocalDate poDate, LocalDate finalDispatchDate, Integer poQuantity, Integer poWarrantyMonths,
 			Integer maintenanceDays, String erpoa, Double perDayFine, Integer plannedQuantity,
 			LocalDateTime productionStartDate, LocalDateTime productionEndDate, LocalDateTime installationStarted,
@@ -75,7 +75,7 @@ public class MasterReportDTO {
 		this.technicianAssigned = technicianAssigned;
 		this.poNumber = poNumber;
 		this.poDate = poDate;
-		this.finalDispatchDate = finalDispatchDate;
+		//this.finalDispatchDate = finalDispatchDate;
 		this.poQuantity = poQuantity;
 		this.poWarrantyMonths = poWarrantyMonths;
 		this.maintenanceDays = maintenanceDays;
@@ -146,12 +146,12 @@ public class MasterReportDTO {
 	}
 
 
-	public LocalDateTime getDispatchDate() {
+	public String getDispatchDate() {
 		return dispatchDate;
 	}
 
 
-	public void setDispatchDate(LocalDateTime dispatchDate) {
+	public void setDispatchDate(String dispatchDate) {
 		this.dispatchDate = dispatchDate;
 	}
 
@@ -194,17 +194,6 @@ public class MasterReportDTO {
 	public void setPoDate(LocalDate poDate) {
 		this.poDate = poDate;
 	}
-
-
-	public LocalDate getFinalDispatchDate() {
-		return finalDispatchDate;
-	}
-
-
-	public void setFinalDispatchDate(LocalDate finalDispatchDate) {
-		this.finalDispatchDate = finalDispatchDate;
-	}
-
 
 	public Integer getPoQuantity() {
 		return poQuantity;

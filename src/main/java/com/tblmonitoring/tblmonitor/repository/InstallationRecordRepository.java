@@ -47,5 +47,7 @@ public interface InstallationRecordRepository extends JpaRepository<Installation
 	List<Machine> findMachinesByInstallationStatus(@Param("status") String status);
 
 	InstallationRecord findByMachine(Machine machine);
+
+	Optional<InstallationRecord> findByMachine_ModelNo(String modelNo);
 	
 }

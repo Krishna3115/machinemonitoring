@@ -87,6 +87,9 @@ Optional<Machine> findByModelNo(String modelNo);
     int updateMachineStatus(@Param("modelNo") String modelNo, @Param("status") String status);
     
     long countByStatus(String status);
+
+
+
     
 }
 

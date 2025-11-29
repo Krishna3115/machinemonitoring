@@ -8,8 +8,17 @@ import com.tblmonitoring.tblmonitor.entity.TaskAssingment;
 
 public interface AssignmentService {
 	
+	
+	
 	void assignTask(Long assignedById, Long technicianId, String machineNumber, String taskType, LocalDate scheduleDate);
     List<TaskAssingment> getTasksForTechnician(Long technicianId);
     List<AssignmentHistory> getAllAssignmentHistory();
+	void assignInstallationTasks(Long assignedById, Long technicianId, List<Long> machineIds, LocalDate startDate,
+			LocalDate targetDate);
 
+	List<TaskAssingment> getPendingInstallationTasks(Long technicianId);
+
+	
+	
+	
 }

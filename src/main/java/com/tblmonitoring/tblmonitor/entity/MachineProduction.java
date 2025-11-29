@@ -1,5 +1,6 @@
 package com.tblmonitoring.tblmonitor.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -16,62 +17,93 @@ import jakarta.persistence.Table;
 @Table(name = "machine_production")
 public class MachineProduction {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
 
-    @Column(nullable = false)
-    private String machineSerialNo;
+	    @Column(nullable = false)
+	    private String machineSerialNo;
 
-    @Column(nullable = false)
-    private String jobCardNo;
+	    @Column(nullable = false)
+	    private String jobCardNo;
 
-    private String motorNo;
-    private String sensorNo;
-    private String applicatorNo;
-    private String batteryNo;
-    private String solarChargeControllerNo;
-    private String solarPanelNo1;
-    private String solarPanelNo2;
-    private String cabinetNo;
-    private String batchCounterNo;
-    private String mcbNo;
-    private String gearPumpNo;
-    
-    @Column(name = "qc_file_path")
-    private String qcFilePath;
+	    // Main components
+	    private String motorNo;
+	    private String sensorNo;
+	    private String applicatorNo;
+	    private String batteryNo;
+	    private String solarChargeControllerNo;
+	    private String solarPanelNo1;
+	    private String solarPanelNo2;
+	    private String cabinetNo;
+	    private String batchCounterNo;
+	    private String mcbNo;
+	    private String gearPumpNo;
+	    private LocalDate productionDate;
+	    private LocalDate productionEndDate;
 
-    @Column(name = "qc_inspection_date")
-    private LocalDateTime qcInspectionDate;
+	    // Subassembly batch numbers & dates
+//	    private String offlineSubAssyBatchNo;
+//	    private LocalDateTime offlineSubAssyBatchDate;
+//	    private String offlineAssyBatchNo;
+//	    private LocalDate offlineAssyBatchDate;
+	    private String junctionBoxBatchNo;
+	    private LocalDate junctionBoxBatchDate;
+	    private String sensorAssyBatchNo;
+	    private LocalDate sensorAssyBatchDate;
+	    private String tmpAssyBatchNo;
+	    private LocalDate tmpAssyBatchDate;
+	    private String applicatorAssyBatchNo;
+	    private LocalDate applicatorAssyBatchDate;
+	    
+	    private String solarPanelAssyBatchNo;
+	    private LocalDate solarPanelAssyBatchDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 50) 
-    private MachineStatus status = MachineStatus.AVAILABLE;
+	    @Column(name = "qc_file_path")
+	    private String qcFilePath;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt = LocalDateTime.now();
+	    @Column(name = "qc_inspection_date")
+	    private LocalDateTime qcInspectionDate;
 
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+	    @Enumerated(EnumType.STRING)
+	    @Column(length = 50)
+	    private MachineStatus status = MachineStatus.AVAILABLE;
 
-    public enum MachineStatus {
-    	AVAILABLE,
-        DISPATCHED,
-        PENDING_QUALITY_CHECK,
-        READY_TO_DISPATCH
-    }
+	    private LocalDateTime createdAt = LocalDateTime.now();
+	    private LocalDateTime updatedAt = LocalDateTime.now();
+
+	    @Column(name = "submitted_by_id")
+	    private Long submittedById;
+
+	    @Column(name = "submitted_by_name")
+	    private String submittedByName;
+
+	    
+	    @PreUpdate
+	    public void preUpdate() {
+	        updatedAt = LocalDateTime.now();
+	    }
+
+	    public enum MachineStatus {
+	        AVAILABLE,
+	        DISPATCHED,
+	        PENDING_QUALITY_CHECK,
+	        READY_TO_DISPATCH
+	    }
     
     public MachineProduction() {
 		// TODO Auto-generated constructor stub
 	}
-    
 
 	public MachineProduction(Long id, String machineSerialNo, String jobCardNo, String motorNo, String sensorNo,
 			String applicatorNo, String batteryNo, String solarChargeControllerNo, String solarPanelNo1,
-			String solarPanelNo2, String cabinetNo,String batchCounterNo, String mcbNo, String gearPumpNo, String qcFilePath, LocalDateTime qcInspectionDate,
-			MachineStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+			String solarPanelNo2, String cabinetNo, String batchCounterNo, String mcbNo, String gearPumpNo,
+			LocalDate productionDate, LocalDate productionEndDate, String junctionBoxBatchNo,
+			LocalDate junctionBoxBatchDate, String sensorAssyBatchNo, LocalDate sensorAssyBatchDate,
+			String tmpAssyBatchNo, LocalDate tmpAssyBatchDate, String applicatorAssyBatchNo,
+			LocalDate applicatorAssyBatchDate, String solarPanelAssyBatchNo, LocalDate solarPanelAssyBatchDate,
+			String qcFilePath, LocalDateTime qcInspectionDate, MachineStatus status, LocalDateTime createdAt,
+			LocalDateTime updatedAt, Long submittedById, String submittedByName) {
 		super();
 		this.id = id;
 		this.machineSerialNo = machineSerialNo;
@@ -87,13 +119,26 @@ public class MachineProduction {
 		this.batchCounterNo = batchCounterNo;
 		this.mcbNo = mcbNo;
 		this.gearPumpNo = gearPumpNo;
+		this.productionDate = productionDate;
+		this.productionEndDate = productionEndDate;
+		this.junctionBoxBatchNo = junctionBoxBatchNo;
+		this.junctionBoxBatchDate = junctionBoxBatchDate;
+		this.sensorAssyBatchNo = sensorAssyBatchNo;
+		this.sensorAssyBatchDate = sensorAssyBatchDate;
+		this.tmpAssyBatchNo = tmpAssyBatchNo;
+		this.tmpAssyBatchDate = tmpAssyBatchDate;
+		this.applicatorAssyBatchNo = applicatorAssyBatchNo;
+		this.applicatorAssyBatchDate = applicatorAssyBatchDate;
+		this.solarPanelAssyBatchNo = solarPanelAssyBatchNo;
+		this.solarPanelAssyBatchDate = solarPanelAssyBatchDate;
 		this.qcFilePath = qcFilePath;
 		this.qcInspectionDate = qcInspectionDate;
 		this.status = status;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.submittedById = submittedById;
+		this.submittedByName = submittedByName;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -183,37 +228,141 @@ public class MachineProduction {
 		this.cabinetNo = cabinetNo;
 	}
 
-	
-	
 	public String getBatchCounterNo() {
 		return batchCounterNo;
 	}
-
 
 	public void setBatchCounterNo(String batchCounterNo) {
 		this.batchCounterNo = batchCounterNo;
 	}
 
-
 	public String getMcbNo() {
 		return mcbNo;
 	}
-
 
 	public void setMcbNo(String mcbNo) {
 		this.mcbNo = mcbNo;
 	}
 
-
 	public String getGearPumpNo() {
 		return gearPumpNo;
 	}
-
 
 	public void setGearPumpNo(String gearPumpNo) {
 		this.gearPumpNo = gearPumpNo;
 	}
 
+	public LocalDate getProductionDate() {
+		return productionDate;
+	}
+
+	public void setProductionDate(LocalDate productionDate) {
+		this.productionDate = productionDate;
+	}
+
+	public LocalDate getProductionEndDate() {
+		return productionEndDate;
+	}
+
+	public void setProductionEndDate(LocalDate productionEndDate) {
+		this.productionEndDate = productionEndDate;
+	}
+
+	public String getJunctionBoxBatchNo() {
+		return junctionBoxBatchNo;
+	}
+
+	public void setJunctionBoxBatchNo(String junctionBoxBatchNo) {
+		this.junctionBoxBatchNo = junctionBoxBatchNo;
+	}
+
+	public LocalDate getJunctionBoxBatchDate() {
+		return junctionBoxBatchDate;
+	}
+
+	public void setJunctionBoxBatchDate(LocalDate junctionBoxBatchDate) {
+		this.junctionBoxBatchDate = junctionBoxBatchDate;
+	}
+
+	public String getSensorAssyBatchNo() {
+		return sensorAssyBatchNo;
+	}
+
+	public void setSensorAssyBatchNo(String sensorAssyBatchNo) {
+		this.sensorAssyBatchNo = sensorAssyBatchNo;
+	}
+
+	public LocalDate getSensorAssyBatchDate() {
+		return sensorAssyBatchDate;
+	}
+
+	public void setSensorAssyBatchDate(LocalDate sensorAssyBatchDate) {
+		this.sensorAssyBatchDate = sensorAssyBatchDate;
+	}
+
+	public String getTmpAssyBatchNo() {
+		return tmpAssyBatchNo;
+	}
+
+	public void setTmpAssyBatchNo(String tmpAssyBatchNo) {
+		this.tmpAssyBatchNo = tmpAssyBatchNo;
+	}
+
+	public LocalDate getTmpAssyBatchDate() {
+		return tmpAssyBatchDate;
+	}
+
+	public void setTmpAssyBatchDate(LocalDate tmpAssyBatchDate) {
+		this.tmpAssyBatchDate = tmpAssyBatchDate;
+	}
+
+	public String getApplicatorAssyBatchNo() {
+		return applicatorAssyBatchNo;
+	}
+
+	public void setApplicatorAssyBatchNo(String applicatorAssyBatchNo) {
+		this.applicatorAssyBatchNo = applicatorAssyBatchNo;
+	}
+
+	public LocalDate getApplicatorAssyBatchDate() {
+		return applicatorAssyBatchDate;
+	}
+
+	public void setApplicatorAssyBatchDate(LocalDate applicatorAssyBatchDate) {
+		this.applicatorAssyBatchDate = applicatorAssyBatchDate;
+	}
+
+	public String getSolarPanelAssyBatchNo() {
+		return solarPanelAssyBatchNo;
+	}
+
+	public void setSolarPanelAssyBatchNo(String solarPanelAssyBatchNo) {
+		this.solarPanelAssyBatchNo = solarPanelAssyBatchNo;
+	}
+
+	public LocalDate getSolarPanelAssyBatchDate() {
+		return solarPanelAssyBatchDate;
+	}
+
+	public void setSolarPanelAssyBatchDate(LocalDate solarPanelAssyBatchDate) {
+		this.solarPanelAssyBatchDate = solarPanelAssyBatchDate;
+	}
+
+	public String getQcFilePath() {
+		return qcFilePath;
+	}
+
+	public void setQcFilePath(String qcFilePath) {
+		this.qcFilePath = qcFilePath;
+	}
+
+	public LocalDateTime getQcInspectionDate() {
+		return qcInspectionDate;
+	}
+
+	public void setQcInspectionDate(LocalDateTime qcInspectionDate) {
+		this.qcInspectionDate = qcInspectionDate;
+	}
 
 	public MachineStatus getStatus() {
 		return status;
@@ -238,22 +387,23 @@ public class MachineProduction {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-    
-	public String getQcFilePath() {
-	    return qcFilePath;
+
+	public Long getSubmittedById() {
+		return submittedById;
 	}
 
-	public void setQcFilePath(String qcFilePath) {
-	    this.qcFilePath = qcFilePath;
+	public void setSubmittedById(Long submittedById) {
+		this.submittedById = submittedById;
 	}
 
-	public LocalDateTime getQcInspectionDate() {
-	    return qcInspectionDate;
+	public String getSubmittedByName() {
+		return submittedByName;
 	}
 
-	public void setQcInspectionDate(LocalDateTime qcInspectionDate) {
-	    this.qcInspectionDate = qcInspectionDate;
+	public void setSubmittedByName(String submittedByName) {
+		this.submittedByName = submittedByName;
 	}
 
+	
     
 }

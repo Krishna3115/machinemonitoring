@@ -12,13 +12,14 @@ public class UserProfileDTO {
     private String profilePhotoUrl;
     private String idProofUrl;
     private String emergencyContactNumber;
+    private String designation;
     
     public UserProfileDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public UserProfileDTO(Long id, String name, String email, String mobileNumber, String city, String address,
-			String role, String profilePhotoUrl, String idProofUrl, String emergencyContactNumber) {
+			String role, String profilePhotoUrl, String idProofUrl, String emergencyContactNumber, String designation) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,6 +31,7 @@ public class UserProfileDTO {
 		this.profilePhotoUrl = profilePhotoUrl;
 		this.idProofUrl = idProofUrl;
 		this.emergencyContactNumber = emergencyContactNumber;
+		this.designation = designation;
 	}
 
 		public Long getId() {
@@ -111,7 +113,17 @@ public class UserProfileDTO {
 		public void setEmergencyContactNumber(String emergencyContactNumber) {
 			this.emergencyContactNumber = emergencyContactNumber;
 		}
+
+		public String getDesignation() {
+			return designation;
+		}
+
+		public void setDesignation(String designation) {
+			this.designation = designation;
+		}
     
+		
     
+		
     
 }

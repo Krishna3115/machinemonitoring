@@ -33,6 +33,7 @@ public class MachineProductionServiceImpl implements MachineProductionService {
     @Override
     public MachineProductionDTO createMachine(MachineProductionDTO dto) {
         MachineProduction entity = new MachineProduction();
+
         entity.setMachineSerialNo(dto.getMachineSerialNo());
         entity.setJobCardNo(dto.getJobCardNo());
         entity.setMotorNo(dto.getMotorNo());
@@ -46,11 +47,35 @@ public class MachineProductionServiceImpl implements MachineProductionService {
         entity.setBatchCounterNo(dto.getBatchCounterNo());
         entity.setMcbNo(dto.getMcbNo());
         entity.setGearPumpNo(dto.getGearPumpNo());
-        entity.setStatus(MachineProduction.MachineStatus.AVAILABLE);
+        entity.setProductionDate(dto.getProductionStartDate());
+        entity.setProductionEndDate(dto.getProductionEndDate());
 
+        // Sub-assembly fields
+        entity.setJunctionBoxBatchNo(dto.getJunctionBoxBatchNo());
+        entity.setJunctionBoxBatchDate(dto.getJunctionBoxBatchDate());
+        entity.setSensorAssyBatchNo(dto.getSensorAssyBatchNo());
+        entity.setSensorAssyBatchDate(dto.getSensorAssyBatchDate());
+        entity.setTmpAssyBatchNo(dto.getTmpAssyBatchNo());
+        entity.setTmpAssyBatchDate(dto.getTmpAssyBatchDate());
+        entity.setApplicatorAssyBatchNo(dto.getApplicatorAssyBatchNo());
+        entity.setApplicatorAssyBatchDate(dto.getApplicatorAssyBatchDate());
+        
+        entity.setSolarPanelAssyBatchNo(dto.getSolarPanelAssyBatchNo());
+        entity.setSolarPanelAssyBatchDate(dto.getSolarPanelAssyBatchDate());
+
+
+        // 🔥 NEW: Save submitted user info
+        entity.setSubmittedById(dto.getSubmittedById());
+        entity.setSubmittedByName(dto.getSubmittedByName());
+
+        // Default machine status
+        entity.setStatus(MachineStatus.AVAILABLE);
+
+        // Save to database
         entity = repository.save(entity);
         dto.setId(entity.getId());
 
+        // Update job card produced count
         JobCard job = jobCardRepository.findByJobCardNumber(dto.getJobCardNo());
         if (job != null) {
             job.setProducedCount(job.getProducedCount() + 1);
@@ -60,32 +85,54 @@ public class MachineProductionServiceImpl implements MachineProductionService {
         return dto;
     }
 
+
     
     @Override
     public List<MachineProductionDTO> getAvailableMachines() {
         return repository.findByStatus(MachineProduction.MachineStatus.READY_TO_DISPATCH)
                 .stream()
-                .map(e -> new MachineProductionDTO(
-                	    e.getId(),
-                	    e.getMachineSerialNo(),
-                	    e.getJobCardNo(),
-                	    e.getMotorNo(),
-                	    e.getSensorNo(),
-                	    e.getApplicatorNo(),
-                	    e.getBatteryNo(),
-                	    e.getSolarChargeControllerNo(),
-                	    e.getSolarPanelNo1(),
-                	    e.getSolarPanelNo2(),
-                	    e.getCabinetNo(),
-                	    e.getBatchCounterNo(),
-                	    e.getMcbNo(),
-                	    e.getGearPumpNo(),
-                	    e.getQcFilePath(),
-                	    e.getQcInspectionDate(),
-                	    e.getCreatedAt() 
-                	))
+                .map(e -> {
+                    MachineProductionDTO dto = new MachineProductionDTO();
+                    dto.setId(e.getId());
+                    dto.setMachineSerialNo(e.getMachineSerialNo());
+                    dto.setJobCardNo(e.getJobCardNo());
+                    dto.setMotorNo(e.getMotorNo());
+                    dto.setSensorNo(e.getSensorNo());
+                    dto.setApplicatorNo(e.getApplicatorNo());
+                    dto.setBatteryNo(e.getBatteryNo());
+                    dto.setSolarChargeControllerNo(e.getSolarChargeControllerNo());
+                    dto.setSolarPanelNo1(e.getSolarPanelNo1());
+                    dto.setSolarPanelNo2(e.getSolarPanelNo2());
+                    dto.setCabinetNo(e.getCabinetNo());
+                    dto.setBatchCounterNo(e.getBatchCounterNo());
+                    dto.setMcbNo(e.getMcbNo());
+                    dto.setGearPumpNo(e.getGearPumpNo());
+                    dto.setProductionStartDate(e.getProductionDate());
+                    dto.setProductionEndDate(e.getProductionEndDate());
+                    dto.setQcFilePath(e.getQcFilePath());
+                    dto.setQcInspectionDate(e.getQcInspectionDate());
+                    dto.setCreatedAt(e.getCreatedAt());
+
+                    // Map subassembly fields
+                    dto.setJunctionBoxBatchNo(e.getJunctionBoxBatchNo());
+                    dto.setJunctionBoxBatchDate(e.getJunctionBoxBatchDate());
+                    dto.setSensorAssyBatchNo(e.getSensorAssyBatchNo());
+                    dto.setSensorAssyBatchDate(e.getSensorAssyBatchDate());
+                    dto.setTmpAssyBatchNo(e.getTmpAssyBatchNo());
+                    dto.setTmpAssyBatchDate(e.getTmpAssyBatchDate());
+                    dto.setApplicatorAssyBatchNo(e.getApplicatorAssyBatchNo());
+                    dto.setApplicatorAssyBatchDate(e.getApplicatorAssyBatchDate());
+                    dto.setSolarPanelAssyBatchNo(e.getSolarPanelAssyBatchNo());
+                    dto.setSolarPanelAssyBatchDate(e.getSolarPanelAssyBatchDate());
+                    
+                    dto.setSubmittedById(e.getSubmittedById());
+                    dto.setSubmittedByName(e.getSubmittedByName());
+
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public void markAsDispatched(Long id) {
@@ -107,52 +154,97 @@ public class MachineProductionServiceImpl implements MachineProductionService {
     public List<MachineProductionDTO> getMachinesPendingForQualityCheck() {
         return repository.findByStatus(MachineProduction.MachineStatus.AVAILABLE)
             .stream()
-            .map(e -> new MachineProductionDTO(
-            	    e.getId(),
-            	    e.getMachineSerialNo(),
-            	    e.getJobCardNo(),
-            	    e.getMotorNo(),
-            	    e.getSensorNo(),
-            	    e.getApplicatorNo(),
-            	    e.getBatteryNo(),
-            	    e.getSolarChargeControllerNo(),
-            	    e.getSolarPanelNo1(),
-            	    e.getSolarPanelNo2(),
-            	    e.getCabinetNo(),
-            	    e.getBatchCounterNo(),
-            	    e.getMcbNo(),
-            	    e.getGearPumpNo(),
-            	    e.getQcFilePath(),              // ✅ Add this
-            	    e.getQcInspectionDate(),
-            	    e.getCreatedAt() // ✅ And this
-            	))
+            .map(e -> {
+                MachineProductionDTO dto = new MachineProductionDTO();
+                dto.setId(e.getId());
+                dto.setMachineSerialNo(e.getMachineSerialNo());
+                dto.setJobCardNo(e.getJobCardNo());
+                dto.setMotorNo(e.getMotorNo());
+                dto.setSensorNo(e.getSensorNo());
+                dto.setApplicatorNo(e.getApplicatorNo());
+                dto.setBatteryNo(e.getBatteryNo());
+                dto.setSolarChargeControllerNo(e.getSolarChargeControllerNo());
+                dto.setSolarPanelNo1(e.getSolarPanelNo1());
+                dto.setSolarPanelNo2(e.getSolarPanelNo2());
+                dto.setCabinetNo(e.getCabinetNo());
+                dto.setBatchCounterNo(e.getBatchCounterNo());
+                dto.setMcbNo(e.getMcbNo());
+                dto.setGearPumpNo(e.getGearPumpNo());
+                dto.setQcFilePath(e.getQcFilePath());
+                dto.setQcInspectionDate(e.getQcInspectionDate());
+                dto.setCreatedAt(e.getCreatedAt());
+
+                // Map subassembly fields if needed
+                dto.setJunctionBoxBatchNo(e.getJunctionBoxBatchNo());
+                dto.setJunctionBoxBatchDate(e.getJunctionBoxBatchDate());
+                dto.setSensorAssyBatchNo(e.getSensorAssyBatchNo());
+                dto.setSensorAssyBatchDate(e.getSensorAssyBatchDate());
+                dto.setTmpAssyBatchNo(e.getTmpAssyBatchNo());
+                dto.setTmpAssyBatchDate(e.getTmpAssyBatchDate());
+                dto.setApplicatorAssyBatchNo(e.getApplicatorAssyBatchNo());
+                dto.setApplicatorAssyBatchDate(e.getApplicatorAssyBatchDate());
+                
+                dto.setSubmittedById(e.getSubmittedById());
+                dto.setSubmittedByName(e.getSubmittedByName());
+
+
+                return dto;
+            })
             .collect(Collectors.toList());
     }
+
 
 
     @Override
     public List<MachineProductionDTO> findByStatus(MachineStatus status) {
         return repository.findByStatus(status)
                 .stream()
-                .map(e -> new MachineProductionDTO(
-                	    e.getId(),
-                	    e.getMachineSerialNo(),
-                	    e.getJobCardNo(),
-                	    e.getMotorNo(),
-                	    e.getSensorNo(),
-                	    e.getApplicatorNo(),
-                	    e.getBatteryNo(),
-                	    e.getSolarChargeControllerNo(),
-                	    e.getSolarPanelNo1(),
-                	    e.getSolarPanelNo2(),
-                	    e.getCabinetNo(),
-                	    e.getBatchCounterNo(),
-                	    e.getMcbNo(),
-                	    e.getGearPumpNo(),
-                	    e.getQcFilePath(),              // ✅ Add this
-                	    e.getQcInspectionDate(),
-                	    e.getCreatedAt() // ✅ And this
-                	))
+                .map(e -> {
+                    MachineProductionDTO dto = new MachineProductionDTO();
+                    dto.setId(e.getId());
+                    dto.setMachineSerialNo(e.getMachineSerialNo());
+                    dto.setJobCardNo(e.getJobCardNo());
+                    dto.setMotorNo(e.getMotorNo());
+                    dto.setSensorNo(e.getSensorNo());
+                    dto.setApplicatorNo(e.getApplicatorNo());
+                    dto.setBatteryNo(e.getBatteryNo());
+                    dto.setSolarChargeControllerNo(e.getSolarChargeControllerNo());
+                    dto.setSolarPanelNo1(e.getSolarPanelNo1());
+                    dto.setSolarPanelNo2(e.getSolarPanelNo2());
+                    dto.setCabinetNo(e.getCabinetNo());
+                    dto.setBatchCounterNo(e.getBatchCounterNo());
+                    dto.setMcbNo(e.getMcbNo());
+                    dto.setGearPumpNo(e.getGearPumpNo());
+                    dto.setProductionStartDate(e.getProductionDate());
+                    dto.setProductionEndDate(e.getProductionEndDate());
+                    dto.setQcFilePath(e.getQcFilePath());
+                    dto.setQcInspectionDate(e.getQcInspectionDate());
+                    dto.setCreatedAt(e.getCreatedAt());
+
+                    // Map subassembly fields if needed
+                   // dto.setOfflineSubAssyBatchNo(e.getOfflineSubAssyBatchNo());
+                   // dto.setOfflineSubAssyBatchDate(e.getOfflineSubAssyBatchDate());
+                   // dto.setOfflineAssyBatchNo(e.getOfflineAssyBatchNo());
+                  //  dto.setOfflineAssyBatchDate(e.getOfflineAssyBatchDate());
+                    dto.setJunctionBoxBatchNo(e.getJunctionBoxBatchNo());
+                    dto.setJunctionBoxBatchDate(e.getJunctionBoxBatchDate());
+                    dto.setSensorAssyBatchNo(e.getSensorAssyBatchNo());
+                    dto.setSensorAssyBatchDate(e.getSensorAssyBatchDate());
+                    dto.setTmpAssyBatchNo(e.getTmpAssyBatchNo());
+                    dto.setTmpAssyBatchDate(e.getTmpAssyBatchDate());
+                    dto.setApplicatorAssyBatchNo(e.getApplicatorAssyBatchNo());
+                    dto.setApplicatorAssyBatchDate(e.getApplicatorAssyBatchDate());
+                    dto.setSolarPanelAssyBatchNo(e.getSolarPanelAssyBatchNo());
+                    dto.setSolarPanelAssyBatchDate(e.getSolarPanelAssyBatchDate());
+                    
+                    dto.setSubmittedById(e.getSubmittedById());
+                    dto.setSubmittedByName(e.getSubmittedByName());
+
+
+                    return dto;
+                })
+
+
                 .collect(Collectors.toList());
     }
     

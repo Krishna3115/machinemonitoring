@@ -2,6 +2,10 @@ package com.tblmonitoring.tblmonitor.dto;
 
 public class MachineLocationDTO {
 
+	
+	 private Long machineId;   // ✅ ADD THIS
+	 private String modelNo; 
+	
 	private String section;
     private String division;
     private String poleNo;
@@ -12,13 +16,32 @@ public class MachineLocationDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MachineLocationDTO(String section, String division, String poleNo, String fromKm, String toKm) {
+	public MachineLocationDTO(Long machineId, String modelNo, String section, String division, String poleNo,
+			String fromKm, String toKm) {
 		super();
+		this.machineId = machineId;
+		this.modelNo = modelNo;
 		this.section = section;
 		this.division = division;
 		this.poleNo = poleNo;
 		this.fromKm = fromKm;
 		this.toKm = toKm;
+	}
+
+	public Long getMachineId() {
+		return machineId;
+	}
+
+	public void setMachineId(Long machineId) {
+		this.machineId = machineId;
+	}
+
+	public String getModelNo() {
+		return modelNo;
+	}
+
+	public void setModelNo(String modelNo) {
+		this.modelNo = modelNo;
 	}
 
 	public String getSection() {
@@ -61,6 +84,6 @@ public class MachineLocationDTO {
 		this.toKm = toKm;
 	}
 
-
+	
 	
 }

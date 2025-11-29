@@ -1,7 +1,12 @@
 package com.tblmonitoring.tblmonitor.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InstallationFormDTO {
 
+	@JsonProperty("modelNo")
 	private String modelNo;
     private String section;
     private String curveNo;
@@ -184,28 +189,7 @@ public class InstallationFormDTO {
 		this.greaseLevelKg = greaseLevelKg;
 	}
 	
-	@Override
-	public String toString() {
-	    return "InstallationFormDTO{" +
-	            "modelNo='" + modelNo + '\'' +
-	            ", section='" + section + '\'' +
-	            ", curveNo='" + curveNo + '\'' +
-	            ", poleNo='" + poleNo + '\'' +
-	            ", fromKm='" + fromKm + '\'' +
-	            ", toKm='" + toKm + '\'' +
-	            ", rhLhRadius='" + rhLhRadius + '\'' +
-	            ", srDen='" + srDen + '\'' +
-	            ", lineSection='" + lineSection + '\'' +
-	            ", pwi='" + pwi + '\'' +
-	            ", machineStatus='" + machineStatus + '\'' +
-	            ", greaseLevel='" + greaseLevel + '\'' +
-	            ", greaseLevelPhotoUrl='" + greaseLevelPhotoUrl + '\'' +
-	            ", wheelCount=" + wheelCount +
-	            ", timeCount=" + timeCount +
-	            ", remarks='" + remarks + '\'' +
-	            ", greaseLevelKg=" + greaseLevelKg +
-	            '}';
-	}
+	
 
     
 }

@@ -49,6 +49,8 @@ public interface MachineService {
 	List<MachineWithInstallationDTO> getMachinesWithInstallationDate(String status);
 
 	List<Machine> getAllMachines();
+
+	String saveImage(MultipartFile file) throws Exception;
 	
     
     

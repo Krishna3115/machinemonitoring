@@ -2,6 +2,7 @@ package com.tblmonitoring.tblmonitor.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,15 +50,18 @@ public class PurchaseOrderControl {
         @RequestParam("poNumber") String poNumber,
         @RequestParam("poDate") String poDate,
         @RequestParam("quantity") int quantity,
+        @RequestParam(value = "dispatchDate") String dispatchDate,
         @RequestParam("warrantyMonths") int warrantyMonths,
         @RequestParam("maintenanceDays") int maintenanceDays,
         @RequestParam("erpoa") String erpoa,
         @RequestParam("perDayFine") double perDayFine,
+        @RequestParam("division") String division,
+        @RequestParam("section") String section,
         @RequestParam("contacts") String contactsJson,
         @RequestParam("file") MultipartFile file
     ) {
         try {
-            poService.savePOWithCurveDetailsAndContacts(poNumber, poDate, quantity, warrantyMonths, maintenanceDays, erpoa, perDayFine, contactsJson, file);
+            poService.savePOWithCurveDetailsAndContacts(poNumber, poDate, quantity, dispatchDate, warrantyMonths, maintenanceDays, erpoa, perDayFine, division, section, contactsJson, file);
             return ResponseEntity.ok("PO and curve details uploaded successfully!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +92,7 @@ public class PurchaseOrderControl {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updatePurchaseOrder(
             @PathVariable("id") Long id,
-            @RequestParam(value = "finalDispatchDate") String finalDispatchDate,
+            @RequestParam(value = "finalDispatchDate", required = false) String finalDispatchDate,
             @RequestParam("quantity") int quantity,
             @RequestParam("warrantyMonths") int warrantyMonths,
             @RequestParam("maintenanceDays") int maintenanceDays,
@@ -98,9 +102,16 @@ public class PurchaseOrderControl {
     ) {
         try {
             PurchaseOrderDTO dto = new PurchaseOrderDTO();
+
+            // Define the formatter once
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            // Correct: use finalDispatchDate, not dispatchDate
             if (finalDispatchDate != null && !finalDispatchDate.isEmpty()) {
-                dto.setFinalDispatchDate(LocalDate.parse(finalDispatchDate));
+                LocalDate date = LocalDate.parse(finalDispatchDate, formatter);
+                dto.setDispatchDate(date.format(formatter));  // String field in DTO
             }
+
             dto.setQuantity(quantity);
             dto.setWarrantyMonths(warrantyMonths);
             dto.setMaintenanceDays(maintenanceDays);

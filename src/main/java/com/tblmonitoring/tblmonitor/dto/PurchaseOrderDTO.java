@@ -11,28 +11,34 @@ public class PurchaseOrderDTO {
 	 private LocalDate poDate;
      
 	 @Column(name = "final_dispatch_date")
-     private LocalDate finalDispatchDate;
+     private String dispatchDate;
      private int quantity;
      private int warrantyMonths;
      private int maintenanceDays;
      private String erpoa; // 
      private double perDayFine;   
+     private String division;
+     private String section;
+ 
      
      public PurchaseOrderDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	 public PurchaseOrderDTO(String poNumber, LocalDate poDate, LocalDate finalDispatchDate, int quantity,
-			int warrantyMonths, int maintenanceDays, String erpoa, double perDayFine) {
+	 public PurchaseOrderDTO(String poNumber, LocalDate poDate, String dispatchDate, int quantity,
+			int warrantyMonths, int maintenanceDays, String erpoa, double perDayFine, String division, String section) {
 		super();
 		this.poNumber = poNumber;
 		this.poDate = poDate;
-		this.finalDispatchDate = finalDispatchDate;
+		this.dispatchDate = dispatchDate;
 		this.quantity = quantity;
 		this.warrantyMonths = warrantyMonths;
 		this.maintenanceDays = maintenanceDays;
 		this.erpoa = erpoa;
 		this.perDayFine = perDayFine;
+		this.division = division;
+		this.section = section;
+		
 	 }
 
 	 public String getPoNumber() {
@@ -51,12 +57,12 @@ public class PurchaseOrderDTO {
 		 this.poDate = poDate;
 	 }
 
-	 public LocalDate getFinalDispatchDate() {
-		 return finalDispatchDate;
+	 public String getDispatchDate() {
+		 return dispatchDate;
 	 }
 
-	 public void setFinalDispatchDate(LocalDate finalDispatchDate) {
-		 this.finalDispatchDate = finalDispatchDate;
+	 public void setDispatchDate(String dispatchDate) {
+		 this.dispatchDate = dispatchDate;
 	 }
 
 	 public int getQuantity() {
@@ -99,7 +105,20 @@ public class PurchaseOrderDTO {
 		 this.perDayFine = perDayFine;
 	 }
 
-	
-     
+	 public String getDivision() {
+		 return division;
+	 }
+
+	 public void setDivision(String division) {
+		 this.division = division;
+	 }
+
+	 public String getSection() {
+		 return section;
+	 }
+
+	 public void setSection(String section) {
+		 this.section = section;
+	 }
      
 }

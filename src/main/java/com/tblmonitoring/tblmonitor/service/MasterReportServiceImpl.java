@@ -45,7 +45,7 @@ public class MasterReportServiceImpl implements MasterReportService {
             dto.setMachineName(machine.getMachineName());
             dto.setLocation(machine.getLocation());
             dto.setStatus(machine.getStatus());
-            dto.setDispatchDate(machine.getDispatchDate());
+         //   dto.setDispatchDate(machine.getDispatchDate());
             dto.setDeliveredDate(machine.getDeliveredDate());
             dto.setTechnicianAssigned(machine.getTechnicianAssigned());
 
@@ -54,7 +54,7 @@ public class MasterReportServiceImpl implements MasterReportService {
             if (po != null) {
                 dto.setPoNumber(po.getPoNumber());
                 dto.setPoDate(po.getPoDate());
-                dto.setFinalDispatchDate(po.getFinaldispatchDate());
+                dto.setDispatchDate(po.getDispatchDate());
                 dto.setPoQuantity(po.getQuantity());
                 dto.setPoWarrantyMonths(po.getWarrantyMonths());
                 dto.setMaintenanceDays(po.getMaintenanceDays());

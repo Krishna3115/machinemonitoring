@@ -1,79 +1,70 @@
 package com.tblmonitoring.tblmonitor.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.persistence.Column;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)// This will ignore extra fields if any
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TaskAssignmentRequestDTO {
-
-	@JsonProperty("technicianId")
-    private Long technicianId;
 
     @JsonProperty("assignedById")
     private Long assignedById;
 
-    @JsonProperty("machineNumber")
-    private String machineNumber;
+    @JsonProperty("technicianId")
+    private Long technicianId;
+
+    @JsonProperty("machineIds")
+    private List<Long> machineIds;
+
+    @JsonProperty("startDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+
+    @JsonProperty("targetDate")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate targetDate;
 
     @JsonProperty("taskType")
     private String taskType;
+    
+    public TaskAssignmentRequestDTO() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
 
-    @JsonProperty("scheduleDate")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate scheduleDate;
+    public TaskAssignmentRequestDTO(Long assignedById, Long technicianId, List<Long> machineIds, LocalDate startDate,
+			LocalDate targetDate, String taskType) {
+		super();
+		this.assignedById = assignedById;
+		this.technicianId = technicianId;
+		this.machineIds = machineIds;
+		this.startDate = startDate;
+		this.targetDate = targetDate;
+		this.taskType = taskType;
+	}
 
-    @JsonProperty("section")
-    private String section;
 
-    @JsonProperty("division")
-    private String division;
 
-    @JsonProperty("serialNumber")
-    private String serialNumber;
-
-    // Constructors
-    public TaskAssignmentRequestDTO() {}
-
-    public TaskAssignmentRequestDTO(Long technicianId, Long assignedById, String machineNumber, String taskType,
-                                    LocalDate scheduleDate, String section, String division, String serialNumber) {
-        this.technicianId = technicianId;
-        this.assignedById = assignedById;
-        this.machineNumber = machineNumber;
-        this.taskType = taskType;
-        this.scheduleDate = scheduleDate;
-        this.section = section;
-        this.division = division;
-        this.serialNumber = serialNumber;
-    }
-
-    // Getters and Setters
-    public Long getTechnicianId() { return technicianId; }
-    public void setTechnicianId(Long technicianId) { this.technicianId = technicianId; }
-
+	// Getters and Setters
     public Long getAssignedById() { return assignedById; }
     public void setAssignedById(Long assignedById) { this.assignedById = assignedById; }
 
-    public String getMachineNumber() { return machineNumber; }
-    public void setMachineNumber(String machineNumber) { this.machineNumber = machineNumber; }
+    public Long getTechnicianId() { return technicianId; }
+    public void setTechnicianId(Long technicianId) { this.technicianId = technicianId; }
+
+    public List<Long> getMachineIds() { return machineIds; }
+    public void setMachineIds(List<Long> machineIds) { this.machineIds = machineIds; }
+
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+
+    public LocalDate getTargetDate() { return targetDate; }
+    public void setTargetDate(LocalDate targetDate) { this.targetDate = targetDate; }
 
     public String getTaskType() { return taskType; }
     public void setTaskType(String taskType) { this.taskType = taskType; }
-
-    public LocalDate getScheduleDate() { return scheduleDate; }
-    public void setScheduleDate(LocalDate scheduleDate) { this.scheduleDate = scheduleDate; }
-
-    public String getSection() { return section; }
-    public void setSection(String section) { this.section = section; }
-
-    public String getDivision() { return division; }
-    public void setDivision(String division) { this.division = division; }
-
-    public String getSerialNumber() { return serialNumber; }
-    public void setSerialNumber(String serialNumber) { this.serialNumber = serialNumber; }
 }

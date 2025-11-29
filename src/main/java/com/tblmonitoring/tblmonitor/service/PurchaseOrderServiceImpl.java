@@ -58,6 +58,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	        po.setWarrantyMonths(dto.getWarrantyMonths());
 	        po.setMaintenanceDays(dto.getMaintenanceDays());
 	        po.setErpoa(dto.getErpoa());
+	        po.setDivision(dto.getDivision());
+	        po.setSection(dto.getSection());
+	        po.setDispatchDate(dto.getDispatchDate());
+
 	        return poRepo.save(po);
 	    }
 
@@ -89,18 +93,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	    }
 	    
 	    @Override
-	    public void savePOWithCurveDetailsAndContacts(String poNumber, String poDate, int quantity,
-	    	    int warrantyMonths, int maintenanceDays, String erpoa, double perDayFine,
+	    public void savePOWithCurveDetailsAndContacts(String poNumber, String poDate, int quantity, String dispatchDate,
+	    	    int warrantyMonths, int maintenanceDays, String erpoa, double perDayFine, String division,
+	    	    String section,
 	    	    String contactsJson, MultipartFile file) throws IOException {
 
 	    	    PurchaseOrder po = new PurchaseOrder();
 	    	    po.setPoNumber(poNumber);
 	    	    po.setPoDate(LocalDate.parse(poDate));
 	    	    po.setQuantity(quantity);
+	    	    po.setDispatchDate(dispatchDate);
 	    	    po.setWarrantyMonths(warrantyMonths);
 	    	    po.setMaintenanceDays(maintenanceDays);
 	    	    po.setErpoa(erpoa);
 	    	    po.setPerDayFine(perDayFine);
+	    	    po.setDivision(division);
+	    	    po.setSection(section);
 	    	    po = poRepo.save(po);  // Save first to get ID
 
 	    	    // Parse and save contacts
@@ -111,10 +119,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	    	        String name = c.get("name");
 	    	        String designation = c.get("designation");
 	    	        String mobile = c.get("mobile");
-	    	        String division = c.getOrDefault("division", "");  // <-- NEW
-	    	        String section = c.getOrDefault("section", "");    // <-- NEW
+	    	        String division1 = c.getOrDefault("division", "");  // <-- NEW
+	    	        String section1 = c.getOrDefault("section", "");    // <-- NEW
 
-	    	        ConsigneeContact contact = new ConsigneeContact(name, designation, mobile, po, division, section);
+	    	        ConsigneeContact contact = new ConsigneeContact(name, designation, mobile, po, division1, section1);
 	    	        contactRepo.save(contact);
 	    	    }
 
@@ -271,7 +279,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
 		    // ✅ Update normal fields
 		    if (dispatchDate != null && !dispatchDate.isEmpty()) {
-		        po.setFinaldispatchDate(LocalDate.parse(dispatchDate));
+		    	po.setDispatchDate(LocalDate.parse(dispatchDate).toString());
+
 		    }
 
 		    po.setQuantity(quantity);
@@ -330,7 +339,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		            .orElseThrow(() -> new IllegalArgumentException("PO not found with ID: " + id));
 
 		    // 2️⃣ Update basic fields from DTO
-		    if (dto.getFinalDispatchDate() != null) po.setFinaldispatchDate(dto.getFinalDispatchDate());
+		    if (dto.getDispatchDate() != null) po.setDispatchDate(dto.getDispatchDate());
 		    po.setQuantity(dto.getQuantity());
 		    po.setWarrantyMonths(dto.getWarrantyMonths());
 		    po.setMaintenanceDays(dto.getMaintenanceDays());
@@ -425,6 +434,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		        workbook.close();
 		        System.out.println("✅ Saved " + savedRows + " curve rows for PO: " + poNumber);
 		    }
+
+	
 
 	
 		

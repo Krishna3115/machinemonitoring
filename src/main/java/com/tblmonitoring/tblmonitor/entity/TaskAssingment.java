@@ -16,18 +16,24 @@ import jakarta.persistence.Table;
 @Table(name = "task_assignments")
 public class TaskAssingment {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "machine_number", nullable = true)
+    @Column(name = "machine_number")
     private String machineNumber;
 
     @Column(name = "task_type", nullable = false)
-    private String taskType;
+    private String taskType; // Installation or Maintenance
 
-    @Column(name = "schedule_date", nullable = false)
-    private LocalDate scheduleDate;
+    @Column(name = "schedule_date")
+    private LocalDate scheduleDate; // For maintenance
+
+    @Column(name = "start_date")
+    private LocalDate startDate; // For installation
+
+    @Column(name = "target_date")
+    private LocalDate targetDate; // For installation
 
     @Column(name = "status")
     private String status = "Pending";
@@ -36,21 +42,28 @@ public class TaskAssingment {
     @JoinColumn(name = "technician_id", nullable = false)
     private Users technician;
 
+    @ManyToOne
+    @JoinColumn(name = "machine_id")
+    private Machine machine;
 
+    
     public TaskAssingment() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public TaskAssingment(Long id, String machineNumber, String taskType, LocalDate scheduleDate, String status,
-			Users technician) {
+	public TaskAssingment(Long id, String machineNumber, String taskType, LocalDate scheduleDate,
+			LocalDate startDate, LocalDate targetDate, String status, Users technician, Machine machine) {
 		super();
 		this.id = id;
 		this.machineNumber = machineNumber;
 		this.taskType = taskType;
 		this.scheduleDate = scheduleDate;
+		this.startDate = startDate;
+		this.targetDate = targetDate;
 		this.status = status;
 		this.technician = technician;
+		this.machine = machine;
 	}
 
 
@@ -94,6 +107,26 @@ public class TaskAssingment {
 	}
 
 
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+
+	public LocalDate getTargetDate() {
+		return targetDate;
+	}
+
+
+	public void setTargetDate(LocalDate targetDate) {
+		this.targetDate = targetDate;
+	}
+
+
 	public String getStatus() {
 		return status;
 	}
@@ -112,7 +145,16 @@ public class TaskAssingment {
 	public void setTechnician(Users technician) {
 		this.technician = technician;
 	}
+
+
+	public Machine getMachine() {
+		return machine;
+	}
+
+
+	public void setMachine(Machine machine) {
+		this.machine = machine;
+	}
     
-    
-    
+	
 }

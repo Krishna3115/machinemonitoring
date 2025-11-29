@@ -74,6 +74,8 @@ public class MachineServiceImpl implements MachineService{
     
     @Autowired
     private EmailService emailService;
+    
+    private final String uploadDir = "/uploads/images/";
 
     //This Form Is used to Add Machine Delivery Details At the time of dispatch.
 //	@Override
@@ -264,43 +266,91 @@ public class MachineServiceImpl implements MachineService{
 	}
 
 	
-	//This API is used to Machine Maintenance form 
 	@Override
-    public String submitMaintenanceForm(MaintenanceFormDTO form) {
-		Machine machine = machineRepository.findByModelNo(form.getModelNo())
-			    .orElseThrow(() -> new RuntimeException("Machine not found with modelNo: " + form.getModelNo()));
-
-
-        Users technician = userRepository.findById(form.getTechnicianUserId())
-            .orElseThrow(() -> new RuntimeException("Technician not found with ID: " + form.getTechnicianUserId()));
-
-        if (!"USER".equalsIgnoreCase(technician.getRole())) {
-            throw new RuntimeException("Provided user is not a technician.");
+    public String saveImage(MultipartFile file) throws Exception {
+        if (file.isEmpty()) {
+            throw new RuntimeException("File is empty");
         }
 
-        MachineInspection record = new MachineInspection();
-        record.setMachine(machine);
-        record.setModelNo(form.getModelNo());
-        record.setGreaseLevelPhotoUrl(form.getGreaseLevelPhotoUrl());
-        record.setGreaseLevel(form.getGreaseLevel());
-        record.setBatteryReading(form.getBatteryReading());
-        record.setSolarPanelReading(form.getSolarPanelReading());
-        record.setTimeCount(form.getTimeCount());
-        record.setWheelCount(form.getWheelCount());
-        record.setMachineInfoPlatePhotoUrl(form.getMachineInfoPlatePhotoUrl());
-        record.setSensor(form.getSensor());
-        record.setApplicator(form.getApplicator());
-        record.setMachineStatus(form.getMachineStatus());
-        record.setMaintenanceDate(LocalDateTime.now());
-        record.setInspectedBy(technician);
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get(uploadDir + fileName);
 
-        maintenanceRepository.save(record);
+        // Ensure directory exists
+        Files.createDirectories(filePath.getParent());
 
-        machine.setStatus("Under Maintenance");
-        machineRepository.save(machine);
+        // Save file
+        Files.write(filePath, file.getBytes());
 
-        return "Maintenance record saved successfully.";
+        // Return file path or URL
+        return "/images/" + fileName;
     }
+	
+	//This API is used to Machine Maintenance form 
+	@Override
+	public String submitMaintenanceForm(MaintenanceFormDTO form) {
+	    // 1️⃣ Fetch machine
+	    Machine machine = machineRepository.findByModelNo(form.getModelNo())
+	            .orElseThrow(() -> new RuntimeException("Machine not found with modelNo: " + form.getModelNo()));
+
+	    // 2️⃣ Fetch technician
+	    Users technician = userRepository.findById(form.getInspectedByUserId())
+	            .orElseThrow(() -> new RuntimeException("Technician not found with ID: " + form.getInspectedByUserId()));
+
+	    if (!"USER".equalsIgnoreCase(technician.getRole())) {
+	        throw new RuntimeException("Provided user is not a technician.");
+	    }
+
+	    // 3️⃣ Fetch or create inspection
+	    MachineInspection inspection = maintenanceRepository
+	            .findTopByModelNoAndMaintenanceTechnicianIdAndMaintenanceEndedIsNullOrderByMaintenanceStartedDesc(
+	                    form.getModelNo(), technician.getId()
+	            )
+	            .orElse(new MachineInspection());
+
+	    // 4️⃣ Map DTO fields to entity
+	    inspection.setMachine(machine);
+	    inspection.setModelNo(form.getModelNo());
+	    inspection.setGreaseLevel(form.getGreaseLevel());
+	    inspection.setGreaseLevelPhotoUrl(form.getGreaseLevelPhotoUrl());
+	    inspection.setBatteryVoltage(form.getBatteryVoltage());
+	    inspection.setSolarPanelVoltage(form.getSolarPanelVoltage());
+	    inspection.setCycleTime(form.getCycleTime());
+	    inspection.setWheelCount(form.getWheelCount());
+	    inspection.setSolarChargeController(form.getSolarChargeController());
+	    inspection.setBatchCounter(form.getBatchCounter());
+	    inspection.setDoorLock(form.getDoorLock());
+	    inspection.setMachineInfoPlatePhotoUrl(form.getMachineInfoPlatePhotoUrl());
+	    inspection.setSensorCondition(form.getSensorCondition());
+	    inspection.setApplicatorStatus(form.getApplicatorStatus());
+	    inspection.setMotorPumpStatus(form.getMotorPumpStatus());
+	    inspection.setApplicatorPhotoUrl(form.getApplicatorPhotoUrl());
+	    inspection.setMachineStatus(form.getMachineStatus());
+	    inspection.setRemark(form.getRemark());
+
+	    // 5️⃣ Maintenance times
+	    LocalDateTime now = LocalDateTime.now();
+	    inspection.setMaintenanceDate(form.getMaintenanceDate() != null ? form.getMaintenanceDate() : now);
+	    inspection.setMaintenanceStarted(form.getMaintenanceStarted() != null ? form.getMaintenanceStarted() : now);
+	    inspection.setMaintenanceEnded(form.getMaintenanceEnded()); // allow null if ongoing
+
+	    // 6️⃣ Inspector & technician
+	    inspection.setInspectedByUserId(technician.getId());
+	    inspection.setMaintenanceTechnicianId(technician.getId());
+
+	    // 7️⃣ Save inspection
+	    MachineInspection savedInspection = maintenanceRepository.save(inspection);
+
+	    // 8️⃣ Update machine status if provided
+	    if (form.getMachineStatus() != null) {
+	        machine.setStatus(form.getMachineStatus());
+	        machineRepository.save(machine);
+	    }
+
+	    // 9️⃣ Return string
+	    return "Maintenance record saved successfully. ID: " + savedInspection.getId();
+	}
+
+
 
 	@Override
 	public Machine getMachineByModelNo(String modelNo) {
@@ -458,38 +508,86 @@ public class MachineServiceImpl implements MachineService{
 	
 	// This is used the process of the Machine Maintenance Service form
 	public MaintenanceFormDTO createInspection(MaintenanceFormDTO dto) {
-	    Machine machine = machineRepository.findByModelNo(dto.getModelNo())
-	        .orElseThrow(() -> new RuntimeException("Machine not found"));
+	    // 1️⃣ Fetch Machine
+	    Machine machine = machineRepository.findById(dto.getMachineId())
+	            .orElseThrow(() -> new RuntimeException("Machine not found"));
 
+	    // 2️⃣ Fetch Technician / Inspector
 	    Users inspector = userRepository.findById(dto.getInspectedByUserId())
-	        .orElseThrow(() -> new RuntimeException("Inspector not found"));
+	            .orElseThrow(() -> new RuntimeException("Inspector not found"));
 
+	    // 3️⃣ Fetch active MachineInspection (latest not-ended record)
 	    MachineInspection inspection = maintenanceRepository
 	            .findTopByModelNoAndMaintenanceTechnicianIdAndMaintenanceEndedIsNullOrderByMaintenanceStartedDesc(
-	                dto.getModelNo(), dto.getTechnicianUserId()
-	            ).orElseThrow(() -> new RuntimeException("No active maintenance record found for this machine and technician."));
+	                    dto.getModelNo(), dto.getInspectedByUserId()
+	            )
+	            .orElse(new MachineInspection()); // if no active inspection, create new
 
-	    // ✅ Update all fields
+	    // 4️⃣ Map DTO fields to entity
+	    inspection.setMachine(machine);
+	    inspection.setModelNo(dto.getModelNo());
 	    inspection.setGreaseLevel(dto.getGreaseLevel());
 	    inspection.setGreaseLevelPhotoUrl(dto.getGreaseLevelPhotoUrl());
-	    inspection.setBatteryReading(dto.getBatteryReading());
-	    inspection.setSolarPanelReading1(dto.getSolarPanelReading1());
-	    inspection.setSolarPanelReading2(dto.getSolarPanelReading2());
-	    inspection.setTimeCount(dto.getTimeCount());
+	    inspection.setBatteryVoltage(dto.getBatteryVoltage());
+	    inspection.setSolarPanelVoltage(dto.getSolarPanelVoltage());
+	    inspection.setCycleTime(dto.getCycleTime());
 	    inspection.setWheelCount(dto.getWheelCount());
+	    inspection.setMotorPumpStatus(dto.getMotorPumpStatus());
 	    inspection.setMachineInfoPlatePhotoUrl(dto.getMachineInfoPlatePhotoUrl());
-	    inspection.setSensor(dto.getSensor());
-	    inspection.setApplicator(dto.getApplicator());
+	    inspection.setSolarChargeController(dto.getSolarChargeController());
+	    inspection.setSensorCondition(dto.getSensorCondition());
+	    inspection.setApplicatorStatus(dto.getApplicatorStatus());
+	    inspection.setApplicatorPhotoUrl(dto.getApplicatorPhotoUrl());
 	    inspection.setMachineStatus(dto.getMachineStatus());
+	    inspection.setBatchCounter(dto.getBatchCounter());
+	    inspection.setDoorLock(dto.getDoorLock());
 	    inspection.setRemark(dto.getRemark());
-	    inspection.setMaintenanceDate(LocalDateTime.now());
-	    inspection.setMaintenanceEnded(LocalDateTime.now());
-	    inspection.setInspectedBy(inspector);
 
-	    maintenanceRepository.save(inspection);
+	    // 5️⃣ Maintenance times
+	    inspection.setMaintenanceDate(dto.getMaintenanceDate() != null ? dto.getMaintenanceDate() : LocalDateTime.now());
+	    inspection.setMaintenanceStarted(dto.getMaintenanceStarted() != null ? dto.getMaintenanceStarted() : LocalDateTime.now());
+	    inspection.setMaintenanceEnded(dto.getMaintenanceEnded()); // can be null if not ended
 
-	    return dto;
+	    // 6️⃣ Inspector
+	    inspection.setInspectedByUserId(inspector.getId()); // <-- Use getId() here
+	    inspection.setMaintenanceTechnicianId(inspector.getId());
+	    // 7️⃣ Save entity
+	    MachineInspection savedInspection = maintenanceRepository.save(inspection);
+
+	    // 8️⃣ Map saved entity back to DTO
+	 // 8️⃣ Map saved entity back to DTO using setters
+	    MaintenanceFormDTO responseDto = new MaintenanceFormDTO();
+	    responseDto.setId(savedInspection.getId());
+	    responseDto.setMachineId(savedInspection.getMachine().getId());
+	    responseDto.setModelNo(savedInspection.getModelNo());
+	    responseDto.setDateOfInspection(savedInspection.getDateOfInspection());
+	    responseDto.setGreaseLevelPhotoUrl(savedInspection.getGreaseLevelPhotoUrl());
+	    responseDto.setGreaseLevel(savedInspection.getGreaseLevel());
+	    responseDto.setBatteryVoltage(savedInspection.getBatteryVoltage());
+	    responseDto.setSolarPanelVoltage(savedInspection.getSolarPanelVoltage());
+	    responseDto.setCycleTime(savedInspection.getCycleTime());
+	    responseDto.setWheelCount(savedInspection.getWheelCount());
+	    responseDto.setMotorPumpStatus(savedInspection.getMotorPumpStatus());
+	    responseDto.setMachineInfoPlatePhotoUrl(savedInspection.getMachineInfoPlatePhotoUrl());
+	    responseDto.setSolarChargeController(savedInspection.getSolarChargeController());
+	    responseDto.setSensorCondition(savedInspection.getSensorCondition());
+	    responseDto.setApplicatorStatus(savedInspection.getApplicatorStatus());
+	    responseDto.setMachineStatus(savedInspection.getMachineStatus());
+	    responseDto.setBatchCounter(savedInspection.getBatchCounter());
+	    responseDto.setDoorLock(savedInspection.getDoorLock());
+	    responseDto.setApplicatorPhotoUrl(savedInspection.getApplicatorPhotoUrl());
+	    responseDto.setMaintenanceDate(savedInspection.getMaintenanceDate());
+	    responseDto.setMaintenanceStarted(savedInspection.getMaintenanceStarted());
+	    responseDto.setMaintenanceEnded(savedInspection.getMaintenanceEnded());
+	    responseDto.setMaintenanceTechnicianId(savedInspection.getMaintenanceTechnicianId());
+	    responseDto.setRemark(savedInspection.getRemark());
+	    responseDto.setInspectedByUserId(savedInspection.getInspectedByUserId());
+
+
+	    return responseDto;
 	}
+
+
 
 	@Override
 	public Object scheduleReinspection(Long machineId, String reinspectionDecidedDate, String reinspectionRemark) {

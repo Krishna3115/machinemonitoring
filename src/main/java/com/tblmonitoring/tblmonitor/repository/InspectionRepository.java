@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.tblmonitoring.tblmonitor.entity.InstallationRecord;
+import com.tblmonitoring.tblmonitor.entity.Machine;
 import com.tblmonitoring.tblmonitor.entity.MachineInspection;
+import com.tblmonitoring.tblmonitor.entity.PurchaseOrder;
 
 public interface InspectionRepository extends JpaRepository<MachineInspection, Long>{
 
@@ -40,5 +42,7 @@ public interface InspectionRepository extends JpaRepository<MachineInspection, L
  // Fetch the latest maintenance date by modelNo
     @Query("SELECT MAX(mi.maintenanceDate) FROM MachineInspection mi WHERE mi.modelNo = :modelNo")
     LocalDateTime findLatestMaintenanceDateByModelNo(@Param("modelNo") String modelNo);
+
+    Optional<MachineInspection> findByMachineAndModelNo(Machine machine, String modelNo);
 
 }

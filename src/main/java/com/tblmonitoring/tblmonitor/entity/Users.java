@@ -43,6 +43,9 @@ public class Users {
 
     @Column(name = "id_proof_url")
     private String idProofUrl;
+    
+    @Column(name = "designation") // NEW
+    private String designation;
 
     @Column(name = "is_profile_complete")
     private boolean isProfileComplete ;
@@ -66,7 +69,7 @@ public class Users {
     
 	public Users(Long id, String name, String mobileNumber, String email, String city, String password, String role,
 			boolean isActive, String activationCode, String address, String profilePhotoUrl, String idProofUrl,
-			boolean isProfileComplete, String emergencyContactNumber, boolean isBlocked, Users reportedByUser) {
+			String designation, boolean isProfileComplete, String emergencyContactNumber, boolean isBlocked, Users reportedByUser) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -80,10 +83,21 @@ public class Users {
 		this.address = address;
 		this.profilePhotoUrl = profilePhotoUrl;
 		this.idProofUrl = idProofUrl;
+		this.designation = designation;
 		this.isProfileComplete = isProfileComplete;
 		this.emergencyContactNumber = emergencyContactNumber;
 		this.isBlocked = isBlocked;
 		this.reportedByUser = reportedByUser;
+	}
+
+
+	public String getDesignation() {
+		return designation;
+	}
+
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 
 

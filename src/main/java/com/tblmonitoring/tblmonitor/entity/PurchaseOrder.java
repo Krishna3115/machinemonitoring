@@ -25,12 +25,16 @@ public class PurchaseOrder {
     private String poNumber;
     private LocalDate poDate;
     @Column(name = "final_dispatch_date")
-    private LocalDate finaldispatchDate;
+    private String dispatchDate;
     private int quantity;
     private int warrantyMonths;
     private int maintenanceDays;
     private String erpoa;
     private Double perDayFine;
+    @Column(name = "division")
+    private String division;
+    @Column(name = "section")
+    private String section;
     
     
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -40,19 +44,21 @@ public class PurchaseOrder {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PurchaseOrder(Long id, String poNumber, LocalDate poDate, LocalDate finaldispatchDate, int quantity,
-			int warrantyMonths, int maintenanceDays, String erpoa, Double perDayFine,
+	public PurchaseOrder(Long id, String poNumber, LocalDate poDate, String dispatchDate, int quantity,
+			int warrantyMonths, int maintenanceDays, String erpoa, Double perDayFine, String division, String section,
 			List<ConsigneeContact> consigneeContacts) {
 		super();
 		this.id = id;
 		this.poNumber = poNumber;
 		this.poDate = poDate;
-		this.finaldispatchDate = finaldispatchDate;
+		this.dispatchDate = dispatchDate;
 		this.quantity = quantity;
 		this.warrantyMonths = warrantyMonths;
 		this.maintenanceDays = maintenanceDays;
 		this.erpoa = erpoa;
 		this.perDayFine = perDayFine;
+		this.division = division;
+		this.section = section;
 		this.consigneeContacts = consigneeContacts;
 	}
 
@@ -80,12 +86,12 @@ public class PurchaseOrder {
 		this.poDate = poDate;
 	}
 
-	public LocalDate getFinaldispatchDate() {
-		return finaldispatchDate;
+	public String getDispatchDate() {
+		return dispatchDate;
 	}
 
-	public void setFinaldispatchDate(LocalDate finaldispatchDate) {
-		this.finaldispatchDate = finaldispatchDate;
+	public void setDispatchDate(String dispatchDate) {
+		this.dispatchDate = dispatchDate;
 	}
 
 	public int getQuantity() {
@@ -134,6 +140,22 @@ public class PurchaseOrder {
 
 	public void setConsigneeContacts(List<ConsigneeContact> consigneeContacts) {
 		this.consigneeContacts = consigneeContacts;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
 	}
     
 }

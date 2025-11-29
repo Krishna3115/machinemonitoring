@@ -31,4 +31,8 @@ public interface MachineProductionRepository extends JpaRepository<MachineProduc
     @Query("SELECT COUNT(m) FROM MachineProduction m WHERE m.jobCardNo = :jobCardNo AND m.status IN :statuses")
     int countByJobCardNoAndStatusIn(@Param("jobCardNo") String jobCardNo, @Param("statuses") List<MachineProduction.MachineStatus> statuses);
 
+    MachineProduction findTopByMachineSerialNo(String machineSerialNo);
+    
+
+    
 }

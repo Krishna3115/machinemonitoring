@@ -1,6 +1,7 @@
 package com.tblmonitoring.tblmonitor.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -15,8 +16,8 @@ public interface PurchaseOrderService {
 	 	PurchaseOrder createPO(PurchaseOrderDTO dto);
 	    List<PurchaseOrder> getAllPOs();
 		List<PendingPODTO> getPendingPODetails();
-		void savePOWithCurveDetailsAndContacts(String poNumber, String poDate, int quantity,
-	    	    int warrantyMonths, int maintenanceDays, String erpoa, double perDayFine,
+		void savePOWithCurveDetailsAndContacts(String poNumber, String poDate, int quantity, String dispatchDate,
+	    	    int warrantyMonths, int maintenanceDays, String erpoa, double perDayFine, String division, String section,
 	    	    String contactsJson, MultipartFile file) throws IOException ;
 		 List<LOAContactDTO> getLOAContactDetails();
 		 PurchaseOrder getPOById(Long id);

@@ -29,14 +29,19 @@ import com.tblmonitoring.tblmonitor.dto.DispatchFormDTO;
 import com.tblmonitoring.tblmonitor.dto.InstallationProgressDTO;
 import com.tblmonitoring.tblmonitor.dto.MachineDivisionSectionDTO;
 import com.tblmonitoring.tblmonitor.dto.MachineLocationDTO;
+import com.tblmonitoring.tblmonitor.dto.MachineQRDTO;
 import com.tblmonitoring.tblmonitor.dto.MachineWithInstallationDTO;
+import com.tblmonitoring.tblmonitor.dto.MaintenanceFormDTO;
 import com.tblmonitoring.tblmonitor.dto.SiteInspectionUpdateDTO;
 import com.tblmonitoring.tblmonitor.dto.SitePendingInspectionDTO;
 import com.tblmonitoring.tblmonitor.entity.Machine;
+import com.tblmonitoring.tblmonitor.entity.MachineInspection;
+import com.tblmonitoring.tblmonitor.repository.InspectionRepository;
 import com.tblmonitoring.tblmonitor.repository.MachineRepository;
 import com.tblmonitoring.tblmonitor.service.EmailService;
 import com.tblmonitoring.tblmonitor.service.InstallationService;
 import com.tblmonitoring.tblmonitor.service.MachineInspectionService;
+import com.tblmonitoring.tblmonitor.service.MachineQrService;
 import com.tblmonitoring.tblmonitor.service.MachineService;
 
 import jakarta.mail.MessagingException;
@@ -61,6 +66,10 @@ public class MachineController {
 	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private InspectionRepository inspectionRepo;
+	
+
 	
 	@PostMapping("/dispatch")
 	public ResponseEntity<String> dispatchMachines(
@@ -208,6 +217,8 @@ public class MachineController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
      }
+    
+    
 
     
     @PutMapping("/{machineId}/site-inspection")
@@ -251,13 +262,52 @@ public class MachineController {
     public ResponseEntity<List<InstallationProgressDTO>> getInProgressInstallations() {
         return ResponseEntity.ok(installationService.getInstallationInProgressList());
     }
-
+    
     @PostMapping("/start-maintenance")
-    public ResponseEntity<String> startMaintenance(
-    		 @RequestParam(name = "modelNo") String modelNo,
-    		 @RequestParam(name = "technicianId") Long technicianId
+    public ResponseEntity<Map<String, Object>> startMaintenance(
+            @RequestParam(name = "modelNo") String modelNo,
+            @RequestParam(name = "technicianId") Long technicianId
     ) {
-        String result = machineInspectionService.startMaintenance(modelNo, technicianId);
-        return ResponseEntity.ok(result);
+        // startMaintenance now returns MachineInspection instead of String
+        MachineInspection inspection = machineInspectionService.startMaintenance(modelNo, technicianId);
+
+        // Prepare response
+        Map<String, Object> response = new HashMap<>();
+        response.put("inspectionId", inspection.getId());        // IMPORTANT for frontend
+        response.put("modelNo", inspection.getModelNo());
+        response.put("maintenanceStarted", inspection.getMaintenanceStarted());
+
+        return ResponseEntity.ok(response);
     }
+
+    
+	
+	 @PostMapping("/end-maintenance")
+    public ResponseEntity<String> endMaintenance(
+            @RequestParam(name = "modelNo") String modelNo,
+            @RequestParam(name = "technicianId") Long technicianId) {
+        try {
+            String result = machineInspectionService.endMaintenance(modelNo, technicianId);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+	 
+	 @PostMapping("/complete-maintenance")
+	 public ResponseEntity<String> completeMaintenance(@RequestBody MaintenanceFormDTO dto) {
+	     if (dto.getId() == null) {
+	         throw new RuntimeException("Inspection ID is required to complete maintenance");
+	     }
+
+	     MachineInspection inspection = inspectionRepo.findById(dto.getId())
+	             .orElseThrow(() -> new RuntimeException("Maintenance session not found"));
+
+	     // update inspection fields
+	     inspection.setMaintenanceEnded(LocalDateTime.now());
+	     inspectionRepo.save(inspection);
+
+	     return ResponseEntity.ok("Maintenance session ended successfully.");
+	 }
+
 }

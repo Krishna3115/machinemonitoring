@@ -3,8 +3,10 @@ package com.tblmonitoring.tblmonitor.controller;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -28,16 +30,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tblmonitoring.tblmonitor.dto.MachineProductionDTO;
 import com.tblmonitoring.tblmonitor.dto.MachineQRDTO;
 import com.tblmonitoring.tblmonitor.dto.MachineStatusSummaryDTO;
+import com.tblmonitoring.tblmonitor.entity.InstallationRecord;
+import com.tblmonitoring.tblmonitor.entity.Machine;
 import com.tblmonitoring.tblmonitor.entity.MachineProduction;
 import com.tblmonitoring.tblmonitor.entity.MachineProduction.MachineStatus;
+import com.tblmonitoring.tblmonitor.repository.InspectionRepository;
+import com.tblmonitoring.tblmonitor.repository.InstallationRecordRepository;
 import com.tblmonitoring.tblmonitor.repository.MachineProductionRepository;
+import com.tblmonitoring.tblmonitor.repository.MachineRepository;
 import com.tblmonitoring.tblmonitor.service.MachineProductionService;
+import com.tblmonitoring.tblmonitor.service.MachineQrService;
 import com.tblmonitoring.tblmonitor.util.QRCodeGenerator;
 
 @RestController
 @RequestMapping("/api/machines-production")
 public class MachineProductionController {
 
+	@Autowired
+	private MachineRepository machineRepo;
+
+	@Autowired
+	private InstallationRecordRepository installationRepo;
+
+	@Autowired
+	private InspectionRepository inspectionRepo;
+
+	
 	 @Autowired
 	    private MachineProductionService service;
 
@@ -46,50 +64,36 @@ public class MachineProductionController {
 	 
 	 @Autowired
 	    private ObjectMapper objectMapper;  // Jackson mapper
+	 	 
+	 @Autowired
+	 private MachineQrService qrService;
+	 
+
+	    @GetMapping("/{serialNo}")
+	    public ResponseEntity<MachineQRDTO> getMachineData(@PathVariable String serialNo) {
+	        MachineQRDTO dto = qrService.getMachineQRData(serialNo);
+	        return ResponseEntity.ok(dto);
+	    }
+	 
 
 	    @GetMapping("/{serialNo}/qrcode")
 	    public ResponseEntity<byte[]> generateQRCode(@PathVariable("serialNo") String serialNo) throws Exception {
-	    	 List<MachineProduction> productions = machineProductionRespository.findByMachineSerialNo(serialNo);
-	    	    if (productions == null || productions.isEmpty()) {
-	    	        throw new RuntimeException("MachineProduction not found");
-	    	    }
+	        // QR will point to your domain login page or machine page
+	        String domainLink = "https://cditbl.cloud/machine/" + serialNo;
 
-	    	    // Use the first production in the list or implement your own selection logic
-	    	    MachineProduction production = productions.get(0);
-	        // Prepare DTO to serialize to JSON
-	        MachineQRDTO dto = new MachineQRDTO();
-	        dto.setMachineSerialNo(production.getMachineSerialNo());
-	        dto.setJobCardNo(production.getJobCardNo());
-	        dto.setMotorNo(production.getMotorNo());
-	        dto.setSensorNo(production.getSensorNo());
-	        dto.setApplicatorNo(production.getApplicatorNo());
-	        dto.setBatteryNo(production.getBatteryNo());
-	        dto.setSolarChargeControllerNo(production.getSolarChargeControllerNo());
-	        dto.setSolarPanelNo1(production.getSolarPanelNo1());
-	        dto.setSolarPanelNo2(production.getSolarPanelNo2());
-	        dto.setCabinetNo(production.getCabinetNo());
-	        dto.setBatchCounterNo(production.getBatchCounterNo());
-	        dto.setMcbNo(production.getMcbNo());
-	        dto.setGearPumpNo(production.getGearPumpNo());
-	        dto.setFinalQCDate(production.getQcInspectionDate());
+	        BufferedImage qrImage = QRCodeGenerator.generateQRCodeImage(domainLink, 300, 300);
 
-	        // Convert DTO to JSON string
-	        String json = objectMapper.writeValueAsString(dto);
-
-	        // Generate QR Code image
-	        BufferedImage qrImage = QRCodeGenerator.generateQRCodeImage(json, 300, 300);
-
-	        // Convert BufferedImage to byte[]
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        ImageIO.write(qrImage, "PNG", baos);
-	        byte[] imageBytes = baos.toByteArray();
 
-	        // Return as PNG image
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setContentType(MediaType.IMAGE_PNG);
 
-	        return ResponseEntity.ok().headers(headers).body(imageBytes);
+	        return ResponseEntity.ok().headers(headers).body(baos.toByteArray());
 	    }
+
+
+
 	 
 	 
 	    @PostMapping("/create")
@@ -124,36 +128,50 @@ public class MachineProductionController {
 	    public ResponseEntity<List<MachineProductionDTO>> getByStatus(@PathVariable("status") String status) {
 	        MachineStatus enumStatus;
 	        try {
-	            enumStatus = MachineStatus.valueOf(status.toUpperCase()); // ✅ Convert to uppercase
+	            enumStatus = MachineStatus.valueOf(status.toUpperCase());
 	        } catch (IllegalArgumentException e) {
 	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid status value");
 	        }
 
-	        List<MachineProductionDTO> dtoList = service.findByStatus(enumStatus) 
+	        List<MachineProductionDTO> dtoList = service.findByStatus(enumStatus)
 	            .stream()
-	            .map(e -> new MachineProductionDTO(
-	            	    e.getId(),
-	            	    e.getMachineSerialNo(),
-	            	    e.getJobCardNo(),
-	            	    e.getMotorNo(),
-	            	    e.getSensorNo(),
-	            	    e.getApplicatorNo(),
-	            	    e.getBatteryNo(),
-	            	    e.getSolarChargeControllerNo(),
-	            	    e.getSolarPanelNo1(),
-	            	    e.getSolarPanelNo2(),
-	            	    e.getCabinetNo(),
-	            	    e.getBatchCounterNo(),
-                	    e.getMcbNo(),
-                	    e.getGearPumpNo(),
-	            	    e.getQcFilePath(),
-	            	    e.getQcInspectionDate(),
-	            	    e.getCreatedAt() 
-	            	))
+	            .map(e -> {
+	                MachineProductionDTO dto = new MachineProductionDTO();
+	                dto.setId(e.getId());
+	                dto.setMachineSerialNo(e.getMachineSerialNo());
+	                dto.setJobCardNo(e.getJobCardNo());
+	                dto.setMotorNo(e.getMotorNo());
+	                dto.setSensorNo(e.getSensorNo());
+	                dto.setApplicatorNo(e.getApplicatorNo());
+	                dto.setBatteryNo(e.getBatteryNo());
+	                dto.setSolarChargeControllerNo(e.getSolarChargeControllerNo());
+	                dto.setSolarPanelNo1(e.getSolarPanelNo1());
+	                dto.setSolarPanelNo2(e.getSolarPanelNo2());
+	                dto.setCabinetNo(e.getCabinetNo());
+	                dto.setBatchCounterNo(e.getBatchCounterNo());
+	                dto.setMcbNo(e.getMcbNo());
+	                dto.setGearPumpNo(e.getGearPumpNo());
+	                dto.setQcFilePath(e.getQcFilePath());
+	                dto.setQcInspectionDate(e.getQcInspectionDate());
+	                dto.setCreatedAt(e.getCreatedAt());
+
+	                // Map new subassembly fields
+	                dto.setJunctionBoxBatchNo(e.getJunctionBoxBatchNo());
+	                dto.setJunctionBoxBatchDate(e.getJunctionBoxBatchDate());
+	                dto.setSensorAssyBatchNo(e.getSensorAssyBatchNo());
+	                dto.setSensorAssyBatchDate(e.getSensorAssyBatchDate());
+	                dto.setTmpAssyBatchNo(e.getTmpAssyBatchNo());
+	                dto.setTmpAssyBatchDate(e.getTmpAssyBatchDate());
+	                dto.setApplicatorAssyBatchNo(e.getApplicatorAssyBatchNo());
+	                dto.setApplicatorAssyBatchDate(e.getApplicatorAssyBatchDate());
+
+	                return dto;
+	            })
 	            .collect(Collectors.toList());
 
 	        return ResponseEntity.ok(dtoList);
 	    }
+
 
 	    
 	    @PostMapping("/qc-complete")
