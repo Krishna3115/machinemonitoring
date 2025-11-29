@@ -64,6 +64,7 @@ import AssignUserTaskPage from './pages/technician/AssignUserTaskPage';
 import InsuranceClaimList from './pages/InsuranceClaimList';
 import ReplacedPartsConfirmationForm from './pages/technician/ReplacedPartsConfirmationForm'
 import EditPurchaseOrder from './pages/EditPurchaseOrder';
+import TaskHistory from './pages/technician/TaskHistory';
 
 
 
