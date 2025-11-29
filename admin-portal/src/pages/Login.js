@@ -25,24 +25,21 @@ export default function Login() {
       }
     });
 
-    const { token, name, role, user_id, profileComplete } = res.data;
+    const { token, name, role, user_id } = res.data; // Removed profileComplete usage
     localStorage.setItem("token", token);
     localStorage.setItem("name", name);
     localStorage.setItem("role", role);
-    localStorage.setItem("user_id", user_id || ""); // as backend sends
+    localStorage.setItem("user_id", user_id || "");
     localStorage.setItem("userId", user_id || "");
-    localStorage.setItem("profileComplete", profileComplete);
+    // localStorage.setItem("profileComplete", profileComplete); // Removed
 
     if (role === "SUPER_ADMIN") {
       navigate("/superadmin");
     } else if (role === "ADMIN") {
       navigate("/admin");
     } else if (role === "USER") {
-      if (!profileComplete) {
-        navigate("/technician/complete-profile");
-      } else {
-        navigate("/technician");
-      }
+      // Always navigate to technician dashboard
+      navigate("/technician");
     } else {
       alert("Unauthorized role");
     }
@@ -50,6 +47,8 @@ export default function Login() {
     alert("Login failed: " + (err.response?.data?.message || err.message));
   }
 };
+
+
 
 
    const hour = new Date().getHours();

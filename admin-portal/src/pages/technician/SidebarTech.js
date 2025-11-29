@@ -30,7 +30,7 @@ const SidebarTech = ({ isOpen, onClose }) => {
         <li><a href="/technician/machines">📟 Task History</a></li>
         {/* <li><a href="/technician/notifications">🔔 Notifications</a></li> */}
         {/* <li><a href="/technician/emergency-support">🆘 Support</a></li> */}
-        <li><a href="/logout">🚪 Logout</a></li>
+        <li><a href="/">🚪 Logout</a></li>
       </ul>
     </div>
   );
