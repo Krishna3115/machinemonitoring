@@ -81,254 +81,274 @@ const showToast = (message, type = "success") => setToast({ message, type });
   };
 
   // 🔥 UPDATED PRINT FUNCTION
-  const printSelectedMachines = () => {
+const printSelectedMachines = () => {
   const selectedMachines = machines.filter((m) => selected.includes(m.id));
   if (!selectedMachines.length) return;
 
   const printWindow = window.open("", "_blank");
   if (!printWindow) return;
 
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString("en-GB");
+  // Robust date formatting function
+  const formatDate = (dateInput) => {
+  if (!dateInput) return "";
 
-  // ✅ Group selected machines by batch (jobCardNo)
-  const groupedByBatch = selectedMachines.reduce((acc, machine) => {
-    const batch = machine.jobCardNo;
-    if (!acc[batch]) acc[batch] = [];
-    acc[batch].push(machine.machineSerialNo);
-    return acc;
-  }, {});
+  let date;
+
+  // If it's an array like [year, month, day, hour, minute, second]
+  if (Array.isArray(dateInput)) {
+    const [y, m, d] = dateInput;
+    if (!y || !m || !d) return "";
+    // Month in JS Date is 0-indexed
+    date = new Date(y, m - 1, d);
+  } 
+  // If it's a string or number
+  else if (typeof dateInput === "string" || typeof dateInput === "number") {
+    date = new Date(dateInput);
+  } 
+  // If it's already a Date object
+  else if (dateInput instanceof Date) {
+    date = dateInput;
+  } 
+  else {
+    return "";
+  }
+
+  if (isNaN(date.getTime())) return "";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
+
+
+  const offlineAssyMapping = {
+    "Junction Box Assy (JB)": { batchNo: "junctionBoxBatchNo", batchDate: "junctionBoxBatchDate" },
+    "Sensor Assy": { batchNo: "sensorAssyBatchNo", batchDate: "sensorAssyBatchDate" },
+    "Tank Motor Pump Assy (TMP)": { batchNo: "tmpAssyBatchNo", batchDate: "tmpAssyBatchDate" },
+    "Applicator Assy": { batchNo: "applicatorAssyBatchNo", batchDate: "applicatorAssyBatchDate" },
+    "Solar Panel Assy": { batchNo: "solarPanelAssyBatchNo", batchDate: "solarPanelAssyBatchDate" },
+  };
+
+  const leftParts = [
+    { desc: "Cabinet Assy MS 50L", serialKey: "cabinetNo" },
+    { desc: "Proximity Sensor", serialKey: "sensorNo" },
+    { desc: "DC Motor 24V 50 Watt", serialKey: "motorNo" },
+    { desc: "Hydraulic Pump 15 LPM", serialKey: "gearPumpNo" },
+  ];
+
+  const rightParts = [
+    { desc: "Charge controller 24V 20AMP", serialKey: "solarChargeControllerNo" },
+    { desc: "Batch Counter 24V DC", serialKey: "batchCounterNo" },
+    { desc: "Applicator Set", serialKey: "applicatorNo" },
+    { desc: "Li ion Battery 24V 20AH", serialKey: "batteryNo" },
+  ];
+
+  const offlineAssyDetails = [
+    "Junction Box Assy (JB)",
+    "Sensor Assy",
+    "Tank Motor Pump Assy (TMP)",
+    "Applicator Assy",
+    "Solar Panel Assy",
+  ];
+
+  const finalInspectionRows = [
+    { part: "Cabinet Assy MS 50L", specification: "Surface finish, Alignment", testMethod: "Visual" },
+    { part: "Proximity Sensor", specification: "LED indicator & Signal", testMethod: "Visual" },
+    { part: "DC Motor 24V 50 Watt", specification: "Clockwise in left position", testMethod: "Visual" },
+    { part: "Hydraulic Pump 15 LPM", specification: "Fitment Check", testMethod: "Visual" },
+    { part: "Li ion Battery 24V 20AH", specification: "27 - 29 DC Volt ( + 2V)", testMethod: "Multimeter" },
+    { part: "Charge controller 24V 20AMP", specification: "26 - 29 DC Volt ( + 2V)", testMethod: "Multimeter" },
+    { part: "Junction Box Assy (JB)", specification: "MCB tri & Reset to ZERO", testMethod: "Visual" },
+    { part: "Applicator Set", specification: "Welding Check at Corner", testMethod: "Visual" },
+  ];
 
   const styles = `
     <style>
-      @page { size: A4 landscape; margin: 15mm 12mm 15mm 12mm; }
-      body { font-family: Arial, sans-serif; margin: 0; padding: 0; font-size: 13px; }
-
-      .page-border {
-        border: 2px solid #000;
-        padding: 15px;
-        margin: 12px;
-        box-sizing: border-box;
+      @page { size: A4 landscape; margin: 5mm; }
+      body { font-family: Arial, sans-serif; font-size: 15px; margin: 0; padding: 0; }
+      table { width: 100%; border-collapse: collapse; margin-bottom: 5px; table-layout: fixed; page-break-inside: avoid; }
+      th, td { border: 1px solid black; padding: 4px 5px; vertical-align: top; word-wrap: break-word; font-size: 12px; }
+      th { background: #f0f0f0; font-weight: bold; text-align: left; }
+      .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+      .header .title { font-weight: bold; font-size: 18px; text-align: center; flex: 1; }
+      .header .date { font-weight: bold; font-size: 13px; }
+      .section-title { font-weight: bold; font-size: 15px; margin: 7px 0 4px 0; }
+      .checkbox { text-align: center; }
+      input[type="checkbox"] { width: 12px; height: 12px; }
+      .nowrap { white-space: nowrap; }
+      .page {
+        position: relative;
         page-break-after: always;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        padding-bottom: 50px;
+        transform: scale(0.99);
+        transform-origin: top left;
       }
-
-      .header { text-align: center; margin-bottom: 10px; }
-      .header h1 { margin: 0; font-size: 32px; }
-      .header h2 { margin: 4px 0; font-size: 22px; }
-
-      .info-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14px;
-        margin-bottom: 15px;
-      }
-
-      .info-box {
-        flex: 1;
-        border: 1px solid #000;
-        padding: 4px 6px;
-        font-size: 13px;
-        box-sizing: border-box;
-      }
-
-      .info-box.left { text-align: left; }
-      .info-box.center { text-align: center; margin: 0 6px; }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-        word-wrap: break-word;
-      }
-
-      th, td {
-        border: 1px solid #000;
-        padding: 4px;
-        text-align: center;
-        vertical-align: middle;
-      }
-
-      th {
-        background-color: #f2f2f2;
+      .footer-jobcard {
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
         font-weight: bold;
+        font-size: 18px;
       }
-
-      th:nth-child(1), td:nth-child(1) { width: 40px; }
-      th:nth-child(2), td:nth-child(2) { width: 160px; }
-      th:nth-child(3), td:nth-child(3) { width: 75px; }
-      th:nth-child(4), td:nth-child(4) { width: 55px; }
-      th:nth-child(5), td:nth-child(5) { width: 55px; }
-      th:nth-child(6), td:nth-child(6) { width: 170px; }
-      th.machine-col, td.machine-col { width: auto; }
-
-      .below-table {
-        margin-top: 16px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 13px;
-      }
-
-      .remarks { margin-top: 12px; font-size: 13px; }
-
-      .signatures {
-        margin-top: 40px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 13px;
-      }
-
-      .signatures div {
-        width: 45%;
+      .footer-center {
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 10px;
         text-align: center;
-        padding-top: 8px;
       }
-
-      .format-info {
-        margin-top: 8px;
-        text-align: center;
-        font-size: 11px;
-      }
+      table, tr, td, th { page-break-inside: avoid; }
     </style>
   `;
 
-  const inspectionRows = [
-    ["1", "Grease volume @3 sec. cycle time", "25-30", "gms", "+/-5", "Weigh. Scale & Stopwatch"],
-    ["2", "Solar Voltage", "26-38", "DC Volt", "+/-2", "Multimeter"],
-    ["3", "Battery Voltage", "27-29", "DC Volt", "+/-2", "Multimeter"],
-    ["4", "Motor Direction during Rotation", "Clockwise keeping motor at left side", "", "", "Visual Check"],
-    ["5", "Sensor", "Sensor LED indicator / activation signal sent to controller", "", "", "Visual Check"],
-    ["6", "MCB", "Should Trip", "", "", "Manual trip test"],
-    ["7", "Batch Counter", "Should reset to zero when triggered", "", "", "Visual Check"],
-    ["8", "Charge Controller", "26-29 V", "", "", "Multimeter"],
-    ["9", "Cabinet", "Check for external damage, door alignment, mounting integrity", "", "", "Visual Check"],
-    ["10", "Applicator", "Mounting Bolts, Clamps, Brackets & fitment on rail", "", "", "Check fitment"],
-  ];
+  let pagesHtml = "";
 
-  let pages = "";
+  for (const machine of selectedMachines) {
+    const jobCard = machine.machineSerialNo?.match(/\d+$/)?.[0] || machine.machineSerialNo || "XXXX";
+    const machineType = machine.machineType || "TBL-Electronics";
+    const machineSrNo = machine.machineSerialNo || "TBL-ELE-XXX";
 
-  for (const [batchNo, serials] of Object.entries(groupedByBatch)) {
-    const chunks = [];
-    for (let i = 0; i < serials.length; i += 5) {
-      chunks.push(serials.slice(i, i + 5));
-    }
+    const formattedDate = formatDate(machine.created_at || new Date());
 
-    chunks.forEach((serialGroup) => {
-      const [m1, m2, m3, m4, m5] = serialGroup;
-
-      const machineHeaderCols = `
-        ${m1 ? `<th class="machine-col">${m1}</th>` : ""}
-        ${m2 ? `<th class="machine-col">${m2}</th>` : ""}
-        ${m3 ? `<th class="machine-col">${m3}</th>` : ""}
-        ${m4 ? `<th class="machine-col">${m4}</th>` : ""}
-        ${m5 ? `<th class="machine-col">${m5}</th>` : ""}
-      `;
-
-      const tableRows = inspectionRows
-        .map((row, idx) => {
-          // ✅ Merge Spec+Units+Tol. for rows after 3rd
-          if (idx < 3) {
-            return `
-              <tr>
-                <td>${row[0]}</td>
-                <td>${row[1]}</td>
-                <td>${row[2]}</td>
-                <td>${row[3]}</td>
-                <td>${row[4]}</td>
-                <td>${row[5]}</td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-              </tr>`;
-          } else {
-            return `
-              <tr>
-                <td>${row[0]}</td>
-                <td>${row[1]}</td>
-                <td colspan="3" style="text-align:center;">${row[2]}</td>
-                <td>${row[5]}</td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-                <td class="machine-col"></td>
-              </tr>`;
-          }
-        })
-        .join("");
-
-      pages += `
-        <div class="page-border">
-          <div>
-            <div class="header">
-              <h1>CHAKRADHAR INDUSTRIES LLP</h1>
-              <h2>FINAL INSPECTION REPORT – TBL</h2>
-            </div>
-
-            <div class="info-container">
-              <div class="info-box left"><strong>Batch Card No.:</strong> ${batchNo}</div>
-              <div class="info-box center"><strong>Issue Date:</strong> ${formattedDate}</div>
-              <div class="info-box left"><strong>Inspection Date:</strong> </div>
-            </div>
-
-            <table>
-              <thead>
-                <tr>
-                  <th>Sr No.</th>
-                  <th>Observation Details</th>
-                  <th>Spec</th>
-                  <th>Units</th>
-                  <th>Tol.</th>
-                  <th>Evaluation Meas. Tech.</th>
-                  ${machineHeaderCols}
-                </tr>
-              </thead>
-              <tbody>${tableRows}</tbody>
-            </table>
-
-            <div class="below-table">
-              <div><strong>All test passed:</strong> YES / NO</div>
-              <div><strong>Issue noted:</strong> YES / NO</div>
-            </div>
-
-            <div class="remarks"><strong>Remarks:</strong> </div>
-          </div>
-
-          <div>
-            <div class="signatures">
-              <div>Checked By</div>
-              <div>Approved By</div>
-            </div>
-
-            <div class="format-info">
-              Format No. CIL/TBL-FIR/004 &nbsp;&nbsp; Rev: 05 &nbsp;&nbsp; Issue Date: 05-08-2025
-            </div>
-          </div>
+    pagesHtml += `
+      <div class="page">
+        <div class="header">
+          <div class="title">JOB CARD - ${jobCard}</div>
+          <div class="date">Date: ${formattedDate}</div>
         </div>
-      `;
-    });
+
+        <table>
+          <tr>
+            <td class="nowrap">Machine Type: ${machineType}</td>
+            <td class="nowrap">Machine Sr. No.: ${machineSrNo}</td>
+            <td class="nowrap">Batch No.: ${machine.jobCardNo || ""}</td>
+          </tr>
+        </table>
+
+        <div class="section-title">Critical Parts Details:</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Part Description</th>
+              <th>Part Serial No.</th>
+              <th>Entry Done By</th>
+              <th>Part Description</th>
+              <th>Part Serial No.</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${leftParts.map((lp, i) => {
+              const entryByFullName = machine.submitted_by_name || "";
+              const entryByFirstName = entryByFullName.split(" ")[0];
+              return `
+                <tr>
+                  <td>${lp.desc}</td>
+                  <td>${machine[lp.serialKey] || ""}</td>
+                  <td>${entryByFirstName}</td>
+                  <td>${rightParts[i]?.desc || ""}</td>
+                  <td>${machine[rightParts[i]?.serialKey] || ""}</td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+
+        <div class="section-title">Offline Sub Assy Details</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Offline Assy Details</th>
+              <th>Batch No</th>
+              <th>Batch Date</th>
+              <th>Check By</th>
+              <th>Approve By</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${offlineAssyDetails.map(name => {
+              const mapping = offlineAssyMapping[name];
+              const batchNo = machine[mapping.batchNo] || "";
+              const batchDate = mapping.batchDate ? formatDate(machine[mapping.batchDate]) : "";
+              return `
+                <tr>
+                  <td>${name}</td>
+                  <td>${batchNo}</td>
+                  <td>${batchDate}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+        </table>
+
+        <div class="section-title">Final Inspection / PDI</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Part / Assy details</th>
+              <th>Specification</th>
+              <th>Test Method</th>
+              <th>Checked By</th>
+              <th>Observation</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${finalInspectionRows.map(row => `
+              <tr>
+                <td>${row.part}</td>
+                <td>${row.specification}</td>
+                <td>${row.testMethod}</td>
+                <td></td><td></td><td></td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+
+        <table>
+          <tbody>
+            <tr>
+              <td>All Test result summary</td>
+              <td>Approved</td>
+              <td class="checkbox"><input type="checkbox" disabled></td>
+              <td>Rework</td>
+              <td class="checkbox"><input type="checkbox" disabled></td>
+              <td>Hold</td>
+              <td class="checkbox"><input type="checkbox" disabled></td>
+              <td>Rejected</td>
+              <td class="checkbox"><input type="checkbox" disabled></td>
+            </tr>
+            <tr>
+              <td>Remark if any:-</td>
+              <td colspan="8" style="height: 40px;"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="footer-jobcard">Job Card NO:- ${jobCard}</div>
+        <div class="footer-center">Format No. CIL/TBL-FIR/004 Rev: 05</div>
+      </div>
+    `;
   }
 
   const content = `
     <html>
-    <head><title>Final Inspection Report</title>${styles}</head>
-    <body>
-      ${pages}
-      <script>window.onload = () => window.print();</script>
-    </body>
+      <head><title>Print Job Card for PDI</title>${styles}</head>
+      <body>
+        ${pagesHtml}
+        <script>window.onload = () => window.print();</script>
+      </body>
     </html>
   `;
 
   printWindow.document.write(content);
   printWindow.document.close();
 };
-
-
 
 
 
@@ -400,7 +420,7 @@ const showToast = (message, type = "success") => setToast({ message, type });
               onClick={printSelectedMachines}
               style={{ marginRight: "10px" }}
             >
-              🖨️ Print Inspection Report
+              🖨️ Print Job Card for PDI
             </button>
 
             <input
@@ -415,7 +435,7 @@ const showToast = (message, type = "success") => setToast({ message, type });
                 className="action-button"
                 onClick={handleUploadQcReport}
               >
-                📤 Upload QC Report
+                📤 Upload Job Card & PDI Report
               </button>
             ) : (
               <button

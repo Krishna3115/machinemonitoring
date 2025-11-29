@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AddNewTechnician.css'; // Reuse same styles
+import './AddNewTechnician.css'; // Updated CSS
 import AdminLayout from '../components/AdminLayout';
 import API_BASE_URL from '../apiConfig';
 
@@ -10,7 +10,8 @@ const AddTechnician = () => {
     mobileNumber: '',
     city: '',
     email: '',
-    password: ''
+    password: '',
+    designation: 'installation'
   });
 
   const handleChange = (e) => {
@@ -30,13 +31,13 @@ const AddTechnician = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Technician registered successfully!');
-
-      // Reset form
       setFormData({
         name: '',
-        mobile: '',
+        mobileNumber: '',
+        city: '',
         email: '',
-        password: ''
+        password: '',
+        designation: 'installation'
       });
     } catch (err) {
       console.error('Error registering technician:', err);
@@ -46,23 +47,45 @@ const AddTechnician = () => {
 
   return (
     <AdminLayout>
-      <h2>Add New Technician</h2>
-      <form className="dispatch-form" onSubmit={handleSubmit}>
-        {Object.entries(formData).map(([key, value]) => (
-          <div key={key} className="form-group">
-            <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
-            <input
-              id={key}
-              type={key === 'password' ? 'password' : key === 'email' ? 'email' : 'text'}
-              name={key}
-              value={value}
-              onChange={handleChange}
-              required
-            />
+      <div className="form-container">
+        <h2 className="form-heading">Add New Technician</h2>
+        <form className="dispatch-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} required />
           </div>
-        ))}
-        <button type="submit" className="submit-btn">Register Technician</button>
-      </form>
+
+          <div className="form-group">
+            <label htmlFor="mobileNumber">Mobile Number</label>
+            <input id="mobileNumber" type="text" name="mobileNumber" placeholder="Enter 10-digit mobile number" maxLength={10} value={formData.mobileNumber} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="city">City</label>
+            <input id="city" type="text" name="city" value={formData.city} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input id="email" type="email" name="email" value={formData.email} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input id="password" type="password" name="password" value={formData.password} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="designation">Designation</label>
+            <select id="designation" name="designation" value={formData.designation} onChange={handleChange} required>
+              <option value="installation">Installation</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+
+          <button type="submit" className="submit-btn">Register Technician</button>
+        </form>
+      </div>
     </AdminLayout>
   );
 };

@@ -26,7 +26,7 @@ export default function TechnicianDashboard() {
         <h2>👷 Welcome, {name ? name : "Technician"}</h2>
         <div className="technician-actions">
           <div className="action-card" onClick={() => navigate("/technician/assign-tasks")}>
-            📦 Assigned Tasks
+            📦 Pending Tasks
           </div>
           <div className="action-card" onClick={() => navigate("/technician/start-installation")}>
             🛠 Installation

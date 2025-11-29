@@ -5,21 +5,15 @@ import "./InstantHelpContact.css";
 const helpContacts = [
   {
     id: 1,
-    name: "Rajesh Kumar",
-    mobileNumber: "9876543210",
-    summary: "Site Head – North Zone"
+    name: "kunal Bhoir",
+    mobileNumber: "8983630991",
+    summary: ""
   },
   {
     id: 2,
-    name: "Sunil Verma",
-    mobileNumber: "9123456789",
+    name: "Satish Kadali",
+    mobileNumber: "9167266242",
     summary: "Supervisor – Section A"
-  },
-  {
-    id: 3,
-    name: "Pooja Mehra",
-    mobileNumber: "8901234567",
-    summary: "Engineer – Zone B"
   }
 ];
 

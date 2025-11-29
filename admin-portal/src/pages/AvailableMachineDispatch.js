@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import AdminLayout from "../components/AdminLayout";
 import "./AvailableMachineDispatch.css";
 import API_BASE_URL from "../apiConfig";
@@ -29,7 +28,7 @@ const calculateDaysAgo = (date) => {
 export default function AvailableForDispatch() {
   const [machines, setMachines] = useState([]);
   const [selectedMachines, setSelectedMachines] = useState(new Set());
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchAvailableMachines();
@@ -45,6 +44,7 @@ export default function AvailableForDispatch() {
       setMachines(res.data);
     } catch (err) {
       console.error("Failed to fetch available machines:", err);
+      alert("Failed to load machines. Check console.");
     }
   };
 
@@ -58,12 +58,75 @@ export default function AvailableForDispatch() {
     setSelectedMachines(newSelection);
   };
 
-  const handleGenerateQRClick = () => {
-    if (selectedMachines.size === 1) {
-      const [serialNo] = Array.from(selectedMachines);
-      navigate(`/admin/${serialNo}/qrcode`);
-    } else {
-      alert("Please select exactly one machine to generate QR code.");
+  const handleGenerateQRClick = async () => {
+    if (selectedMachines.size === 0) {
+      alert("Please select at least one machine to generate QR code.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const qrPromises = Array.from(selectedMachines).map(async (serialNo) => {
+        const res = await axios.get(
+          `${API_BASE_URL}/api/machines-production/${serialNo}/qrcode`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            responseType: "blob",
+          }
+        );
+
+        const blob = res.data;
+        const imageBitmap = await createImageBitmap(blob);
+
+        // Create canvas to add serial number above QR
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const padding = 30; // space for text
+        canvas.width = imageBitmap.width;
+        canvas.height = imageBitmap.height + padding;
+
+        // Fill background white
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw the serial number text
+        ctx.fillStyle = "black";
+        ctx.font = "bold 20px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(serialNo, canvas.width / 2, 20);
+
+        // Draw the QR image below the text
+        ctx.drawImage(imageBitmap, 0, padding);
+
+        // Convert canvas to blob for download
+        return new Promise((resolve) => {
+          canvas.toBlob((finalBlob) => {
+            resolve({ serialNo, blob: finalBlob });
+          });
+        });
+      });
+
+      const qrResults = await Promise.all(qrPromises);
+
+      qrResults.forEach(({ serialNo, blob }) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${serialNo}_QR.png`;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      alert(`${qrResults.length} QR code(s) generated successfully!`);
+      setSelectedMachines(new Set());
+    } catch (err) {
+      console.error("Failed to generate QR codes:", err);
+      alert("Failed to generate some QR codes. Check console for details.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,11 +137,11 @@ export default function AvailableForDispatch() {
 
         {machines.length > 0 && (
           <button
-            disabled={selectedMachines.size !== 1}
+            disabled={selectedMachines.size === 0 || loading}
             onClick={handleGenerateQRClick}
             style={{ marginBottom: "10px" }}
           >
-            Generate QR
+            {loading ? "Generating QR(s)..." : "Generate QR(s)"}
           </button>
         )}
 

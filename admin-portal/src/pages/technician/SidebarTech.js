@@ -24,12 +24,12 @@ const SidebarTech = ({ isOpen, onClose }) => {
       <ul className="technician-sidebar-menu">
         <li><a href="/technician/dashboard">🏠 Dashboard</a></li>
         <li><a href="/technician/profile">👤 My Profile</a></li>
-        <li><a href="/technician/installations">🛠️ Installation Process</a></li>
-        <li><a href="/technician/maintenance">🔧 Maintenance Process</a></li>
-        <li><a href="/technician/guide">📘 Quick Guide</a></li>
-        <li><a href="/technician/machines">📟 Machines</a></li>
-        <li><a href="/technician/notifications">🔔 Notifications</a></li>
-        <li><a href="/technician/emergency-support">🆘 Support</a></li>
+        {/* <li><a href="/technician/installations">🛠️ Installation Process</a></li>
+        <li><a href="/technician/maintenance">🔧 Maintenance Process</a></li> */}
+        {/* <li><a href="/technician/guide">📘 Quick Guide</a></li> */}
+        <li><a href="/technician/machines">📟 Task History</a></li>
+        {/* <li><a href="/technician/notifications">🔔 Notifications</a></li> */}
+        {/* <li><a href="/technician/emergency-support">🆘 Support</a></li> */}
         <li><a href="/logout">🚪 Logout</a></li>
       </ul>
     </div>

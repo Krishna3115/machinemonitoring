@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_BASE_URL from "../../apiConfig";
-import "./AssignUserTaskPage.css";
+import "./AssignUserTaskPage.css"; // Reuse the same CSS
 
-export default function AssignUserTaskPage() {
+export default function TaskHistoryPage() {
   const [tasks, setTasks] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -16,12 +16,12 @@ export default function AssignUserTaskPage() {
       return;
     }
     fetchTasks();
-    const interval = setInterval(fetchTasks, 5000);
+    const interval = setInterval(fetchTasks, 10000); // refresh every 10s
     return () => clearInterval(interval);
   }, [token, technicianId]);
 
   const fetchTasks = async () => {
-    if (!token) return; // extra safety
+    if (!token) return;
     try {
       const response = await axios.get(`${API_BASE_URL}/api/tasks/my-tasks`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -35,9 +35,8 @@ export default function AssignUserTaskPage() {
     }
   };
 
-  const pendingTasks = tasks.filter(
-    (task) => task.task_type === "Installation" && task.status === "Pending"
-  );
+  // Filter only completed tasks
+  const completedTasks = tasks.filter((task) => task.status === "Completed");
 
   const formatDateArray = (arr) => {
     if (!arr || arr.length < 3) return "N/A";
@@ -52,11 +51,11 @@ export default function AssignUserTaskPage() {
       <button className="back-button" onClick={handleBack}>
         ← Back
       </button>
-      <h2>📝 My Assigned Installation Tasks</h2>
+      <h2>📜 Task History</h2>
       {message && <p className="message error">{message}</p>}
 
-      {pendingTasks.length === 0 ? (
-        <p className="no-task">No pending installation tasks.</p>
+      {completedTasks.length === 0 ? (
+        <p className="no-task">No completed tasks yet.</p>
       ) : (
         <table className="tasks-table">
           <thead>
@@ -64,16 +63,18 @@ export default function AssignUserTaskPage() {
               <th>Machine Number</th>
               <th>Start Date</th>
               <th>Target Date</th>
+              <th>Completed Date</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            {pendingTasks.map((task) => (
+            {completedTasks.map((task) => (
               <tr key={task.id}>
                 <td>{task.machine_number}</td>
                 <td>{formatDateArray(task.start_date)}</td>
                 <td>{formatDateArray(task.target_date)}</td>
-                <td className="status pending">{task.status}</td>
+                <td>{formatDateArray(task.completed_date)}</td>
+                <td className="status delivered">{task.status}</td>
               </tr>
             ))}
           </tbody>

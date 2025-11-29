@@ -1,69 +1,119 @@
+/* Container for the page */
 .assign-tech-container {
   display: flex;
-  justify-content: center;   /* horizontal centering */
-  align-items: center;       /* vertical centering */
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* top alignment for multiple fields */
   min-height: 80vh;
+  padding: 40px 20px;
   background-color: #f7f7f7;
   font-family: Arial, sans-serif;
-  padding: 20px;
 }
 
-.assign-form {
+/* Page Title */
+.assign-tech-container h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #222;
+  text-align: center;
+}
+
+/* Messages */
+.message {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+}
+
+.message.success {
+  color: green;
+}
+
+.message.error {
+  color: red;
+}
+
+/* Labels and Inputs */
+.assign-tech-container label {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 400px;
-  width: 100%;
-  padding: 24px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.assign-title {
-  text-align: center;
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.assign-form label {
+  font-weight: 500;
   font-size: 14px;
-  display: block;
-  flex-direction: column;
   color: #333;
-   margin-bottom: 15px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 15px;
 }
 
-.assign-form input,
-.assign-form select {
-  padding: 8px;
+.assign-tech-container select,
+.assign-tech-container input[type="date"] {
+  padding: 10px 12px;
   margin-top: 6px;
-  border-radius: 4px;
+  border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 14px;
   width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
 }
 
-.assign-form button {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
+.assign-tech-container select:focus,
+.assign-tech-container input[type="date"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Buttons container */
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Individual buttons */
+.buttons button {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
   font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 15px;
+  transition: background-color 0.3s;
 }
 
-.assign-form button:hover {
+/* Primary assign button */
+.buttons button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.buttons button:first-child:hover {
   background-color: #0056b3;
 }
 
-.message {
-  margin-top: 12px;
-  text-align: center;
-  font-weight: bold;
-  color: green;
+/* Cancel button */
+.buttons button:last-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.buttons button:last-child:hover {
+  background-color: #999;
+}
+
+/* Responsive for mobile */
+@media screen and (max-width: 500px) {
+  .buttons {
+    flex-direction: column;
+  }
+
+  .assign-tech-container label,
+  .buttons button {
+    width: 100%;
+  }
 }

@@ -150,6 +150,7 @@ function AppWrapper() {
         <Route path="/technician/grease-refill" element={<PrivateRoute role="USER"><GreaseRefillForm /></PrivateRoute>} />
         <Route path="/technician/assign-tasks" element={<PrivateRoute role="USER"><AssignUserTaskPage /></PrivateRoute>} />
         <Route path="/technician/replaced-parts" element={<PrivateRoute role="USER"><ReplacedPartsConfirmationForm/></PrivateRoute>} />
+        <Route path="/technician/machines" element={<PrivateRoute role="USER"><TaskHistory/></PrivateRoute>} />
 
       </Routes>
     </>

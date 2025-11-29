@@ -1,15 +1,19 @@
+/******************************
+ MAIN CONTAINER
+******************************/
 .technician-list-container {
-  max-width: 100%;
-  margin: 1px auto;
+  width: 98%;
   background: #ffffff;
-  padding: 30px 20px;
+  padding: 0px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  overflow-x: auto; /* For small screens */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: auto;
 }
 
+/******************************
+ PAGE HEADING
+******************************/
 .technician-list-container h2 {
   text-align: center;
   margin-bottom: 25px;
@@ -18,95 +22,146 @@
   font-size: 32px;
 }
 
+
+/******************************
+ TABLE SCROLL CONTAINER
+******************************/
+.table-scroll-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto;  /* Scroll only body rows */
+  overflow-x: auto;
+  border: 1px solid #ddd;
+}
+/******************************
+ TABLE + STICKY HEADER
+******************************/
 .technician-table {
   width: 100%;
-  min-width: 1100px;
   border-collapse: collapse;
-  margin-top: 10px;
+  table-layout: fixed;
 }
 
-.technician-table thead {
-  background-color: #1976d2;
-  color: #fff;
-  font-size: 15px;
-  text-align: center;
+.technician-table thead th {
+  position: sticky;
+  top: 0; /* Relative to table-scroll-container */
+  background-color: #1976d2 !important;
+  color: white;
+  z-index: 20;
 }
 
 .technician-table th,
 .technician-table td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 10px 6px;
+  border: 1px solid #ddd;
   font-size: 14px;
   text-align: center;
-  vertical-align: middle;
+  white-space: normal !important;
+  word-break: break-word;
 }
 
+/******************************
+ FIXED COLUMN WIDTHS
+******************************/
+.technician-table th:nth-child(1),
+.technician-table td:nth-child(1) { width: 150px; }
+
+.technician-table th:nth-child(2),
+.technician-table td:nth-child(2) { width: 90px; }
+
+.technician-table th:nth-child(3),
+.technician-table td:nth-child(3) { width: 65px; }
+
+.technician-table th:nth-child(4),
+.technician-table td:nth-child(4) { width: 93px; }
+
+.technician-table th:nth-child(5),
+.technician-table td:nth-child(5) { width: 90px; }
+
+.technician-table th:nth-child(6),
+.technician-table td:nth-child(6) { width: 85px; }
+
+.technician-table th:nth-child(7),
+.technician-table td:nth-child(7) { width: 93px; }
+
+.technician-table th:nth-child(8),
+.technician-table td:nth-child(8),
+.technician-table th:nth-child(9),
+.technician-table td:nth-child(9) { width: 90px; }
+
+.technician-table th:nth-child(10),
+.technician-table td:nth-child(10) { width: 47px; }
+
+/******************************
+ ROW STYLING
+******************************/
 .technician-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
 .technician-table tbody tr:hover {
   background-color: #e3f2fd;
-  transition: background-color 0.2s ease;
+  transition: 0.2s;
 }
 
-input[type="text"] {
-  padding: 8px 12px;
-  width: 100%;
-  max-width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
+/******************************
+ PRINT BUTTON
+******************************/
 .print-button {
   background: none;
   border: none;
   font-size: 20px;
   cursor: pointer;
   color: #1976d2;
+  transition: 0.2s ease;
 }
 
 .print-button:hover {
   color: #0d47a1;
-  transform: scale(1.1);
-  transition: 0.2s;
+  transform: scale(1.2);
 }
 
+/******************************
+ STICKY SUMMARY BAR (BOTTOM)
+******************************/
+.summary-fixed {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  background: white;
+  padding-top: 1px;
+  margin-top: 1px;
+}
+
+/******************************
+ SUMMARY BAR WRAPPER
+******************************/
 .summary-scroll-wrapper {
   overflow-x: auto;
-  margin-top: 20px;
   padding-bottom: 10px;
 }
 
+/******************************
+ SUMMARY BAR
+******************************/
 .summary-bar {
   display: flex;
-  min-width: max-content;
   gap: 20px;
   padding: 15px;
   background-color: #f9fafd;
-  border-top: 2px solid #1976d2;
+  border-top: 1px solid #1976d2;
   border-radius: 8px;
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+  min-width: max-content;
 }
 
 .summary-bar > div {
-  flex: 0 0 auto;
   min-width: 160px;
   background-color: #e8f0fe;
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-radius: 8px;
   text-align: center;
+  color: #1a237e;
   font-size: 14px;
   font-weight: 500;
-  color: #1a237e;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s;
-}
-
-.summary-bar > div:hover {
-  transform: translateY(-2px);
-  background-color: #d2e3fc;
 }
 
 .summary-bar > div p {
@@ -116,30 +171,21 @@ input[type="text"] {
   color: #0b3d91;
 }
 
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  .technician-list-container {
-    padding: 20px 10px;
-  }
-
-  .technician-table {
-    min-width: unset;
-    font-size: 12px;
-  }
-
+/******************************
+ RESPONSIVE
+******************************/
+@media screen and (max-width: 900px) {
   .technician-table th,
   .technician-table td {
-    padding: 8px 6px;
     font-size: 12px;
+    padding: 8px;
+  }
+
+  .technician-list-container h2 {
+    font-size: 24px;
   }
 
   input[type="text"] {
     width: 100%;
-    font-size: 13px;
-  }
-
-  .technician-list-container h2 {
-    font-size: 20px;
   }
 }

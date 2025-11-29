@@ -1,10 +1,22 @@
 .form-container {
+  width: 95%;
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
   background: #f7f9fc;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.back-button {
+  margin-bottom: 15px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  background-color: #ddd;
+  border-radius: 5px;
+  width: fit-content;
 }
 
 .form-container h2 {
@@ -15,13 +27,13 @@
 
 .form-grid {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* stack items vertically */
   gap: 15px;
 }
 
 .form-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* each label above input */
 }
 
 .form-group label {
@@ -29,22 +41,27 @@
   margin-bottom: 5px;
 }
 
-.form-group input {
-  padding: 8px;
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%; /* full width */
+  box-sizing: border-box;
 }
 
 .preview-image {
   margin-top: 10px;
   max-width: 100%;
+  height: auto;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 
 .submit-button {
   margin-top: 20px;
-  padding: 10px;
+  padding: 12px;
   width: 100%;
   background-color: #007bff;
   color: white;
@@ -58,14 +75,31 @@
   background-color: #0056b3;
 }
 
-/* Responsive */
+/* MOBILE RESPONSIVE */
 @media (max-width: 600px) {
   .form-container {
     margin: 10px;
     padding: 15px;
   }
 
+  .back-button {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
   .submit-button {
     font-size: 16px;
+    padding: 12px;
+  }
+
+  .form-grid {
+    gap: 12px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 14px;
+    padding: 8px;
   }
 }

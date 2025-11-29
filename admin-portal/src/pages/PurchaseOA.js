@@ -12,12 +12,15 @@ const PurchaseOA = () => {
   const [formData, setFormData] = useState({
     poNumber: "",
     poDate: "",
-    dispatchDate: "",
+    finalDispatchDate: "",
     quantity: "",
     warrantyMonths: "",
     maintenanceDays: "",
     erpoa: "",
     perDayFine: "",
+    division: "",   // new field
+    section: "",    // new field
+
   });
 
   const [file, setFile] = useState(null);
@@ -70,6 +73,8 @@ const PurchaseOA = () => {
         maintenanceDays: "",
         erpoa: "",
         perDayFine: "",
+        division: "",
+        section: "",
       });
       setFile(null);
       setContacts([]);
@@ -219,6 +224,33 @@ const PurchaseOA = () => {
                   placeholder="Enter Fine"
                 />
               </div>
+
+              {/* Division */}
+              <div className="form-group">
+                <label className="required">Division</label>
+                <input
+                  name="division"
+                  type="text"
+                  value={formData.division}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter Division"
+                />
+              </div>
+
+              {/* Section */}
+              <div className="form-group">
+                <label className="required">Section</label>
+                <input
+                  name="section"
+                  type="text"
+                  value={formData.section}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter Section"
+                />
+              </div>
+
 
               {/* File Upload */}
               <div className="form-group full">

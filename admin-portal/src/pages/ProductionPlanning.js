@@ -18,6 +18,10 @@ export default function ProductionPlanningPage() {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState(""); // 'success' or 'error'
   const [loading, setLoading] = useState(false);
+  const [selectedDivision, setSelectedDivision] = useState("");
+  const [selectedSection, setSelectedSection] = useState("");
+  const [selectedDispatchDate, setSelectedDispatchDate] = useState("");
+
 
   useEffect(() => {
     fetchLOAs();
@@ -51,6 +55,13 @@ export default function ProductionPlanningPage() {
     setSelectedLOA(poNumber);
     const selected = loaList.find((item) => item.po_number === poNumber);
     setRemainingQuantity(selected ? selected.remaining_quantity : 0);
+    setSelectedDivision(selected ? selected.division : "");
+    setSelectedSection(selected ? selected.section : "");
+
+    const dispatchDate = selected?.final_dispatch_date
+      ? new Date(selected.final_dispatch_date).toLocaleDateString("en-GB")
+      : "";
+    setSelectedDispatchDate(dispatchDate);
   };
 
   const handleSubmit = async (e) => {
@@ -111,12 +122,19 @@ export default function ProductionPlanningPage() {
               <label>LOA (PO) Number:</label>
               <select value={selectedLOA} onChange={handleLOAChange} required>
                 <option value="">-- Select LOA --</option>
-                {loaList.map((loa, index) => (
-                  <option key={index} value={loa.po_number}>
-                    {loa.po_number}
-                  </option>
-                ))}
+                {loaList.map((loa, index) => {
+                  const formattedDate = loa.final_dispatch_date
+                    ? new Date(loa.final_dispatch_date).toLocaleDateString("en-GB") // dd/MM/yyyy
+                    : "";
+                  return (
+                    <option key={index} value={loa.po_number}>
+                      {`${loa.po_number} | ${formattedDate} | ${loa.division || ""} | ${loa.section || ""}`}
+                    </option>
+                  );
+                })}
               </select>
+
+
             </div>
 
             <div className="form-group">
@@ -169,6 +187,22 @@ export default function ProductionPlanningPage() {
                 required
               />
             </div>
+
+            <div className="form-group">
+              <label>Division:</label>
+              <input type="text" value={selectedDivision} readOnly />
+            </div>
+
+            <div className="form-group">
+              <label>Section:</label>
+              <input type="text" value={selectedSection} readOnly />
+            </div>
+
+            <div className="form-group">
+              <label>Dispatch Date:</label>
+              <input type="text" value={selectedDispatchDate} readOnly />
+            </div>
+
 
             <button type="submit" className="submit-button">
               💾 Save Plan

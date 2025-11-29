@@ -244,7 +244,7 @@ export default function PendingDeliveries() {
               <th>Dispatch Date</th>
               <th>Days Since Dispatch</th>
               <th>Delivered Date</th>
-              <th>Receiving Letter</th>
+              <th>Delivery Proof</th>
               <th>Action</th>
             </tr>
           </thead>

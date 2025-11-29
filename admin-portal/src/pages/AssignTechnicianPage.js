@@ -1,6 +1,6 @@
 // AssignTechnicianPage.jsx
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AdminLayout from "../components/AdminLayout";
 import API_BASE_URL from "../apiConfig";
@@ -8,169 +8,92 @@ import "./AssignTechnicianPage.css";
 
 export default function AssignTechnicianPage() {
   const location = useLocation();
-  const { state } = location; // receive modelNo from previous page
+  const navigate = useNavigate();
+  const { state } = location;
 
   const [technicians, setTechnicians] = useState([]);
+  const [selectedTechnician, setSelectedTechnician] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [targetDate, setTargetDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [form, setForm] = useState({
-    machineNumber: "",
-    technicianId: "",
-    taskType: "",
-    scheduleDate: "",
-    section: "",
-    division: "",
-    serialNumber: "",
-  });
+  // Array of machine IDs from previous page
+  const machineIds = state?.machineIds || [];
 
-  // Auto-clear messages
+  // Logged-in user ID (Assigned By)
+  const assignedById = Number(localStorage.getItem("userId"));
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(""), 4000);
-      return () => clearTimeout(timer);
+    if (!token) {
+      setMessage("❌ User not authenticated");
+      return;
     }
-  }, [message]);
-
-  // Fetch all technicians
-  useEffect(() => {
-    const fetchTechnicians = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${API_BASE_URL}/api/users/technicians/dropdown`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setTechnicians(response.data);
-      } catch (error) {
-        console.error("Error fetching technicians:", error);
-        setMessage("❌ Failed to load technicians.");
-      }
-    };
     fetchTechnicians();
-  }, []);
+  }, [token]);
 
-  // Auto-fill section & division if saved earlier
-  useEffect(() => {
-    const storedSection = localStorage.getItem("section");
-    const storedDivision = localStorage.getItem("division");
-
-    setForm((prev) => ({
-      ...prev,
-      section: storedSection || "",
-      division: storedDivision || "",
-    }));
-  }, []);
-
-  // Auto-fill machineNumber from DeliveredMachines
-  useEffect(() => {
-    if (state?.modelNo) {
-      setForm((prev) => ({
-        ...prev,
-        machineNumber: state.modelNo,
-      }));
-    }
-  }, [state]);
-
-  // Handle field changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    // Don't clear machine number for installation
-    if (name === "taskType") {
-      setForm((prev) => ({
-        ...prev,
-        [name]: value,
-        serialNumber: value === "Installation" ? "" : prev.serialNumber,
-      }));
-    } else {
-      setForm((prev) => ({ ...prev, [name]: value }));
+  // Fetch all technicians with "installation" designation
+  const fetchTechnicians = async () => {
+    try {
+      const res = await axios.get(
+        `${API_BASE_URL}/api/users/technicians/dropdown?designation=installation`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setTechnicians(res.data);
+    } catch (err) {
+      console.error("Failed to fetch technicians:", err);
+      setMessage("❌ Failed to load technicians.");
     }
   };
 
-  // Submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
-
-    const {
-      machineNumber,
-      technicianId,
-      taskType,
-      scheduleDate,
-      section,
-      division,
-      serialNumber,
-    } = form;
-
-    if (!technicianId || !taskType || !scheduleDate || !section || !division) {
-      setMessage("❌ Please fill all required fields.");
-      setLoading(false);
+  // Handle assigning technician to multiple machines
+  const handleAssign = async () => {
+    // Validate required fields
+    if (!selectedTechnician || !startDate || !targetDate || !assignedById || machineIds.length === 0) {
+      setMessage("❌ All fields must be provided before assigning!");
       return;
     }
-
-    // For Maintenance / Complaint: machineNumber and serialNumber MUST exist
-    if (
-      (taskType === "Maintenance" || taskType === "Customer Complaint") &&
-      (!machineNumber || !serialNumber)
-    ) {
-      setMessage("❌ Please provide model number and serial number.");
-      setLoading(false);
-      return;
-    }
-
-    const assignedById = localStorage.getItem("userId");
-
-    const payload = {
-      assignedById: parseInt(assignedById, 10),
-      technicianId: parseInt(technicianId, 10),
-      machineNumber: machineNumber, // never null now
-      taskType,
-      scheduleDate,
-      section,
-      division,
-      serialNumber: serialNumber || "",
-    };
 
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${API_BASE_URL}/api/assign-technician`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      setLoading(true);
 
-      const successMsg =
-        typeof response.data === "string"
-          ? response.data
-          : response.data.message || "Technician assigned successfully.";
+      // Convert IDs to numbers
+      const technicianId = Number(selectedTechnician);
+      const machineIdsNumber = machineIds.map(id => Number(id));
 
-      setMessage(`✅ ${successMsg}`);
-
-      // Reset form
-      setForm({
-        machineNumber: "",
-        technicianId: "",
-        taskType: "",
-        scheduleDate: "",
-        section: "",
-        division: "",
-        serialNumber: "",
+      // Debug log
+      console.log("Assigning technician with payload:", {
+        machine_ids: machineIdsNumber,
+        technician_id: technicianId,
+        assigned_by_id: assignedById,
+        start_date: startDate,
+        target_date: targetDate,
+        task_type: "Installation",
       });
-    } catch (error) {
-      console.error("Assignment failed:", error.response || error.message);
-      setMessage(
-        error.response?.data?.message ||
-          "❌ Error assigning technician. Please try again."
-      );
+
+      // POST request to backend
+      await axios.post(
+  `${API_BASE_URL}/api/assign-installation-tasks`,
+  {
+    machineIds: machineIdsNumber,
+    technicianId: technicianId,
+    assignedById: assignedById,
+    startDate: startDate,
+    targetDate: targetDate,
+    taskType: "Installation",
+  },
+  { headers: { Authorization: `Bearer ${token}` } }
+);
+
+
+      setMessage(`✅ Technician assigned to ${machineIds.length} machine(s) successfully!`);
+
+      // Redirect after 2 seconds
+      setTimeout(() => navigate("/admin/delivered-machines"), 2000);
+    } catch (err) {
+      console.error("Failed to assign technician:", err);
+      setMessage("❌ Failed to assign technician. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -179,111 +102,55 @@ export default function AssignTechnicianPage() {
   return (
     <AdminLayout>
       <div className="assign-tech-container">
-        <form onSubmit={handleSubmit} className="assign-form">
-          <h2 className="assign-title">🛠️ Assign Technician</h2>
+        <h2>Assign Technician to {machineIds.length} Machine(s)</h2>
 
-          <label>
-            Section:
-            <input
-              type="text"
-              name="section"
-              value={form.section}
-              onChange={handleChange}
-              required
-            />
-          </label>
+        {message && (
+          <p className={`message ${message.startsWith("✅") ? "success" : "error"}`}>
+            {message}
+          </p>
+        )}
 
-          <label>
-            Division:
-            <input
-              type="text"
-              name="division"
-              value={form.division}
-              onChange={handleChange}
-              required
-            />
-          </label>
+        <label>
+          Technician:
+          <select
+            value={selectedTechnician}
+            onChange={(e) => setSelectedTechnician(e.target.value)}
+          >
+            <option value="">-- Select Technician --</option>
+            {technicians.map((tech) => (
+              <option key={tech.id} value={tech.id}>
+                {tech.name}
+              </option>
+            ))}
+          </select>
+        </label>
 
-          <label>
-            Technician:
-            <select
-              name="technicianId"
-              value={form.technicianId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">-- Select Technician --</option>
-              {technicians.map((tech) => (
-                <option key={tech.id} value={tech.id}>
-                  {tech.name}
-                </option>
-              ))}
-            </select>
-          </label>
+        <label>
+          Start Date:
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </label>
 
-          <label>
-            Task Type:
-            <select
-              name="taskType"
-              value={form.taskType}
-              onChange={handleChange}
-              required
-            >
-              <option value="">-- Select Task --</option>
-              <option value="Installation">Installation</option>
-              <option value="Maintenance">Maintenance</option>
-              <option value="Customer Complaint">Customer Complaint</option>
-            </select>
-          </label>
+        <label>
+          Target Date:
+          <input
+            type="date"
+            value={targetDate}
+            onChange={(e) => setTargetDate(e.target.value)}
+          />
+        </label>
 
-          {(form.taskType === "Maintenance" ||
-            form.taskType === "Customer Complaint") && (
-            <>
-              <label>
-                Model Number:
-                <input
-                  type="text"
-                  name="machineNumber"
-                  value={form.machineNumber}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-
-              <label>
-                Machine Serial No:
-                <input
-                  type="text"
-                  name="serialNumber"
-                  value={form.serialNumber}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </>
-          )}
-
-          <label>
-            Schedule Date:
-            <input
-              type="date"
-              name="scheduleDate"
-              value={form.scheduleDate}
-              onChange={handleChange}
-              required
-            />
-          </label>
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Assigning..." : "Assign"}
+        <div className="buttons">
+          <button onClick={handleAssign} disabled={loading}>
+            {loading ? "Assigning..." : `Assign Technician`}
           </button>
-
-          {message && (
-            <p className={`message ${message.startsWith("✅") ? "success" : "error"}`}>
-              {message}
-            </p>
-          )}
-        </form>
+          <button onClick={() => navigate("/admin/delivered-machines")}>
+            Cancel
+          </button>
+        </div>
       </div>
     </AdminLayout>
   );
