@@ -1,6 +1,16 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Chakradhar",
+  "name": "Chakradhar",
+
+   "start_url": "/login",
+  "scope": "/",
+
+  "display": "standalone",
+  "orientation": "portrait",
+
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+
   "icons": [
     {
       "src": "chakradhar.png",
@@ -17,9 +27,6 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
+
 }
