@@ -2,7 +2,7 @@
   "short_name": "Chakradhar",
   "name": "Chakradhar",
 
-   "start_url": "/login",
+   "start_url": "/",
   "scope": "/",
 
   "display": "standalone",
