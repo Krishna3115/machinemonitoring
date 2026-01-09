@@ -371,33 +371,77 @@
   color: #fff;
 }
 
+.sidebar-close {
+  display: none;
+  position: absolute;
+  top: 1px;
+  right: 3px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+@media (max-width: 768px) {
+  .sidebar-close {
+    display: block;
+  }
+}
+
 /* Mobile-friendly sidebar */
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-box h3 {
+    font-size: 2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .admin-panel {
+    flex-direction: column;
+  }
+
   .sidebar {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 1000;
     background: rgba(68, 79, 108, 0.95);
-    backdrop-filter: blur(12px);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
   }
 
-  .admin-panel.sidebar-open .dashboard-content,
-  .admin-panel.sidebar-closed .dashboard-content {
-    margin-left: 0 !important;
-    width: 0 !important;
+  .dashboard-content {
+    width: 100%;
   }
 
-
-   .header-right-icons {
-    gap: 12px;
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
 
-  .icon-wrapper {
-    font-size: 18px;
+  .substat-item {
+    width: 100%;
   }
+
+  .dashboard-header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .dashboard-overlay {
+    padding: 15px;
+  }
+
+  .stat-box h3 {
+    font-size: 1.6rem;
+  }
+
 
 }

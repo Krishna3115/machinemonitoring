@@ -69,15 +69,6 @@ import TaskHistory from './pages/technician/TaskHistory';
 
 
 
-
-
-
-
-
-
-
-
-
 function AppWrapper() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
@@ -90,7 +81,7 @@ function AppWrapper() {
 
 
   
-  return (
+  return ( 
     <>
        <ReminderPopup />
       {loading && <Loader />}

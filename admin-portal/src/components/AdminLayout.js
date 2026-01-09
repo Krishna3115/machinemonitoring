@@ -15,6 +15,9 @@ export default function AdminLayout({ children }) {
   const [showReports, setShowReports] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+
 const [pendingActivationCount, setPendingActivationCount] = useState(0); // optional if you want badges
 
 
@@ -46,8 +49,16 @@ const [pendingActivationCount, setPendingActivationCount] = useState(0); // opti
   };
 
   return (
-    <div className="admin-layout">
+    <div className={`admin-layout ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
+
       <aside className="sidebar">
+        <button
+          className="sidebar-close"
+          onClick={() => setSidebarOpen(false)}
+        >
+          ✕
+        </button>
+
         <h1>Admin Panel</h1>
         <nav>
           <ul>
@@ -149,7 +160,15 @@ const [pendingActivationCount, setPendingActivationCount] = useState(0); // opti
 
       <div className="main-content">
         <header className="topbar">
-          {/* You can add topbar content here */}
+          {
+            <button
+                className="sidebar-toggle"
+                onClick={() => setSidebarOpen(true)}
+              >
+                ☰
+              </button>
+
+          /* You can add topbar content here */}
         </header>
 
         {/* ✅ Reminder Popup (shows globally on all admin pages) */}

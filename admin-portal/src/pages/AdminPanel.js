@@ -29,7 +29,7 @@ export default function AdminPanel() {
 
 
   const [showReports, setShowReports] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  //const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -175,7 +175,14 @@ export default function AdminPanel() {
   return (
     <div className={`admin-panel ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
 
-      <aside className={`sidebar ${isSidebarOpen ? "visible" : "hidden"}`}>
+      <aside className="sidebar">
+
+         <button
+            className="sidebar-close"
+            onClick={() => setSidebarOpen(false)}
+          >
+            ✕
+          </button>
 
         <h1>Admin Panel</h1>
         <nav>

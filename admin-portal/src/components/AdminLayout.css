@@ -188,3 +188,43 @@
   border-top: 1px solid #ddd;
   flex-shrink: 0;
 }
+
+/* ================= MOBILE SIDEBAR ================= */
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .admin-layout.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .admin-layout.sidebar-closed .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: rgb(15, 3, 3);
+    cursor: pointer;
+  }
+
+  .sidebar-toggle {
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
