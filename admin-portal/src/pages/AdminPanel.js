@@ -34,8 +34,8 @@ export default function AdminPanel() {
   const [showSettings, setShowSettings] = useState(false);
 
 
-  const [notificationCount, setNotificationCount] = useState(3);
-  const [messageCount, setMessageCount] = useState(5);
+ // const [notificationCount, setNotificationCount] = useState(3);
+ // const [messageCount, setMessageCount] = useState(5);
 
   const [showProduction, setShowProduction] = useState(false);
   const [showVandalism, setShowVandalism] = useState(false);

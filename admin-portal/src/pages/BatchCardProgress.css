@@ -174,7 +174,7 @@
 /******************************
  RESPONSIVE
 ******************************/
-@media screen and (max-width: 900px) {
+/* @media screen and (max-width: 900px) {
   .technician-table th,
   .technician-table td {
     font-size: 12px;
@@ -187,5 +187,140 @@
 
   input[type="text"] {
     width: 100%;
+  }
+} */
+
+/* ============================
+   MOBILE VIEW: MAX WIDTH 768px
+============================ */
+@media (max-width: 768px) {
+
+  /* Main container adjustments */
+  .technician-list-container {
+    width: 100%;
+    padding: 10px;
+    margin: 0 auto;
+    box-shadow: none;
+  }
+
+  .technician-list-container h2 {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  /* Search bar + entries dropdown stacked and full width */
+  .technician-list-container > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .technician-list-container input[type="text"],
+  .technician-list-container select {
+    width: 100% !important;
+    box-sizing: border-box;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  /* Table -> card layout */
+  .table-scroll-container {
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    border: none;
+  }
+
+  .technician-table,
+  .technician-table thead,
+  .technician-table tbody,
+  .technician-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .technician-table thead {
+    display: none;
+  }
+
+  .technician-table tr {
+    background: #fff;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  }
+
+  .technician-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border: none;
+    text-align: right;
+    font-size: 14px;
+  }
+
+  .technician-table td::before {
+    content: attr(data-label);
+    flex: 0 0 55%;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+  }
+
+  /* Buttons */
+  .technician-table button {
+    width: auto;
+    min-width: 60px;
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+
+  .print-button {
+    font-size: 18px;
+  }
+
+  /* Summary bar scrollable independently */
+  .summary-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .summary-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    min-width: max-content; /* allows horizontal scroll */
+  }
+
+  .summary-bar > div {
+    flex: 0 0 auto;  /* prevent shrinking */
+    min-width: 140px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #e8f0fe;
+    color: #1a237e;
+    font-size: 13px;
+  }
+
+  .summary-bar > div p {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 6px 0 0;
+    color: #0b3d91;
+  }
+
+  /* Hide sidebar completely */
+  .admin-sidebar {
+    display: none !important;
+  }
+
+  /* Optional: reduce table card shadow to save space */
+  .technician-table tr {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
 }

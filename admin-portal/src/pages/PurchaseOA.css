@@ -236,15 +236,33 @@ input:hover,
 
 
 /* 📱 Mobile Responsive */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .purchase-container {
+    padding: 15px;
+  }
+
   .purchase-card {
-    padding: 28px;
-  }
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-  .page-title {
-    font-size: 1.6rem;
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px;
   }
 }
+
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  input,
+  .styled-datepicker,
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+}
+
+
+

@@ -264,43 +264,36 @@ export default function PendingDeliveries() {
 
               return (
                 <tr key={machine.id} className={rowClass}>
-                  <td>{getStatusTag(machine)}</td>
-                  <td>{machine.model_no}</td>
-                  <td>{machine.machine_name}</td>
-                  <td>{machine.division}</td>
-                  <td>{dispatchDate ? dispatchDate.toLocaleDateString('en-GB') : 'N/A'}</td>
-                  <td>{dispatchDate ? `${daysSinceDispatch} days` : 'N/A'}</td>
-                  <td>
-                    <input
-                      type="datetime-local"
-                      value={deliveryData[machine.id]?.date || ''}
-                      onChange={(e) => handleDateChange(machine.id, e.target.value)}
-                    />
-                    {machine.deliveredDate && (
-                      <div className="existing-data">
-                        <small>Saved: {new Date(machine.deliveredDate).toLocaleString('en-GB')}</small>
-                      </div>
-                    )}
-                  </td>
-                  <td>
-                    <input
-                      type="file"
-                      accept="application/pdf"
-                      onChange={(e) => handleFileChange(machine.id, e.target.files[0])}
-                    />
-                    {machine.receivingLetterUrl && (
-                      <div className="existing-data">
-                        <a href={machine.receivingLetterUrl} target="_blank" rel="noopener noreferrer">
-                          View
-                        </a>
-                      </div>
-                    )}
-                  </td>
-                  <td>
-                    <button className="update-button" onClick={() => handleDeliveryDateUpdate(machine.id)}>
-                      Save
-                    </button>
-                  </td>
+                  <td data-label="Status">{getStatusTag(machine)}</td>
+<td data-label="Machine Serial No">{machine.model_no}</td>
+<td data-label="Machine Type">{machine.machine_name}</td>
+<td data-label="Dispatch Location">{machine.division}</td>
+<td data-label="Dispatch Date">
+  {dispatchDate ? dispatchDate.toLocaleDateString('en-GB') : 'N/A'}
+</td>
+<td data-label="Days Since Dispatch">
+  {dispatchDate ? `${daysSinceDispatch} days` : 'N/A'}
+</td>
+<td data-label="Delivered Date">
+  <input
+    type="datetime-local"
+    value={deliveryData[machine.id]?.date || ''}
+    onChange={(e) => handleDateChange(machine.id, e.target.value)}
+  />
+</td>
+<td data-label="Delivery Proof">
+  <input
+    type="file"
+    accept="application/pdf"
+    onChange={(e) => handleFileChange(machine.id, e.target.files[0])}
+  />
+</td>
+<td data-label="Action">
+  <button className="update-button" onClick={() => handleDeliveryDateUpdate(machine.id)}>
+    Save
+  </button>
+</td>
+
                 </tr>
               );
             })}

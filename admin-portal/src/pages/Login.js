@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import railwayGif from "../assets/railway_back.gif";
 import "./Login.css";
 import adminVideo from "../assets/illuman.mp4";
-import companyLogo from "../assets/chakradhar new1.png";
+import companyLogo from "../assets/Chakradhar_logo.png";
 import API_BASE_URL from "../apiConfig";
 
 export default function Login() {

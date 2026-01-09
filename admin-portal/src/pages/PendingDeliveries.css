@@ -152,7 +152,7 @@ input[type='file'] {
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .pending-deliveries-container {
     padding: 20px;
   }
@@ -172,21 +172,96 @@ input[type='file'] {
     font-size: 13px;
     padding: 6px 10px;
   }
-}
+} */
 
+/* 📱 Mobile Responsive → Card Layout (FINAL CLEAN VERSION) */
 @media (max-width: 768px) {
-  .deliveries-table {
+
+  /* Container */
+  .pending-deliveries-container {
+    padding: 10px;
+    overflow-x: hidden; /* 🔑 stop right scroll */
+  }
+
+  /* Table to card */
+  .deliveries-table,
+  .deliveries-table thead,
+  .deliveries-table tbody,
+  .deliveries-table tr {
     display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+    width: 100%;
   }
 
-  .deliveries-table th,
+  .deliveries-table {
+    min-width: unset; /* 🔑 removes forced width */
+  }
+
+  .deliveries-table thead {
+    display: none;
+  }
+
+  .deliveries-table tr {
+    background: #fff;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    overflow-x: hidden;
+  }
+
   .deliveries-table td {
-    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
   }
 
+  .deliveries-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Labels */
+  .deliveries-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+    flex: 0 0 45%;
+  }
+
+  /* Prevent children overflow */
+  .deliveries-table td > * {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Date picker */
+  input[type='datetime-local'] {
+    width: 100%;
+    max-width: 150px; /* 🔑 key fix */
+    font-size: 13px;
+  }
+
+  /* File picker */
+  input[type='file'] {
+    width: 100%;
+    max-width: 160px; /* 🔑 key fix */
+    font-size: 12px;
+  }
+
+  /* Save button */
+  .update-button {
+    width: auto;
+    min-width: 80px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  /* Title */
   .pending-deliveries-container h2 {
-    font-size: 24px;
+    font-size: 22px;
   }
 }
+

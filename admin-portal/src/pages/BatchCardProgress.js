@@ -188,22 +188,47 @@ export default function JobOrderProgress() {
                   const pendingProduction = order.quantity - produced;
 
                   return (
-                    <tr key={order.jobCardNumber}>
-                      <td>{order.jobCardNumber}</td>
-                      <td>{order.quantity}</td>
-                      <td>{produced}</td>
-                      <td>{pendingProduction}</td>
-                      <td>
-                        <button onClick={() => handleBalancedQCClick(order.jobCardNumber)}>
-                          {pendingQC}
-                        </button>
-                      </td>
-                      <td>{pendingDispatch}</td>
-                      <td>{dispatched}</td>
-                      <td>
-                        <button className="print-button" onClick={() => printJobCard(order)}>🖨️</button>
-                      </td>
-                    </tr>
+                   <tr key={order.jobCardNumber}>
+                    <td data-label="Batch Card No">
+                      {order.jobCardNumber}
+                    </td>
+
+                    <td data-label="Batch Quantity">
+                      {order.quantity}
+                    </td>
+
+                    <td data-label="Accepted Qty">
+                      {produced}
+                    </td>
+
+                    <td data-label="Pending Production">
+                      {pendingProduction}
+                    </td>
+
+                    <td data-label="Balanced Final QC">
+                      <button onClick={() => handleBalancedQCClick(order.jobCardNumber)}>
+                        {pendingQC}
+                      </button>
+                    </td>
+
+                    <td data-label="Pending Dispatch">
+                      {pendingDispatch}
+                    </td>
+
+                    <td data-label="Dispatched">
+                      {dispatched}
+                    </td>
+
+                    <td data-label="Print">
+                      <button
+                        className="print-button"
+                        onClick={() => printJobCard(order)}
+                      >
+                        🖨️
+                      </button>
+                    </td>
+                  </tr>
+
                   );
                 })
               )}
