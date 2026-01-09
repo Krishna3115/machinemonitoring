@@ -304,7 +304,7 @@ export default function AdminPanel() {
       <h3>Hello, {adminName}</h3>
        {/* ======= New right side icons container ======= */}
               <div className="header-right-icons">
-                <div
+                {/* <div
                   className="icon-wrapper"
                   onClick={() => navigate("/admin/notifications")}
                   title="Notifications"
@@ -320,7 +320,7 @@ export default function AdminPanel() {
                 >
                   <FaEnvelope />
                   {messageCount > 0 && <span className="badge">{messageCount}</span>}
-                </div>
+                </div> */}
 
                 <div
                   className="icon-wrapper"
