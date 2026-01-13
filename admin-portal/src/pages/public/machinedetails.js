@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "./Machinedetails.css";
+import "./MachineDetails.css";
 import API_BASE_URL from "../../apiConfig";
 
 export default function MachineDetails() {
