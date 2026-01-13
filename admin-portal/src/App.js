@@ -65,6 +65,7 @@ import InsuranceClaimList from './pages/InsuranceClaimList';
 import ReplacedPartsConfirmationForm from './pages/technician/ReplacedPartsConfirmationForm'
 import EditPurchaseOrder from './pages/EditPurchaseOrder';
 import TaskHistory from './pages/technician/TaskHistory';
+import MachineDetails from './pages/public/machinedetails';
 
 
 
@@ -128,6 +129,7 @@ function AppWrapper() {
         <Route path="/admin/vandalism/part-replacement" element={<PrivateRoute role="ADMIN"><PartsReplacement/></PrivateRoute>} />
         <Route path="/admin/report/master-report" element={<PrivateRoute role="ADMIN"><MasterReport/></PrivateRoute>} />
         <Route path="/admin/edit-purchase-order" element={<PrivateRoute role="ADMIN"><EditPurchaseOrder/></PrivateRoute>} />
+        <Route path="/machine/:serialNo" element={<PrivateRoute role="ADMIN"><MachineDetails/></PrivateRoute>} />
 
 
         <Route path="/technician" element={<PrivateRoute role="USER"><TechnicianPanel /></PrivateRoute>} />
