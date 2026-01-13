@@ -70,6 +70,7 @@ import MachineDetails from './pages/public/machinedetails';
 
 
 
+
 function AppWrapper() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
