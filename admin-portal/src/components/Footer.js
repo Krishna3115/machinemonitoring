@@ -4,7 +4,7 @@ import './Footer.css'; // Optional CSS for styling
 const Footer = () => {
   return (
     <footer className="footer">
-      © 2025 MachineMonitor Inc. | All rights reserved.
+      © 2026 MachineMonitor Inc. | All rights reserved.
     </footer>
   );
 };

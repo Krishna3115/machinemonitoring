@@ -240,7 +240,7 @@ const AddDispatch = () => {
           {/* ✅ Single upload field for all selected machines */}
           {selectedMachines.length > 0 && (
             <div className="form-row">
-              <label>Upload PDI Report for Selected Machines</label>
+              <label>Upload Delivery Challan PDF</label>
               <input type="file" accept=".pdf" onChange={handleFileChange} required />
             </div>
           )}
