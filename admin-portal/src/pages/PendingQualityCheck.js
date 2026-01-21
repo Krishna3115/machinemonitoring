@@ -232,10 +232,10 @@ const printSelectedMachines = () => {
           <thead>
             <tr>
               <th>Part Description</th>
-              <th>Part Serial No.</th>
-              <th>Entry Done By</th>
+              <th>Part Serial No.</th>             
               <th>Part Description</th>
               <th>Part Serial No.</th>
+              <th>Entry Done By</th>
             </tr>
           </thead>
           <tbody>
@@ -245,10 +245,10 @@ const printSelectedMachines = () => {
               return `
                 <tr>
                   <td>${lp.desc}</td>
-                  <td>${machine[lp.serialKey] || ""}</td>
-                  <td>${entryByFirstName}</td>
+                  <td>${machine[lp.serialKey] || ""}</td>               
                   <td>${rightParts[i]?.desc || ""}</td>
                   <td>${machine[rightParts[i]?.serialKey] || ""}</td>
+                  <td>${entryByFirstName}</td>
                 </tr>
               `;
             }).join("")}
@@ -262,8 +262,8 @@ const printSelectedMachines = () => {
               <th>Offline Assy Details</th>
               <th>Batch No</th>
               <th>Batch Date</th>
-              <th>Check By</th>
-              <th>Approve By</th>
+              <th>Produced By</th>
+              <th>Approve By Name & Sign</th>
               <th>Remark</th>
             </tr>
           </thead>
@@ -293,8 +293,8 @@ const printSelectedMachines = () => {
               <th>Part / Assy details</th>
               <th>Specification</th>
               <th>Test Method</th>
-              <th>Checked By</th>
               <th>Observation</th>
+              <th>Approve By Name & Sign</th>
               <th>Remark</th>
             </tr>
           </thead>

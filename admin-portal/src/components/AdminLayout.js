@@ -66,11 +66,11 @@ const [pendingActivationCount, setPendingActivationCount] = useState(0); // opti
             
             {/* Purchase Orders */}
             <li className="dropdown-toggle" onClick={() => setShowPO(prev => !prev)}>
-              P.O <span className="dropdown-icon">{showPO ? "▲" : "▼"}</span>
+              Sales <span className="dropdown-icon">{showPO ? "▲" : "▼"}</span>
               {showPO && (
                 <ul className="dropdown">
-                  <li onClick={() => navigate('/admin/purchase-ordered')}>P.O Sales Ordered</li>
-                  <li onClick={() => navigate('/admin/edit-purchase-order')}>Edit P.O</li>
+                  <li onClick={() => navigate('/admin/purchase-ordered')}>Sales Order</li>
+                  <li onClick={() => navigate('/admin/edit-purchase-order')}>Edit Sales Order</li>
                 </ul>
               )}
             </li>

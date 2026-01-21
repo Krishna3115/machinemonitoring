@@ -119,9 +119,9 @@ export default function ProductionPlanningPage() {
         ) : (
           <form onSubmit={handleSubmit} className="planning-form">
             <div className="form-group">
-              <label>LOA (PO) Number:</label>
+              <label>Sales Order (SO) Number:</label>
               <select value={selectedLOA} onChange={handleLOAChange} required>
-                <option value="">-- Select LOA --</option>
+                <option value="">-- Select Sales Order --</option>
                 {loaList.map((loa, index) => {
                   const formattedDate = loa.final_dispatch_date
                     ? new Date(loa.final_dispatch_date).toLocaleDateString("en-GB") // dd/MM/yyyy
@@ -138,7 +138,7 @@ export default function ProductionPlanningPage() {
             </div>
 
             <div className="form-group">
-              <label>Total Quantity:</label>
+              <label>Total Sales Order Quantity:</label>
               <input
                 type="number"
                 value={
@@ -165,7 +165,7 @@ export default function ProductionPlanningPage() {
             </div>
 
             <div className="form-group">
-              <label>Start Date:</label>
+              <label>Planned Start Date:</label>
               <DatePicker
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
@@ -177,7 +177,7 @@ export default function ProductionPlanningPage() {
             </div>
 
             <div className="form-group">
-              <label>End Date:</label>
+              <label>Target End Date:</label>
               <DatePicker
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
@@ -199,7 +199,7 @@ export default function ProductionPlanningPage() {
             </div>
 
             <div className="form-group">
-              <label>Dispatch Date:</label>
+              <label>Target Dispatch Date:</label>
               <input type="text" value={selectedDispatchDate} readOnly />
             </div>
 

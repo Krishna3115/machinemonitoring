@@ -54,18 +54,18 @@ export default function EditPurchaseOrder() {
     ).padStart(2, "0")}/${d.getFullYear()}`;
   };
 
-  const handleEditClick = (po) => {
-    setSelectedPO(po);
-    setEditData({
-      poNumber: po.po_number,
-      finalDispatchDate: arrayToDate(po.finaldispatch_date),
-      quantity: po.quantity,
-      warrantyMonths: po.warranty_months,
-      maintenanceDays: po.maintenance_days,
-      erpoa: po.erpoa,
-      perDayFine: po.per_day_fine,
-    });
-  };
+  // const handleEditClick = (po) => {
+  //   setSelectedPO(po);
+  //   setEditData({
+  //     poNumber: po.po_number,
+  //     finalDispatchDate: arrayToDate(po.finaldispatch_date),
+  //     quantity: po.quantity,
+  //     warrantyMonths: po.warranty_months,
+  //     maintenanceDays: po.maintenance_days,
+  //     erpoa: po.erpoa,
+  //     perDayFine: po.per_day_fine,
+  //   });
+  // };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -118,7 +118,7 @@ export default function EditPurchaseOrder() {
   return (
     <AdminLayout>
       <div className="edit-po-container">
-        <h2 className="page-title">📝 Edit Purchase Orders</h2>
+        <h2 className="page-title">📝 Edit Sales Orders</h2>
 
         {loading ? (
           <p>Loading purchase orders...</p>
@@ -128,14 +128,14 @@ export default function EditPurchaseOrder() {
               <thead>
                 <tr>
                   <th>Sr. No</th>
+                  <th>Sales Order</th>
                   <th>L.O.A Number</th>
                   <th>L.O.A Date</th>
                   <th>Quantity</th>
-                  <th>Final Dispatch Date</th>
+                  <th>Target Installation Date</th>
                   <th>Warranty (Months)</th>
-                  <th>Maintenance Days</th>
-                  <th>ERP Order</th>
-                  <th>Per Day Fine (₹)</th>
+                  <th>Maintenance Frequency(Days)</th>
+                  <th>Per Day BreakDown Fine (₹)</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -149,17 +149,17 @@ export default function EditPurchaseOrder() {
                     <tr key={po.id}>
                       <td>{index + 1}</td>
                       <td>{po.po_number}</td>
+                      <td>{po.erpoa}</td>
                       <td>{formatDateDisplay(po.po_date)}</td>
                       <td>{po.quantity}</td>
                       <td>{formatDateDisplay(po.finaldispatch_date)}</td>
                       <td>{po.warranty_months}</td>
                       <td>{po.maintenance_days}</td>
-                      <td>{po.erpoa}</td>
                       <td>{po.per_day_fine}</td>
                       <td>
                         <button
                           className="edit-btn"
-                          onClick={() => handleEditClick(po)}
+                          // onClick={() => handleEditClick(po)}
                         >
                           ✏️ Edit
                         </button>
